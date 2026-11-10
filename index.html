@@ -1461,11 +1461,15 @@ OB.push(
       else if(y>H()+30){it.e.remove();items.splice(i,1);if(it.isB)say('버튼을 놓쳤어요!')}}});
   say('화면을 좌우로 움직여 바구니로 버튼만 받으세요.');
 }},
-{name:'버튼 증명사진',story:'버튼이 증명사진을 찍고 싶대요. 근데 가만히 있지를 않아요.',run(lv){const B=mkB(lv);const tol=B(40,26,14),v=B(.05,.09,.14),need=B(1,2,3);const fy=H()*.42;
-  const fr=add(el('div','frame'));pos(fr,W()/2,fy);const b=add(realBtn('치즈','mid'));b.locked=true;let x=W()/2+60,y=fy,a=rnd(0,6.28),shots=0,fin=false;
-  loop(dt=>{if(fin)return false;a+=rnd(-.08,.08);x+=Math.cos(a)*v*dt;y+=Math.sin(a)*v*dt;if(x<60||x>W()-60)a=Math.PI-a;if(y<60||y>H()-120)a=-a;x=Math.max(60,Math.min(W()-60,x));y=Math.max(60,Math.min(H()-120,y));pos(b,x,y)});
+{name:'버튼 증명사진',story:'버튼이 증명사진을 찍고 싶대요. 근데 가만히 있지를 않아요.',run(lv){const P=[[170,100,.05,1],[140,86,.1,2],[112,70,.16,3]][lv];const [fs,bs,v,need]=P;const tol=(fs-bs)/2;const fy=H()*.42;
+  const fr=add(el('div','frame'));fr.style.width=fr.style.height=fs+'px';pos(fr,W()/2,fy);const b=add(realBtn('치즈','mid'));b.style.width=b.style.height=bs+'px';b.style.fontSize=Math.round(bs*.2)+'px';b.locked=true;
+  let x=W()/2+60,y=fy,a=rnd(0,6.28),shots=0,fin=false;const m=bs/2+8;
+  loop(dt=>{if(fin)return false;a+=rnd(-.08,.08)*(1+lv*.5);x+=Math.cos(a)*v*dt;y+=Math.sin(a)*v*dt;if(x<m||x>W()-m)a=Math.PI-a;if(y<m||y>H()-80-m)a=-a;x=Math.max(m,Math.min(W()-m,x));y=Math.max(m,Math.min(H()-80-m,y));pos(b,x,y)});
   const t=tools(['찰칵',()=>{if(fin)return;const fl=add(el('div','flash'));after(300,()=>fl.remove());
-    if(Math.abs(x-W()/2)<tol&&Math.abs(y-fy)<tol){shots++;if(shots>=need){fin=true;t.remove();fr.remove();pos(b,W()/2,fy);unlock(b,'고마워','완벽한 증명사진! 버튼이 만족했어요.')}else say(`잘 나왔어요! 한 장 더. (${shots}/${need})`)}else say(pick(['반만 나왔어요.','흔들렸어요.','버튼이 프레임 밖이에요.','눈 감았대요.']))},'primary']);
+    if(Math.abs(x-W()/2)<tol&&Math.abs(y-fy)<tol){
+      if(Math.random()<.03){D.blink=(D.blink||0)+1;saveD();checkTitles();say('완벽한 구도인데… 버튼이 눈 감았대요! 다시 찍어요.');return}
+      shots++;if(shots>=need){fin=true;t.remove();fr.remove();pos(b,W()/2,fy);unlock(b,'고마워','완벽한 증명사진! 버튼이 만족했어요.')}else say('잘 나왔어요! 한 장 더.')}
+    else say(pick(['반만 나왔어요.','흔들렸어요.','버튼이 프레임 밖이에요.']))},'primary']);
   b.addEventListener('click',()=>{if(b.locked)say('사진부터 찍어달래요.')});say('버튼이 점선 네모 안에 딱 들어왔을 때 찰칵!');
 }},
 {name:'무단횡단 금지',story:'버튼이 길 건너편에 있어요. 차 조심!',run(lv){const B=mkB(lv);const nl=B(2,3,5),sp5=B(.1,.15,.22);
@@ -2468,7 +2472,7 @@ const TITLES=[['first','첫 딸깍','처음으로 버튼을 눌렀다',d=>d.tota
  ['panda','판다 집사','판다에게서 버튼을 빼냈다',d=>!!d.clears['판다']],['ramen','라면 장인','라면을 꼬들하게 끓였다',d=>!!d.clears['라면 끓이기']],['bowling','스트라이커','볼링에서 스트라이크',d=>!!d.clears['볼링']],
  ['adblock','광고 차단기','팝업 광고를 다 닫았다',d=>!!d.clears['팝업 광고']],['unsub','해지의 달인','구독 해지에 성공했다',d=>!!d.clears['구독 해지']],['social','사회생활 만렙','부장님 개그에 맞춰 웃었다',d=>!!d.clears['부장님 개그']],
  ['grand','효손','할머니 용돈을 예쁘게 받았다',d=>!!d.clears['할머니 용돈']],['wedding','하객 프로','결혼식 꽃가루 타이밍 완벽',d=>!!d.clears['결혼식']],['library','도서관 닌자','도서관에서 들키지 않았다',d=>!!d.clears['도서관']],
- ['duck','오리 지킴이','오리 가족을 기다려줬다',d=>!!d.clears['오리 가족']],['maze','길잡이','미로를 빠져나왔다',d=>!!d.clears['미로 속 버튼']],['safe','금고털이','금고를 열었다',d=>!!d.clears['금고 속 버튼']]];
+ ['duck','오리 지킴이','오리 가족을 기다려줬다',d=>!!d.clears['오리 가족']],['maze','길잡이','미로를 빠져나왔다',d=>!!d.clears['미로 속 버튼']],['safe','금고털이','금고를 열었다',d=>!!d.clears['금고 속 버튼']],['blink','잠깐의 실수','증명사진에서 버튼이 눈을 감았다 (아주 드묾)',d=>(d.blink||0)>=1]];
 let NUNCHI=[];
 function toast(t){const x=$('toast');x.textContent=t;x.hidden=false;x.classList.remove('on');void x.offsetWidth;x.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>x.hidden=true,2600)}
 function checkTitles(){TITLES.forEach(([id,nm,,fn])=>{if(!D.titles.includes(id)&&fn(D)){D.titles.push(id);if(!D.equip)D.equip=id;setTimeout(()=>toast('칭호 획득: '+nm),400)}})}
