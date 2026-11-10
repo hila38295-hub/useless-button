@@ -2159,7 +2159,7 @@ OB.push(
   const nx=()=>{if(won)return;if(i>=L.length){phase='bye';talk(gm,'(손 흔들흔들)');return}const t=L[i++];if(Math.random()<B(.2,.35,.45)&&i<L.length){frozen=true;scr.classList.add('frz');talk(gm,t.slice(0,4)+'…(멈춤)');after(rnd(1400,2200),()=>{frozen=false;scr.classList.remove('frz');talk(gm,t);after(1500,nx)})}else{talk(gm,t);after(1700,nx)}};after(500,nx);
   gate(b,()=>phase==='bye',()=>{awk(frozen?'화면만 멈췄지 할머니는 계속 말씀 중이셨어요…':'할머니 말씀 중에 뚝… 다시 전화가 와요.')});
 }},
-{name:'미용실 다녀온 친구',bg:'street',nunchi:true,story:'친구랑 밥 먹기로 했어요. 버튼은 "밥 먹으러 가자" 버튼이에요.',run(lv){const B=mkB(lv);
+{name:'미용실 다녀온 친구',bg:'street',nunchi:true,levels:[1],story:'친구랑 밥 먹기로 했어요. 버튼은 "밥 먹으러 가자" 버튼이에요.',run(lv){const B=mkB(lv);
   const fr=person(W()/2,H()*.38,'#6E7CF2','n',90,'#B07CE0');const b=add(realBtn('밥 가자','mid'));pos(b,W()/2,H()-56);let praised=false,fid=0;
   every(B(1800,1600,1400),()=>{if(won||praised)return;fid++;talk(fr,pick(['(머리를 만지작)','(앞머리 정리)','(거울 힐끔)','…뭐 달라진 거 없어?'].slice(0,lv===2?3:4)),1200);fr.style.rotate=(fid%2?6:-6)+'deg'});
   tools(['"머리 잘랐네? 잘 어울려!"',()=>{if(praised)return;praised=true;fr.style.rotate='0deg';face(fr,'happy');talk(fr,'헤헤 티 나? 가자!',1500)}],['"배고파"',()=>{face(fr,'sad');awk('친구가 머리를 만지작거리며 서운해해요.');after(900,()=>face(fr,'n'))}]);
