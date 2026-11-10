@@ -2374,7 +2374,7 @@ const TONES={
   polite:{name:'공손',f:t=>'저기… 실례지만 '+t+' 부탁드려요.',greet:['와주셔서 감사합니다.','오늘도 잘 부탁드립니다.','어서 오십시오.']}};
 const CATS=[['cat','고양이'],['raccoon','너구리'],['penguin','펭귄']],BIRDS=[['pigeon','비둘기','#A3A8BE','#5FB59A'],['gull','갈매기','#F2F2F5','#B8BFD6'],['crow','까마귀','#3B3F57','#6E7CF2']];
 let VAR={cat:'cat',catName:'고양이',bird:BIRDS[0],tone:'basic',tod:'',weather:''};
-function rollVar(){const c=pick(CATS),bd=pick(BIRDS);VAR={cat:c[0],catName:c[1],bird:bd,tone:'basic',tod:pick(['','','dusk','night']),weather:Math.random()<.18?pick(['snow','petal']):''}}
+function rollVar(){const c=CATS[0],bd=BIRDS[0];VAR={cat:c[0],catName:c[1],bird:bd,tone:'basic',tod:pick(['','','dusk','night']),weather:Math.random()<.18?pick(['snow','petal']):''}}
 const subVar=t=>String(t).replace(/고양이/g,VAR.catName).replace(/비둘기/g,VAR.bird[1]);
 const baseSay=say;say=t=>baseSay(subVar(t));
 const _talk=talk;talk=(s,t,ms)=>_talk(s,t==null?t:subVar(t),ms);
