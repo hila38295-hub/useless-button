@@ -1,0 +1,17 @@
+{
+  "name": "세상에서 제일 쓸모없는 버튼",
+  "short_name": "쓸모없는 버튼",
+  "description": "누르면 아무 일도 일어나지 않는 버튼. 문제는 누르기까지입니다.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#E9ECF3",
+  "theme_color": "#E9ECF3",
+  "lang": "ko",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
