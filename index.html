@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -611,6 +611,12 @@ html,body{overscroll-behavior:none}
 .wx.rain{width:2px;height:16px;border-radius:2px;background:rgba(63,79,216,.55);animation-name:fallrain}
 .wx.leaf{background:#E0913A;border-radius:60% 0 60% 0;width:12px;height:9px}
 @keyframes fallrain{to{transform:translate(-30px,900px)}}
+
+.swheel{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:5px solid var(--ink);background:linear-gradient(90deg,transparent 44%,var(--ink) 44% 56%,transparent 56%) 0 50%/100% 50% no-repeat,radial-gradient(circle,var(--ink) 0 7px,transparent 8px),var(--chip);z-index:6;padding:0;cursor:pointer;transition:rotate .15s}
+.swheel::after{content:"";position:absolute;left:50%;top:-5px;width:8px;height:12px;margin-left:-4px;background:#F0533D;border-radius:3px}
+.rwheel{position:absolute;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:#3B3F57;border:3px solid var(--ink);z-index:6;pointer-events:none;transition:left 1.2s cubic-bezier(.3,.8,.5,1),top 1.2s cubic-bezier(.3,.8,.5,1),rotate 1.2s,width .4s,height .4s,margin .4s,background .5s}
+.rwheel.grow{width:126px;height:126px;margin:-63px 0 0 -63px;background:#F0533D}
+.tools.compact{gap:5px;padding:0 6px}.tools.compact .tool{padding:8px 10px;font-size:15px}
 </style>
 
 </head>
@@ -2169,19 +2175,26 @@ OB.push(
     if(t>lim&&b.locked){awk('엄마: 냉장고 문 닫아!! (처음부터)');after(900,retry);return false}});
   b.addEventListener('click',()=>{if(b.locked)say('반찬통에 가려서 안 닿아요.')});say('반찬통을 냉장고 밖으로 꺼내세요. 빨리!');
 }},
-{name:'주차하기',bg:'street',story:'버튼이 주차장 빈칸에 있어요. 거기 차를 대야 눌러져요.',run(lv){const B=mkB(lv);const sw=B(112,96,86);
+{name:'주차하기',bg:'street',story:'버튼이 주차장 빈칸에서 기다린대요. 거기 차를 반듯하게 대주세요.',run(lv){const B=mkB(lv);const sw=B(112,96,86);
   const lot=add(el('div','plot'));const tx=rnd(W()*.5,W()-sw/2-20),ty=88;const spot=add(el('div','pspot'));spot.style.width=sw+'px';pos(spot,tx,ty);
   for(const dx of [-1,1]){const nx=tx+dx*(sw/2+46);if(nx>20&&nx<W()-20){const c=sprite('x',90,nx,ty,ART.car(pick(['#6E7CF2','#F2B544','#5FB59A'])));c.style.rotate='-90deg';c.style.pointerEvents='none'}}
-  const X0=60,Y0=H()-110;const car=sprite('x',86,X0,Y0,ART.car('#F0533D'));car.style.pointerEvents='none';let x=X0,y=Y0,a=0,v=0,steer=0,thr=0,done=false;
-  const reset=m=>{x=X0;y=Y0;a=0;v=0;awk(m)};
+  const X0=60,Y0=H()-150;const car=sprite('x',86,X0,Y0,ART.car('#F0533D'));car.style.pointerEvents='none';let x=X0,y=Y0,a=0,v=0,ws=0,thr=0,done=false;
+  const swl=add(el('button','swheel'));swl.type='button';swl.setAttribute('aria-label','핸들 가운데로');const swt=add(el('div','sign','핸들'));
+  const setW=k=>{ws=Math.max(-3,Math.min(3,k));swl.style.rotate=(ws*35)+'deg';tone(500+ws*60,.04,'square',.03)};swl.onclick=()=>setW(0);
+  const reset=m=>{x=X0;y=Y0;a=0;v=0;setW(0);awk(m)};
   const hold=(lab,fn)=>{const bt=el('button','tool',lab);bt.type='button';bt.addEventListener('pointerdown',()=>fn(1));['pointerup','pointerleave','pointercancel'].forEach(ev=>bt.addEventListener(ev,()=>fn(0)));return bt};
-  const tl=add(el('div','tools'));tl.append(hold('↺ 왼쪽',k=>steer=-k),hold('전진',k=>thr=k),hold('후진',k=>thr=-k*.7),hold('오른쪽 ↻',k=>steer=k));
-  loop(dt=>{if(done)return false;v+=(thr*.0005-v*.004)*dt;a+=steer*v*dt*.012;x+=Math.cos(a)*v*dt;y+=Math.sin(a)*v*dt;
+  const tap=(lab,fn)=>{const bt=el('button','tool',lab);bt.type='button';bt.onclick=fn;return bt};
+  const tl=add(el('div','tools compact'));tl.append(tap('↺ 왼쪽',()=>setW(ws-1)),hold('전진',k=>thr=k),hold('후진',k=>thr=-k*.7),tap('오른쪽 ↻',()=>setW(ws+1)));
+  const placeW=()=>{const r=tl.getBoundingClientRect(),sr=stage.getBoundingClientRect();const by=r.top-sr.top-42;pos(swl,W()-40,by);pos(swt,W()-40,by-38)};placeW();
+  loop(dt=>{if(done)return false;v+=(thr*.0005-v*.004)*dt;a+=(ws/3)*v*dt*.014;x+=Math.cos(a)*v*dt;y+=Math.sin(a)*v*dt;
     if(x<25||x>W()-25||y<25||y>H()-70)reset('쿵! 벽에 박았어요. 처음부터.');
     if(Math.abs(y-ty)<60&&Math.abs(x-tx)>sw/2-14&&Math.abs(x-tx)<sw/2+92)reset('옆 차를 긁을 뻔했어요! 처음부터.');
     pos(car,x,y);car.style.rotate=(a*180/Math.PI)+'deg';
-    if(Math.abs(x-tx)<sw/2-28&&Math.abs(y-ty)<24&&Math.abs(v)<.03&&Math.abs(Math.sin(a))>.92){done=true;tl.remove();car.style.transition='opacity .5s';car.style.opacity=.4;const b=add(realBtn('주차 완료','pop mid'));pos(b,tx,ty+100);say('완벽한 주차! 내려서 버튼을 누르세요.')}});
-  say('차가 옆을 보고 있어요. 전진하면서 핸들을 꺾어 위쪽 빈칸에 반듯하게 세우세요.');
+    if(Math.abs(x-tx)<sw/2-28&&Math.abs(y-ty)<24&&Math.abs(v)<.03&&Math.abs(Math.sin(a))>.92){done=true;tl.remove();swl.remove();swt.remove();say('완벽한 주차! 그런데 사실… 자동차 바퀴가 버튼이었습니다!');
+      after(700,()=>{const ox=19,oy=12,wx=x+Math.cos(a)*ox-Math.sin(a)*oy,wy=y+Math.sin(a)*ox+Math.cos(a)*oy;car.innerHTML=ART.car('#F0533D').replace('<circle cx="22" cy="14" r="9" fill="#3B3F57"/>','');
+        const wh=add(el('div','rwheel'));pos(wh,wx,wy);requestAnimationFrame(()=>requestAnimationFrame(()=>{pos(wh,W()/2,H()*.6);wh.style.rotate='900deg'}));tone(300,.08,'triangle',.05);
+        after(1250,()=>{wh.classList.add('grow');after(420,()=>{wh.remove();const b=add(realBtn('바퀴','pop'));pos(b,W()/2,H()*.6)})})})}});
+  say('왼쪽·오른쪽으로 핸들을 꺾어 두고, 전진을 누르고 있으면 차가 돌아요. 빈칸에 반듯하게 세우세요.');
 }},
 {name:'꼬인 이어폰',bg:'room',story:'버튼이 이어폰 줄에 꽁꽁 엉켰어요.',run(lv){const B=mkB(lv);const n=B(5,6,8);const cx=W()/2,cy=H()/2,R=Math.min(W(),H())/2-50;
   const P=[...Array(n)].map((_,i)=>[cx+Math.cos(i/n*6.28)*R,cy+Math.sin(i/n*6.28)*R]);const E=[];for(let i=0;i<n;i++)E.push([i,(i+1)%n]);for(let i=2;i<n-1;i+=2)E.push([0,i]);
@@ -2506,8 +2519,8 @@ tissue:S(`<rect x="-30" y="-4" width="60" height="30" rx="4" fill="#9FD3F0"/><pa
 pouch:S(`<path d="M-24 -6 q-16 36 24 36 q40 0 24 -36z" fill="#E3B53C"/><path d="M-12 -8 l-8 -16 h40 l-8 16z" fill="#E3B53C"/><path d="M-14 -8 h28" fill="none"/><text x="0" y="20" text-anchor="middle" font-size="20" font-weight="700" fill="#2A2340" stroke="none">금</text>`),
 wring:S(`<circle cx="0" cy="8" r="22" fill="none" stroke="#2A2340" stroke-width="10"/><circle cx="0" cy="8" r="22" fill="none" stroke="#E3B53C" stroke-width="5"/><path d="M-10 -18 l10 -12 l10 12 l-10 9z" fill="#CDE9FF"/>`)
 });
-Object.assign(HINTS,{'알 품기':'온도계가 끝까지 차야 해요. 손을 멈추지 말고 쓱쓱.','대리 버튼':'결재는 아랫사람부터 윗사람 순서.','퇴사 선언':'버튼이 흘리는 한숨에 답이 있어요.','UFO 납치':'초록 빔이 보이면 잘하고 있는 거예요.','중세의 기사':'가위바위보는 운이에요. 기도하세요.','노래방 버튼':'간격이 들쭉날쭉해요. 음표만 보세요.','초점 나간 버튼':'선명해졌을 때가 누를 때.','명상하는 버튼':'원이 초록이면 잘하고 있는 거예요.','붕어빵 틀':'노릇노릇할 때 꺼내고, 가운데를 쓱.','볼링':'핀 뒤에 누가 숨어 있어요.','몽타주':'목격자 말을 하나씩 지워가며.','감기 걸린 버튼':'열엔 물수건, 기침엔 차, 콧물엔 휴지.','코인 폭락':'점선 위에서 팔아요. 욕심은 금물.','용의 보물':'빼고, 바로 채우고.','결혼식':'사회자 질문은 끝까지 듣고 대답.','할머니 용돈':'할머니 말씀은 끝까지 들어야 해요.','썸 타는 버튼':'썸은 관심과 리액션이에요.','택배 기사':'송장 특징을 전부 가진 집은 하나뿐.','오리 가족':'널빤지 끝이 물 위에 살짝 걸치게.'});
-var ENDS_EXTRA=Object.assign(window.ENDS_EXTRA||{},{'붕어빵 틀':'팥 아니고 버튼이야. 눌러줘.','볼링':'데구르르… 나 여기 있었어! 눌러줘.','결혼식':'딸깍! 평생 눌려줄게.','할머니 용돈':'할머니가 꽁꽁 숨겨두셨더라. 눌러줘.','썸 타는 버튼':'…나도 좋아. 같이 눌러줘!','택배 기사':'배송 완료! 이제 눌러줘.','오리 가족':'꽥! 엄마 오리가 주는 선물이야. 눌러줘.','용의 보물':'쉿, 살금살금 눌러줘.','코인 폭락':'익절했어! 다시는 안 해. 눌러줘.','감기 걸린 버튼':'콜록… 이제 좀 살 것 같아. 눌러줘.'});
+Object.assign(HINTS,{'알 품기':'온도계가 끝까지 차야 해요. 손을 멈추지 말고 쓱쓱.','대리 버튼':'결재는 아랫사람부터 윗사람 순서.','퇴사 선언':'버튼이 흘리는 한숨에 답이 있어요.','UFO 납치':'초록 빔이 보이면 잘하고 있는 거예요.','중세의 기사':'가위바위보는 운이에요. 기도하세요.','노래방 버튼':'간격이 들쭉날쭉해요. 음표만 보세요.','초점 나간 버튼':'선명해졌을 때가 누를 때.','명상하는 버튼':'원이 초록이면 잘하고 있는 거예요.','붕어빵 틀':'노릇노릇할 때 꺼내고, 가운데를 쓱.','볼링':'핀 뒤에 누가 숨어 있어요.','몽타주':'목격자 말을 하나씩 지워가며.','감기 걸린 버튼':'열엔 물수건, 기침엔 차, 콧물엔 휴지.','코인 폭락':'점선 위에서 팔아요. 욕심은 금물.','용의 보물':'빼고, 바로 채우고.','결혼식':'사회자 질문은 끝까지 듣고 대답.','할머니 용돈':'할머니 말씀은 끝까지 들어야 해요.','썸 타는 버튼':'썸은 관심과 리액션이에요.','택배 기사':'송장 특징을 전부 가진 집은 하나뿐.','오리 가족':'널빤지 끝이 물 위에 살짝 걸치게.','주차하기':'핸들을 꺾어 두고 전진. 꺾은 핸들은 그대로 유지돼요.'});
+var ENDS_EXTRA=Object.assign(window.ENDS_EXTRA||{},{'붕어빵 틀':'팥 아니고 버튼이야. 눌러줘.','볼링':'데구르르… 나 여기 있었어! 눌러줘.','결혼식':'딸깍! 평생 눌려줄게.','할머니 용돈':'할머니가 꽁꽁 숨겨두셨더라. 눌러줘.','썸 타는 버튼':'…나도 좋아. 같이 눌러줘!','택배 기사':'배송 완료! 이제 눌러줘.','오리 가족':'꽥! 엄마 오리가 주는 선물이야. 눌러줘.','주차하기':'데굴데굴… 나 바퀴였어! 눌러줘.','용의 보물':'쉿, 살금살금 눌러줘.','코인 폭락':'익절했어! 다시는 안 해. 눌러줘.','감기 걸린 버튼':'콜록… 이제 좀 살 것 같아. 눌러줘.'});
 /* ---------- flow ---------- */
 const LV=['쉬움','보통','어려움'];
 const $=id=>document.getElementById(id);
