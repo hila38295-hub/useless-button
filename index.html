@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -525,6 +525,12 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .pgauge i{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(0deg,#5FD18A,#F2C94C 60%,#E23B3B)}
 html,body{overscroll-behavior:none}
 #game{touch-action:pan-x pan-y}
+.big .legs{position:absolute;left:50%;bottom:-20px;width:60px;height:24px;margin-left:-30px;pointer-events:none;z-index:-1}
+.big .legs::before,.big .legs::after{content:"";position:absolute;bottom:0;width:22px;height:12px;background:#6E7CF2;border:2.5px solid #2A2340;border-radius:10px 12px 4px 4px}
+.big .legs::before{left:2px}.big .legs::after{right:2px}
+.big.running .legs::before{animation:runL .28s infinite alternate}.big.running .legs::after{animation:runL .28s infinite alternate-reverse}
+@keyframes runL{to{translate:0 -8px;rotate:-12deg}}
+.finish{position:absolute;transform:translate(-50%,-50%);width:220px;height:14px;background:repeating-linear-gradient(90deg,#2A2340 0 14px,#fff 14px 28px);border:2px solid var(--ink);font-size:0;z-index:1}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
@@ -641,6 +647,7 @@ const ART={
  octo:S(`<path d="M-26 6 Q-34 24 -26 34 M-12 8 Q-16 28 -8 36 M2 8 Q2 30 8 36 M16 8 Q20 28 14 36 M26 6 Q34 22 28 32" fill="none" stroke="#2A2340" stroke-width="9"/><path d="M-26 6 Q-34 24 -26 34 M-12 8 Q-16 28 -8 36 M2 8 Q2 30 8 36 M16 8 Q20 28 14 36 M26 6 Q34 22 28 32" fill="none" stroke="#B07CE0" stroke-width="4"/><path d="M-30 12 Q-32 -36 0 -36 Q32 -36 30 12Z" fill="#B07CE0"/><path d="M-16 -12 L-6 -8 M16 -12 L6 -8" fill="none" stroke-width="3"/><circle cx="-10" cy="-2" r="3" fill="#2A2340" stroke="none"/><circle cx="10" cy="-2" r="3" fill="#2A2340" stroke="none"/><ellipse cx="0" cy="6" rx="4" ry="3" fill="#2A2340"/>`),
  octoSad:S(`<path d="M-26 6 Q-34 24 -26 34 M-12 8 Q-16 28 -8 36 M2 8 Q2 30 8 36 M16 8 Q20 28 14 36 M26 6 Q34 22 28 32" fill="none" stroke="#2A2340" stroke-width="9"/><path d="M-26 6 Q-34 24 -26 34 M-12 8 Q-16 28 -8 36 M2 8 Q2 30 8 36 M16 8 Q20 28 14 36 M26 6 Q34 22 28 32" fill="none" stroke="#B07CE0" stroke-width="4"/><path d="M-30 12 Q-32 -36 0 -36 Q32 -36 30 12Z" fill="#B07CE0"/><path d="M-14 -4 Q-10 0 -6 -4 M6 -4 Q10 0 14 -4" fill="none" stroke-width="2.5"/><path d="M-5 8 Q0 4 5 8" fill="none" stroke-width="2.5"/><path d="M-14 2 L-15 8" fill="none" stroke="#6FB3E8" stroke-width="3"/>`),
  towel:S(`<path d="M-34 -26 L30 -30 Q38 -4 32 24 L-30 30 Q-38 2 -34 -26Z" fill="#F7D6E0"/><path d="M-28 -16 L28 -20 M-26 18 L26 14" fill="none" stroke="#E8A0B4" stroke-width="4"/>`),
+ sneaker:S(`<path d="M-46 20 L46 20 Q50 20 49 26 L48 28 Q47 30 44 30 L-44 30 Q-48 30 -48 26 Q-48 21 -46 20Z" fill="#fff"/><path d="M-44 20 L-43 -4 Q-42 -16 -30 -18 L-18 -18 Q-12 -6 4 -2 L28 4 Q44 8 46 20Z" fill="#6E7CF2"/><path d="M28 4 Q44 8 46 20 L26 20 Q30 12 28 4Z" fill="#fff"/><path d="M-44 4 L-34 4 L-34 20 L-44 20Z" fill="#F2C94C" stroke-width="2"/><path d="M-18 -18 L-12 -30 Q-2 -30 -2 -22 L-4 -4" fill="#8C98FF"/><circle cx="-12" cy="-12" r="2.2" fill="#fff" stroke-width="1.5"/><circle cx="-2" cy="-8" r="2.2" fill="#fff" stroke-width="1.5"/><circle cx="8" cy="-4" r="2.2" fill="#fff" stroke-width="1.5"/><path d="M-2 -8 L8 -4 M-2 -4 L8 -8" fill="none" stroke="#fff" stroke-width="2"/><path d="M-40 24 L44 24" fill="none" stroke="#C6CDDD" stroke-width="2"/>`),
  pencil:S(`<g transform="rotate(45)"><rect x="-8" y="-36" width="16" height="56" fill="#FFD23F"/><path d="M-8 20 L0 36 L8 20Z" fill="#F4D7B0"/><path d="M-3 30 L0 36 L3 30Z" fill="#2A2340"/><rect x="-8" y="-44" width="16" height="8" fill="#F28CA0"/></g>`),
 };
 function sprite(name,size,x,y,html){const s=add(el('div','spr'));s.innerHTML=html||(typeof ART[name]==='function'?ART[name]():ART[name]);s.style.width=s.style.height=size+'px';pos(s,x,y);return s}
@@ -1374,7 +1381,7 @@ OB.push(
   const tl=tools(['반환',()=>{if(!fin)refund('동전을 전부 돌려받았어요.')}]);upd();
   say('지갑 속 동전으로 딱 맞게 넣으세요. 넘으면 다 돌려줘요.');
 }},
-{name:'무궁화 꽃이',story:'술래가 보고 있을 때 움직이면 안 돼요.',run(lv){const B=mkB(lv);const red=B(1300,1700,2200),gm=B(1.4,1,.7);
+{name:'무궁화 꽃이',story:'버튼이 무궁화꽃이 피었습니다를 하재요. 술래 몰래 버튼을 결승선까지 옮겨주세요.',run(lv){const B=mkB(lv);const red=B(1300,1700,2200),gm=B(1.4,1,.7);
   const doll=sprite('dollBack',90,W()-52,86);doll.style.pointerEvents='none';const fl=add(el('div','tugline'));fl.style.left=(W()-90)+'px';
   const sx=56,y=H()*.62;const b=add(realBtn('살금','mid'));pos(b,sx,y);b.locked=true;let looking=false,t=rnd(1500,3000)*gm,gT=t,phase='g',bx=sx,done=false;
   const ph='무궁화꽃이피었습니다';
@@ -1698,8 +1705,8 @@ OB.push(
   const play=()=>{if(won)return;phase='play';face(ps,'sleep');after(B(2600,2400,2000),()=>{k++;if(k<mv){phase='pause';face(ps,'n');after(B(1800,2200,2600),play)}else{phase='bow';face(ps,'happy');ps.style.transition='rotate .4s';ps.style.rotate='25deg';say('연주자가 일어나 인사해요.')}})};play();
   gate(b,()=>phase==='bow',()=>{face(ps,phase==='pause'?'shock':'angry');awk(phase==='pause'?'아직 안 끝났어요… 다들 박수를 참고 있었어요.':'연주 중이에요!');after(900,()=>face(ps,phase==='play'?'sleep':phase==='bow'?'happy':'n'))});
 }},
-{name:'고백 현장',story:'버튼이 벤치 옆에 있어요. 근데 벤치 분위기가…',run(lv){const B=mkB(lv);
-  add(el('div','bench'));const a=person(W()/2-36,H()*.44,'#6E7CF2','n',72),c=person(W()/2+36,H()*.44,'#E8A0B4','n',72,'#8C5F30');const b=add(realBtn('','mid'));pos(b,W()-56,H()*.72);let phase='talk';
+{name:'고백 현장',story:'공원이에요. 버튼은 분수 켜기 버튼이에요. 근데 옆 벤치 분위기가…',run(lv){const B=mkB(lv);
+  add(el('div','bench'));const a=person(W()/2-36,H()*.44,'#6E7CF2','n',72),c=person(W()/2+36,H()*.44,'#E8A0B4','n',72,'#8C5F30');const b=add(realBtn('분수','mid'));pos(b,W()-56,H()*.72);let phase='talk';
   every(450,()=>{if(phase==='talk'||phase==='fake')floatUp('♥',W()/2+rnd(-40,40),H()*.3,'#E8A0B4')});
   const L=[[a,'저기…'],[c,'응?'],[a,'사실 할 말이 있는데…'],[a,'처음 봤을 때부터…'],[a,'좋아해!'],[c,'…나도!']];
   const leave=()=>{phase='leave';[a,c].forEach(p=>{p.style.transition='left 1.6s';pos(p,gx(p)-W(),gy(p))});after(1600,()=>{phase='done';say('두 사람이 손잡고 떠났어요.')})};
@@ -1837,8 +1844,8 @@ OB.push(
     after(real?B(1900,1500,1100):1700,()=>{if(won)return;if(phase==='real')talk(t,'…아무도 없네. 넘어갈게요.',1200);phase='talk';after(1300,go2)})};after(700,go2);
   gate(b,()=>phase==='real',()=>{face(t,'shock');talk(t,phase==='rhet'?'…응? 그냥 한 말인데.':'…뭐 할 말 있어요?',1200);after(1200,()=>face(t,'n'));awk('반 친구들이 일제히 돌아봤어요.')});
 }},
-{name:'고민 상담',story:'친구가 고민을 털어놓는 중이에요.',run(lv){const B=mkB(lv);
-  const fr=person(W()/2,H()*.38,'#6E7CF2','sad',88);const b=add(realBtn('','mid'));pos(b,W()-56,H()*.72);let phase='talk',pause=false,nodded=false;
+{name:'고민 상담',story:'친구가 고민을 털어놓는 중이에요. 버튼은 "꼭 안아주기" 버튼이에요.',run(lv){const B=mkB(lv);
+  const fr=person(W()/2,H()*.38,'#6E7CF2','sad',88);const b=add(realBtn('토닥','mid'));pos(b,W()-56,H()*.72);let phase='talk',pause=false,nodded=false;
   const L=['요즘 좀 힘들어…','회사에서 버튼만 누르는데…','아무 일도 안 일어나거든…','근데 그게 또 편하기도 하고…','모르겠어…'].slice(0,B(3,4,5));
   tools(['끄덕끄덕',()=>{if(phase==='done')return;if(pause&&!nodded){nodded=true;talk(fr,'응…',600)}else if(!pause)awk('말하는 중에 계속 끄덕이니까 좀…')}]);
   const say2=k=>{if(won)return;if(k>=L.length){phase='done';face(fr,'happy');talk(fr,'들어줘서 고마워. 이제 그거 눌러도 돼.');return}pause=false;nodded=false;talk(fr,L[k]);
@@ -1859,16 +1866,16 @@ OB.push(
   const go2=()=>{if(won)return;phase='count';seq([[900,()=>talk(cam,'하나…')],[900,()=>talk(cam,'둘…')],[w,()=>{phase='three';talk(cam,'셋!');ppl.forEach(jump)}]],()=>{if(phase==='three'){phase='wait';const f=add(el('div','flash'));after(300,()=>f.remove());talk(cam,'혼자 안 뛰었어요. 다시!',1200);awk('사진에 혼자 서 있어요.');after(1500,go2)}})};after(700,go2);
   gate(b,()=>phase==='three',()=>{jump(me);talk(cam,'아직이에요!',1000);awk('혼자 먼저 뛰었어요.')});
 }},
-{name:'정원 초과',story:'엘리베이터에 마지막으로 탔어요.',run(lv){
+{name:'정원 초과',story:'엘리베이터에 마지막으로 탔어요. 버튼은 다음 엘리베이터 호출 버튼이에요.',run(lv){
   add(el('div','lift'));const ppl=[...Array(4)].map((_,i)=>person(W()/2-34+(i%2)*68,H()*.28+Math.floor(i/2)*56,pick(PC),'n',54));
   const me=person(W()/2,H()*.56,'#F0533D','shock',60);const bp=bubble('삐— 정원 초과',14);const b=add(realBtn('호출','mid'));pos(b,W()-54,H()-58);let out=false;
   every(800,()=>{if(out)return;bp.style.visibility=bp.style.visibility==='hidden'?'':'hidden';if(Math.random()<.4)talk(pick(ppl),pick(['…','(헛기침)','(힐끔)']),800)});
   tools(['내리기',()=>{if(out)return;out=true;bp.remove();me.style.transition='left .6s,top .6s';pos(me,W()-140,H()*.74);face(me,'n');ppl.forEach(p=>face(p,'happy'));say('엘리베이터가 출발했어요.')}]);
   gate(b,()=>out,()=>{ppl.forEach(p=>face(p,'angry'));after(900,()=>{if(!out)ppl.forEach(p=>face(p,'n'))});awk('삐— 소리가 계속 나요. 다들 당신만 봐요.')});
 }},
-{name:'부장님 개그',story:'점심시간이에요. 부장님이 입을 여셨어요.',run(lv){const B=mkB(lv);const w=B(1500,1100,800);
+{name:'부장님 개그',story:'점심시간이에요. 버튼은 "자리에서 일어나기" 버튼인데… 부장님이 입을 여셨어요.',run(lv){const B=mkB(lv);const w=B(1500,1100,800);
   const bs=person(W()/2,H()*.3,'#3B3F57','happy',84,'#8C90A6');const co=[person(60,H()*.58,'#6E7CF2','n',60),person(W()-60,H()*.58,'#F2B544','n',60)];
-  const b=add(realBtn('','mid'));pos(b,W()/2,H()*.72);let phase='setup',laughed=false;
+  const b=add(realBtn('일어나기','mid'));pos(b,W()/2,H()*.72);let phase='setup',laughed=false;
   const J=[['버튼이 왜 슬픈지 알아?','맨날 눌려서! 하하'],['감자가 웃으면?','감자칩! 하하'],['문어가 싫어하는 운동은?','줄다리기! 하하']];
   const tell=()=>{if(won)return;const [q,a]=pick(J);phase='setup';laughed=false;
     seq([[1600,()=>talk(bs,q)],[900,()=>talk(bs,'…')],[350,()=>{phase='punch';talk(bs,a)}],[300,()=>{phase='laugh';co.forEach(p=>{face(p,'happy');talk(p,'하하하',w)})}],[w,()=>{}]],
@@ -1933,10 +1940,10 @@ OB.push(
       if(k>1+win2/3000+.15){awk('면이 퉁퉁 불었어요… 새로 끓여요.');boil()}}});
   gate(b,()=>phase==='cook'&&ok,()=>{if(phase==='cook'){awk('아직 면이 딱딱해요.')}else say('면도 안 넣고 불을 끄면…')});
 }},
-{name:'계란 후라이',bg:'kitchen',story:'버튼이 계란 후라이를 먹고 싶대요.',run(lv){const B=mkB(lv);const flips=B(1,2,2),w=B(1500,1000,650);
+{name:'계란 후라이',bg:'kitchen',story:'버튼이 배고파서 눌릴 힘이 없대요. 계란 후라이를 해주세요.',run(lv){const B=mkB(lv);const flips=B(1,2,2),w=B(1500,1000,650);
   const pan=sprite('pan',170,W()/2,H()*.42);pan.style.pointerEvents='none';const egg=add(el('div','egg2','<i></i>'));pos(egg,W()/2-8,H()*.42);
   let t=0,side=0,phase='cook',fl=0;const cookT=B(2600,2600,2200);
-  tools(['뒤집기',()=>{if(phase!=='cook')return;const k=t/cookT;if(k<1){awk('아직 덜 익었어요. 흐물흐물.');return}if(k>1+w/cookT){return}fl++;egg.style.rotate=(fl*180)+'deg';t=0;say(fl<flips?'휙! 반대쪽도 익혀요.':'완벽한 후라이!');if(fl>=flips){phase='done';after(600,()=>{egg.style.transition='left .5s,top .5s,opacity .5s';pos(egg,W()/2,H()*.2);egg.style.opacity=0;const b=add(realBtn('냠냠','pop'));pos(b,W()/2,H()-70);b.style.scale=.8;say('버튼이 맛있게 먹었어요.')})}}]);
+  tools(['뒤집기',()=>{if(phase!=='cook')return;const k=t/cookT;if(k<1){awk('아직 덜 익었어요. 흐물흐물.');return}if(k>1+w/cookT){return}fl++;egg.style.rotate=(fl*180)+'deg';t=0;say(fl<flips?'휙! 반대쪽도 익혀요.':'완벽한 후라이!');if(fl>=flips){phase='done';after(600,()=>{egg.style.transition='left .5s,top .5s,opacity .5s';pos(egg,W()/2,H()*.2);egg.style.opacity=0;const b=add(realBtn('냠냠','pop'));pos(b,W()/2,H()-70);b.style.scale=.8;say('버튼이 맛있게 먹고 힘이 났어요!')})}}]);
   loop(dt=>{if(phase!=='cook')return false;t+=dt;const k=t/cookT;egg.style.setProperty('--k',Math.min(1.6,k));if(k>1+w/cookT){awk('탔어요! 새 계란으로.');t=0;fl=0;egg.style.rotate='0deg'}});
   say('가장자리가 노릇노릇해지면 뒤집으세요.');
 }},
@@ -2126,15 +2133,22 @@ OB.push(
       else{s=0;sh.style.scale='1';ar.textContent=steps[0]+' 방향으로 쓱';say('구겨졌어요. 다시 펴서 접어요.')}};onStage('pointerdown',dn);onStage('pointerup',up)};
   next();b.addEventListener('click',()=>{if(b.locked)say('빨래에 깔려 있어요.')});say('화살표 방향으로 쓱 밀어서 옷을 접으세요.');
 }},
-{name:'신발끈',bg:'street',story:'버튼이 길 끝에서 기다려요. 신발끈부터 묶어요.',run(lv){const B=mkB(lv);const steps=B(3,4,6);
-  const shoe=add(el('div','shoe'));pos(shoe,W()/2,H()*.62);const ly=layer();ly.style.zIndex=4;const l1=line(ly,'lace'),l2=line(ly,'lace');const ax=W()/2-16,ay=H()*.55,bx=W()/2+16;
-  const e1=add(el('div','aglet')),e2=add(el('div','aglet'));const home1=[W()/2-70,H()*.72],home2=[W()/2+70,H()*.72];pos(e1,...home1);pos(e2,...home2);
-  const T=[[[W()/2+60,H()*.46],null,'왼쪽 끈을 오른쪽 위로'],[null,[W()/2-60,H()*.46],'오른쪽 끈을 왼쪽 위로'],[[W()/2-60,H()*.36],null,'고리를 만들어요'],[null,[W()/2+60,H()*.36],'한 바퀴 감아요'],[[W()/2-110,H()*.5],null,'꽉 당겨요'],[null,[W()/2+110,H()*.5],'한 번 더 묶어요']].slice(0,steps);
-  let s=0;const tg=add(el('div','tgtc'));const upd=()=>{setLine(l1,ax,ay,gx(e1),gy(e1));setLine(l2,bx,ay,gx(e2),gy(e2));if(s<T.length){const [p,q,m]=T[s];const t=p||q;pos(tg,t[0],t[1]);say(m+' (점선 동그라미로)')}};upd();
-  [[e1,0],[e2,1]].forEach(([e,w])=>drag(e,{move:upd,end:(x,y)=>{if(s>=T.length)return;const t=T[s][w];if(t&&dist(x,y,t[0],t[1])<30){pos(e,t[0],t[1]);s++;upd();if(s>=T.length){tg.remove();say('리본 완성! 달려가요.');after(500,()=>{const b=add(realBtn('도착','pop'));pos(b,W()/2,H()*.2)})}}else{say(t?'점선 동그라미까지 가져가요.':'다른 쪽 끈 차례예요.')}}}));
+{name:'신발끈',bg:'stadium',story:'버튼이 달리기 시합에 나가요. 근데 운동화 끈이 풀렸대요! 묶어주면 결승선까지 달려와서 눌려준대요.',run(lv){const B=mkB(lv);const steps=B(3,4,6);
+  const cx=W()/2,cy=H()*.6,K=2.6;const shoe=sprite('sneaker',260,cx,cy);shoe.style.pointerEvents='none';shoe.style.zIndex=2;const P=(x,y)=>[cx+x*K,cy+y*K];
+  const runner=add(realBtn('끈 풀림','mid'));pos(runner,64,92);runner.locked=true;runner.style.zIndex=3;const lg=el('i','legs');runner.appendChild(lg);
+  const ly=layer();ly.style.zIndex=4;const l1=line(ly,'lace'),l2=line(ly,'lace');const [ax,ay]=P(-12,-12),[bx,by]=P(-2,-8);
+  const e1=add(el('div','aglet')),e2=add(el('div','aglet'));const home1=P(-30,8),home2=P(14,10);pos(e1,...home1);pos(e2,...home2);
+  const T=[[P(8,-24),null,'왼쪽 끈을 반대편 위로'],[null,P(-22,-24),'오른쪽 끈을 반대편 위로'],[P(-20,-34),null,'토끼 귀 고리를 만들어요'],[null,P(4,-34),'다른 쪽도 고리!'],[P(-34,-22),null,'고리를 꽉 당겨요'],[null,P(18,-22),'한 번 더 묶어요']].slice(0,steps);
+  let s2=0;const tg=add(el('div','tgtc'));const upd=()=>{setLine(l1,ax,ay,gx(e1),gy(e1));setLine(l2,bx,by,gx(e2),gy(e2));if(s2<T.length){const [p,q,m]=T[s2];const t=p||q;pos(tg,t[0],t[1]);say(m+' (점선 동그라미로)')}};upd();
+  runner.addEventListener('click',()=>{if(runner.locked)say('버튼: 끈부터 묶어줘! 넘어진단 말이야.')});
+  [[e1,0],[e2,1]].forEach(([e,w])=>drag(e,{move:upd,end:(x,y)=>{if(s2>=T.length)return;const t=T[s2][w];if(t&&dist(x,y,t[0],t[1])<30){pos(e,t[0],t[1]);s2++;upd();
+    if(s2>=T.length){tg.remove();say('리본 완성! 버튼이 달려요!');setLabel(runner,'달린다');runner.classList.add('running');runner.style.transition='left 1.6s ease-in-out,top 1.6s ease-in-out';
+      after(250,()=>{shoe.style.transition='opacity .4s';shoe.style.opacity=0;ly.remove();e1.remove();e2.remove();pos(runner,W()/2,H()*.42)});
+      after(1900,()=>{runner.classList.remove('running');const fl=add(el('div','finish','결승선'));pos(fl,W()/2,H()*.42+80);setLabel(runner,'1등!');runner.locked=false})}}
+    else say(t?'점선 동그라미까지 가져가요.':'다른 쪽 끈 차례예요.')}}));
 }},
 );
-Object.assign(HINTS,{'라면 끓이기':'물이 끓어야 면을 넣죠. 너무 오래 끓이면…','계란 후라이':'노릇노릇할 때가 타이밍.','붕어빵 틀':'너무 오래 두면 숯이 돼요.','수박 가르기':'한가운데를 시원하게.','볼링':'세게, 그리고 똑바로.','다트':'숨 참고, 한가운데.','컬링':'너무 세지도 약하지도 않게.','골프 퍼팅':'모래는 피하는 게 좋아요.','팝업 광고':'작은 ×가 진짜 닫기예요. 큰 버튼은 함정.','쿠키 동의':'"모두 수락"은 늘 제일 크게 생겼죠.','인증번호':'문자는 금방 사라져요. 광고 문자도 와요.','구독 해지':'해지 버튼은 언제나 깊숙이, 작게.','별점 요청':'"나중에"는 금방 돌아와요.','용의 보물':'용도 졸릴 때가 있어요.','마법진':'처음 시작한 곳으로 돌아와야 해요.','물약 제조':'순서가 중요한 마법이에요.','램프의 요정':'요정은 말을 곧이곧대로 들어요.','냉장고 정리':'냉장고 문은 오래 열어두면 안 돼요.','주차하기':'천천히, 반듯하게.','꼬인 이어폰':'빨간 곳이 엉킨 곳이에요.','빨래 개기':'옷은 순서대로 접어요.','신발끈':'신발끈은 차근차근.'});
+Object.assign(HINTS,{'라면 끓이기':'물이 끓어야 면을 넣죠. 너무 오래 끓이면…','계란 후라이':'노릇노릇할 때가 타이밍.','붕어빵 틀':'너무 오래 두면 숯이 돼요.','수박 가르기':'한가운데를 시원하게.','볼링':'세게, 그리고 똑바로.','다트':'숨 참고, 한가운데.','컬링':'너무 세지도 약하지도 않게.','골프 퍼팅':'모래는 피하는 게 좋아요.','팝업 광고':'작은 ×가 진짜 닫기예요. 큰 버튼은 함정.','쿠키 동의':'"모두 수락"은 늘 제일 크게 생겼죠.','인증번호':'문자는 금방 사라져요. 광고 문자도 와요.','구독 해지':'해지 버튼은 언제나 깊숙이, 작게.','별점 요청':'"나중에"는 금방 돌아와요.','용의 보물':'용도 졸릴 때가 있어요.','마법진':'처음 시작한 곳으로 돌아와야 해요.','물약 제조':'순서가 중요한 마법이에요.','램프의 요정':'요정은 말을 곧이곧대로 들어요.','냉장고 정리':'냉장고 문은 오래 열어두면 안 돼요.','주차하기':'천천히, 반듯하게.','꼬인 이어폰':'빨간 곳이 엉킨 곳이에요.','빨래 개기':'옷은 순서대로 접어요.','신발끈':'끈은 엇갈려서, 고리 두 개, 꽉!'});
 var ENDS_EXTRA=Object.assign(window.ENDS_EXTRA||{},{'라면 끓이기':'꼬들꼬들 완벽해. 불 꺼줘!','붕어빵 틀':'팥 아니고 버튼이야. 눌러줘.','다트':'아야… 이제 빠졌다. 눌러줘.','팝업 광고':'광고 없는 세상, 눌러줘.','구독 해지':'이제 무료야! 눌러.','용의 보물':'(속삭임) 용 깨기 전에 빨리.','냉장고 정리':'추워! 빨리 눌러줘.','주차하기':'주차 잘하네. 눌러.'});
 
 /* ---------- new obstacles B ---------- */
@@ -2237,7 +2251,7 @@ OB.push(
   tools(['"괜찮아, 바쁜가 봐"',()=>{if(st==='dry'){st='comf';say('버튼: 그치…? 다시 보내볼게.');after(900,nx)}else awk(st==='good'?'좋은 소식인데 왜 위로를…':'아직 답장도 안 왔는데요.')}]);
   gate(b,()=>st==='good',()=>{awk(st==='dry'?'버튼: 지금 그게 중요해?! 나 ㅋ 받았다고!':'버튼: 쉿, 답장 기다리는 중이야!')});
 }},
-{name:'반대 나라',bg:'lab',story:'여기선 모든 게 반대로 움직여요.',run(lv){const B=mkB(lv);
+{name:'반대 나라',bg:'lab',story:'버튼이 반대 나라에 갔어요. "누르는 곳"에 데려다줘야 눌려요. 근데 여기선 모든 게 반대로…',run(lv){const B=mkB(lv);
   const goal=add(el('div','seat','여기로'));goal.style.width=goal.style.height='110px';const gx0=rnd(80,W()-80),gy0=lv===0?H()*.25:rnd(80,H()*.4);pos(goal,gx0,gy0);
   const b=add(realBtn('거꾸로','mid'));const sx=W()/2,sy=H()-80;pos(b,sx,sy);b.locked=true;let ox=sx,oy=sy,st=null,placed=false;
   b.addEventListener('pointerdown',e=>{if(placed)return;e.preventDefault();st=sp(e);ox=gx(b);oy=gy(b);try{b.setPointerCapture(e.pointerId)}catch(_){}});
@@ -2322,8 +2336,8 @@ OB.push(
   sus.forEach((s,i)=>{const x=(i%3+.5)*W()/3,y=H()*.48+Math.floor(i/3)*130;const p=person(x,y,s.c,'n',74);p.style.pointerEvents='';p.style.cursor='pointer';if(s.hat){const h=add(el('div','hat'));pos(h,x,y-38)}if(s.gl){const g=add(el('div','glasses'));pos(g,x,y-12)}
     p.onclick=()=>{if(s===cul){face(p,'shock');talk(p,'…딱 걸렸네. 돌려줄게.',1500);after(1300,()=>{const b=add(realBtn('되찾음','pop mid'));pos(b,x,y-90)})}else{face(p,'angry');talk(p,'저 아니거든요?',1100);awk('엉뚱한 사람을 의심했어요.')}}});
 }},
-{name:'지진',bg:'room',story:'지진이에요! 흔들릴 땐 탁자 밑으로, 멈추면 버튼을 누르세요.',run(lv){const B=mkB(lv);const n=B(1,2,3);
-  const tb=add(el('div','table2'));pos(tb,80,H()*.62);const me=person(W()/2,H()*.62,'#F0533D','shock',62);const b=add(realBtn('','mid'));pos(b,W()-60,H()*.6);let phase='calm',k=0,under=false;
+{name:'지진',bg:'room',story:'지진 대피 훈련이에요. 버튼은 "훈련 끝" 버튼이에요. 흔들릴 땐 탁자 밑으로!',run(lv){const B=mkB(lv);const n=B(1,2,3);
+  const tb=add(el('div','table2'));pos(tb,80,H()*.62);const me=person(W()/2,H()*.62,'#F0533D','shock',62);const b=add(realBtn('훈련 끝','mid'));pos(b,W()-60,H()*.6);let phase='calm',k=0,under=false;
   const tl=tools(['탁자 밑으로',()=>{under=!under;tl.querySelector('button').textContent=under?'나오기':'탁자 밑으로';pos(me,under?80:W()/2,H()*.62+(under?20:0));me.style.scale=under?'.8':'1'}]);
   const quake=()=>{if(won)return;phase='shake';stage.classList.add('quake');say('흔들흔들!!');let t=0;const dur=B(2200,2600,3000);
     const fall=every(500,()=>{if(phase!=='shake')return;const x=rnd(60,W()-60);const o=sprite(pick(['pot','cup','box']),44,x,-30);o.style.transition='top .6s ease-in';requestAnimationFrame(()=>requestAnimationFrame(()=>pos(o,x,H()*.62)));after(600,()=>{if(!under&&Math.abs(x-gx(me))<60){awk('머리 위로 물건이 떨어졌어요! 탁자 밑으로!')}o.remove()})});
