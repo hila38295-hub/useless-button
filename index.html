@@ -2375,11 +2375,13 @@ const lvOf=o=>o.levels||[0,1,2];
 const obIdx=n=>OB.findIndex(o=>o.name===n);
 
 /* sound */
-let AC=null;const tone=(f,d=.08,type='square',v=.05,when=0)=>{if(!D.sound)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime+when,o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d+.02)}catch(e){}};
+let AC=null;const tone=(f,d=.08,type='square',v=.05,when=0)=>{if(!D.sound)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const t=AC.currentTime+when,o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d+.02)}catch(e){}};
 const SFX={click:()=>{tone(1800,.03,'square',.06);tone(900,.04,'square',.04,.03)},ding:()=>{tone(880,.15,'sine',.06);tone(1320,.25,'sine',.05,.1)},
   win:()=>[523,659,784,1046].forEach((f,i)=>tone(f,.18,'triangle',.06,i*.09)),awk:()=>{tone(180,.18,'sawtooth',.04);tone(150,.25,'sawtooth',.04,.12)},
   pop:()=>tone(600,.06,'sine',.06),gold:()=>[784,988,1175,1568,1976].forEach((f,i)=>tone(f,.2,'sine',.05,i*.07))};
-document.addEventListener('pointerdown',e=>{if(e.target.closest&&e.target.closest('button'))SFX.pop()},true);
+SFX.ui=()=>{tone(880,.05,'triangle',.08);tone(1320,.07,'triangle',.06,.045)};
+document.addEventListener('pointerdown',e=>{const b=e.target.closest&&e.target.closest('button,label.ck,label.chk,.todo label');if(!b)return;if(b.id==='startbtn'||b.classList.contains('big'))return;
+  if(b.closest('#stage')&&!b.closest('.win,.rcard,.inter'))SFX.pop();else SFX.ui()},true);
 
 /* variants */
 const TONES={
