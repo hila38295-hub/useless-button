@@ -552,7 +552,7 @@ const every=(ms,f)=>{const g=gen;const id=setInterval(()=>{if(g!==gen){clearInte
 const loop=f=>{const g=gen;let last=performance.now();const s=t=>{if(g!==gen)return;const dt=Math.min(50,t-last);last=t;if(f(dt,t)!==false)requestAnimationFrame(s)};requestAnimationFrame(s)};
 const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;if(tag==='button')e.type='button';return e};
 const add=(e,p=stage)=>(p.appendChild(e),e);
-const mkB=lv=>(...a)=>{if(lv!==0)return a[lv];const e=a[0],n=a[1];if(typeof e==='number'&&typeof n==='number'){const v=e+(n-e)*.45;return Number.isInteger(e)&&Number.isInteger(n)?Math.round(v):v}return e};
+const mkB=lv=>(...a)=>{if(lv===2){const n=a[1],h=a[2];if(typeof n==='number'&&typeof h==='number'){const v=n+(h-n)*.6;return Number.isInteger(n)&&Number.isInteger(h)?Math.round(v):v}return h}if(lv!==0)return a[lv];const e=a[0],n=a[1];if(typeof e==='number'&&typeof n==='number'){const v=e+(n-e)*.45;return Number.isInteger(e)&&Number.isInteger(n)?Math.round(v):v}return e};
 let say=t=>{t=String(t).replace(/\s*\(\s*\d+\s*\/\s*\d+\s*\)/g,'').replace(/\s*\(남은[^)]*\)/g,'').replace(/\s*남은 [^.!?]*?\d+\s*(개|마리|장|명|번|줄)\.?/g,'').replace(/\s*\d+%\s*$/,'');
   if(/\d+\s*\/\s*\d+/.test(t))t=['좋아요, 계속!','그렇지!','잘하고 있어요.','오, 좋은데요?'][Math.floor(Math.random()*4)];cap.textContent=t.trim()};
 const W=()=>stage.clientWidth,H=()=>stage.clientHeight;
@@ -1469,7 +1469,7 @@ OB.push(
       else if(y>H()+30){it.e.remove();items.splice(i,1);if(it.isB)say('버튼을 놓쳤어요!')}}});
   say('화면을 좌우로 움직여 바구니로 버튼만 받으세요.');
 }},
-{name:'버튼 증명사진',story:'버튼이 증명사진을 찍고 싶대요. 근데 가만히 있지를 않아요.',run(lv){const P=[[170,100,.05,1],[140,86,.1,2],[112,70,.16,3]][lv];const [fs,bs,v,need]=P;const tol=(fs-bs)/2;const fy=H()*.42;
+{name:'버튼 증명사진',story:'버튼이 증명사진을 찍고 싶대요. 근데 가만히 있지를 않아요.',run(lv){const P=[[170,100,.05,1],[140,86,.1,2],[124,76,.13,3]][lv];const [fs,bs,v,need]=P;const tol=(fs-bs)/2;const fy=H()*.42;
   const fr=add(el('div','frame'));fr.style.width=fr.style.height=fs+'px';pos(fr,W()/2,fy);const b=add(realBtn('치즈','mid'));b.style.width=b.style.height=bs+'px';b.style.fontSize=Math.round(bs*.2)+'px';b.locked=true;
   let x=W()/2+60,y=fy,a=rnd(0,6.28),shots=0,fin=false;const m=bs/2+8;
   loop(dt=>{if(fin)return false;a+=rnd(-.08,.08)*(1+lv*.5);x+=Math.cos(a)*v*dt;y+=Math.sin(a)*v*dt;if(x<m||x>W()-m)a=Math.PI-a;if(y<m||y>H()-80-m)a=-a;x=Math.max(m,Math.min(W()-m,x));y=Math.max(m,Math.min(H()-80-m,y));pos(b,x,y)});
@@ -2223,13 +2223,14 @@ OB.push(
   b.addEventListener('click',()=>{if(b.locked&&!placed)say(lv===2?'위아래도, 좌우도 반대예요.':'좌우가 반대예요.')});say('버튼을 끌어서 점선 칸에 넣으세요. 근데…');
 }},
 {name:'기울어진 화면',bg:'lab',story:'화면이 기울어져서 버튼이 굴러가요.',run(lv){const B=mkB(lv);const g2=B(.00025,.00035,.00045);
-  const cup=add(el('div','cup2'));const cx=rnd(80,W()-80);pos(cup,cx,H()-50);const b=add(realBtn('데굴','mini'));b.style.width=b.style.height='54px';b.locked=true;let x=W()/2,y=110,vx=0,vy=0,tilt=0,ts=0,inC=false;
-  const hold=(lab,k)=>{const bt=el('button','tool',lab);bt.type='button';bt.addEventListener('pointerdown',()=>ts=k);['pointerup','pointerleave','pointercancel'].forEach(ev=>bt.addEventListener(ev,()=>ts=0));return bt};
-  const tl=add(el('div','tools'));tl.style.bottom='auto';tl.style.top='10px';tl.append(hold('↺ 기울이기',-1),hold('기울이기 ↻',1));
-  loop(dt=>{if(inC)return false;tilt=Math.max(-.6,Math.min(.6,tilt+ts*.0012*dt+(lv===2?Math.sin(performance.now()*.001)*.0004*dt:0)));stage.style.rotate=(tilt*20)+'deg';
+  const cup=add(el('div','cup2'));const cx=rnd(80,W()-80);pos(cup,cx,H()-50);const b=add(realBtn('데굴','mini'));b.style.width=b.style.height='54px';b.locked=true;let x=W()/2,y=110,vx=0,vy=0,tilt=0,inC=false,sx=null,t0=0;
+  onStage('pointerdown',e=>{sx=e.clientX;t0=tilt;try{stage.setPointerCapture(e.pointerId)}catch(_){}});
+  onStage('pointermove',e=>{if(sx==null||inC)return;tilt=Math.max(-.6,Math.min(.6,t0+(e.clientX-sx)/W()*1.4))});
+  const up=()=>{sx=null};onStage('pointerup',up);onStage('pointercancel',up);
+  loop((dt,t)=>{if(inC)return false;if(lv===2&&sx==null)tilt=Math.max(-.6,Math.min(.6,tilt+Math.sin(t*.001)*.00025*dt));stage.style.rotate=(tilt*20)+'deg';
     vx+=Math.sin(tilt)*g2*dt*6;vy+=g2*dt*.6;vx*=.995;x+=vx*dt;y+=vy*dt;if(x<27){x=27;vx*=-.4}if(x>W()-27){x=W()-27;vx*=-.4}
-    if(y>H()-60){if(Math.abs(x-cx)<30){inC=true;stage.style.rotate='0deg';tl.remove();pos(b,cx,H()-70);b.locked=false;say('컵에 쏙! 화면이 똑바로 돌아왔어요.');return false}y=110;vy=0;vx=0;x=W()/2;say('빗나갔어요. 다시 굴러와요.')}pos(b,x,y)});
-  say('버튼이 컵에 들어가도록 화면을 기울이세요.');
+    if(y>H()-60){if(Math.abs(x-cx)<30){inC=true;stage.style.rotate='0deg';pos(b,cx,H()-70);b.locked=false;say('컵에 쏙! 화면이 똑바로 돌아왔어요.');return false}y=110;vy=0;vx=0;x=W()/2;say('빗나갔어요. 다시 굴러와요.')}pos(b,x,y)});
+  say('화면을 좌우로 끌어서 기울이세요. 버튼이 컵에 들어가게!');
 }},
 {name:'그림자 놀이',bg:'room',story:'불이 꺼져서 그림자만 보여요. 버튼 그림자를 찾으세요.',run(lv){const B=mkB(lv);const n=B(4,6,9);
   const SH=[['circle','버튼'],['donut','도넛'],['bite','한 입 먹은 쿠키'],['moon','달'],['coin','동전'],['plate','접시'],['egg','달걀'],['ball','공'],['clock','시계']];
@@ -2359,7 +2360,7 @@ OB.push(
   gate(b,()=>!crossing,()=>{awk(passed===ln.length-1&&lv>0?'한 마리가 아직 남았어요! 꽥꽥.':'오리들이 건너는 중이에요. 꽥!')});
 }},
 );
-Object.assign(HINTS,{'결혼식':'꽃가루는 두 사람이 걸어 나올 때.','택시 통화':'기사님 통화가 끝나면, 그리고 목적지 바로 앞에서.','식당 호출벨':'직원분 손이 비었을 때가 기회예요.','소개팅 계산':'다 먹고, 상대가 지갑 꺼내기 전에.','영상통화':'화면이 멈춰도 할머니는 말씀 중일 수 있어요.','미용실 다녀온 친구':'친구가 자꾸 머리를 만지네요.','할머니 용돈':'바로 받으면 넙죽, 너무 빼면 서운. 적당히.','선배가 사주는 밥':'인사 먼저, 숟가락은 선배 다음.','단톡방':'좋은 소식에만 축하를.','사춘기 버튼':'노크는 역효과일 수도.','다이어트 버튼':'눈에 안 보이면 괜찮대요. 숨겨둔 간식도 조심.','양치기 버튼':'거짓말할 때 뒤에서 뭔가 하고 있어요.','썸 타는 버튼':'답장 내용에 따라 반응이 달라요.','반대 나라':'가고 싶은 방향의 반대로.','기울어진 화면':'살살 기울여야 굴러가요.','그림자 놀이':'구멍이나 이빨 자국이 있으면 버튼이 아니죠.','흉내쟁이 버튼':'다들 가만히 있는데 혼자 꿈틀.','크리스마스 선물':'리본부터, 그다음은 마구 뜯기.','세배':'공손하게, 순서대로. 큰절은 천천히.','송편 빚기':'펴고, 넣고, 접고, 여미고.','할로윈':'유령마다 좋아하는 색이 달라요.','청진기':'쿵쿵이 빨라지면 가까워요.','택배 기사':'층과 호수를 잘 보세요.','몽타주':'목격자 말 세 가지를 다 맞춰봐요.','지진':'흔들리면 탁자 밑. 멈추면 나와요.','블랙홀':'반짝이는 표시를 지날 때가 기회예요.','용암 건너기':'한 칸씩, 멈추지 말고.','시간 정지':'시간이 멈춘 동안만 눌려요.','판다':'배부르면 팔이 풀려요. 빼낼 땐 살살.','앵무새':'엄마 말과 앵무새 말은 다르죠.','햄스터 쳇바퀴':'맨 아래에 올 때가 기회.','오리 가족':'늘 한 마리는 늦게 와요.'});
+Object.assign(HINTS,{'결혼식':'꽃가루는 두 사람이 걸어 나올 때.','택시 통화':'기사님 통화가 끝나면, 그리고 목적지 바로 앞에서.','식당 호출벨':'직원분 손이 비었을 때가 기회예요.','소개팅 계산':'다 먹고, 상대가 지갑 꺼내기 전에.','영상통화':'화면이 멈춰도 할머니는 말씀 중일 수 있어요.','미용실 다녀온 친구':'친구가 자꾸 머리를 만지네요.','할머니 용돈':'바로 받으면 넙죽, 너무 빼면 서운. 적당히.','선배가 사주는 밥':'인사 먼저, 숟가락은 선배 다음.','단톡방':'좋은 소식에만 축하를.','사춘기 버튼':'노크는 역효과일 수도.','다이어트 버튼':'눈에 안 보이면 괜찮대요. 숨겨둔 간식도 조심.','양치기 버튼':'거짓말할 때 뒤에서 뭔가 하고 있어요.','썸 타는 버튼':'답장 내용에 따라 반응이 달라요.','반대 나라':'가고 싶은 방향의 반대로.','기울어진 화면':'살살 끌어야 살살 기울어요.','그림자 놀이':'구멍이나 이빨 자국이 있으면 버튼이 아니죠.','흉내쟁이 버튼':'다들 가만히 있는데 혼자 꿈틀.','크리스마스 선물':'리본부터, 그다음은 마구 뜯기.','세배':'공손하게, 순서대로. 큰절은 천천히.','송편 빚기':'펴고, 넣고, 접고, 여미고.','할로윈':'유령마다 좋아하는 색이 달라요.','청진기':'쿵쿵이 빨라지면 가까워요.','택배 기사':'층과 호수를 잘 보세요.','몽타주':'목격자 말 세 가지를 다 맞춰봐요.','지진':'흔들리면 탁자 밑. 멈추면 나와요.','블랙홀':'반짝이는 표시를 지날 때가 기회예요.','용암 건너기':'한 칸씩, 멈추지 말고.','시간 정지':'시간이 멈춘 동안만 눌려요.','판다':'배부르면 팔이 풀려요. 빼낼 땐 살살.','앵무새':'엄마 말과 앵무새 말은 다르죠.','햄스터 쳇바퀴':'맨 아래에 올 때가 기회.','오리 가족':'늘 한 마리는 늦게 와요.'});
 var ENDS_EXTRA=Object.assign(window.ENDS_EXTRA||{},{'결혼식':'축하해! 꽃가루 팡!','사춘기 버튼':'…간식 고마워. 눌러도 돼.','썸 타는 버튼':'주말에 본대! 기념으로 눌러줘!','판다':'판다 품 따뜻했는데… 눌러줘.','오리 가족':'꽥! 이제 출발!','블랙홀':'살았다! 꾹 눌러줘.'});
 
 /* ---------- flow ---------- */
@@ -2434,7 +2435,7 @@ const TWISTS=[
  ['동생',()=>{const b=add(realBtn('형'));pos(b,W()/2-50,H()/2);b.locked=true;const s2=add(el('button','big mini','<span>나도</span>'));pos(s2,W()/2+70,H()/2+30);say('버튼 동생: 형아만 눌러주고! 나도 눌러줘!');
    s2.onclick=()=>{s2.style.transition='scale .3s';s2.style.scale=1.3;setTimeout(()=>s2.style.scale=1,300);say('버튼 동생: 헤헤. 이제 형아 차례!');b.locked=false};b.addEventListener('click',()=>{if(b.locked)say('동생이 서운해해요.')})}],
 ];
-function playTwist(){gen++;won=false;stageL.forEach(([t,f])=>stage.removeEventListener(t,f));stageL=[];stage.innerHTML='';stage.style.touchAction='';addScene(OB[cur].name);const t=pick(TWISTS);RUN.twistName=t[0];t[1]()}
+function playTwist(){gen++;won=false;stage.style.rotate='';stage.classList.remove('quake','frozen');stageL.forEach(([t,f])=>stage.removeEventListener(t,f));stageL=[];stage.innerHTML='';stage.style.touchAction='';addScene(OB[cur].name);const t=pick(TWISTS);RUN.twistName=t[0];t[1]()}
 
 /* combos (story chains) */
 const COMBOS=[['고양이 습격','얼어붙은 버튼','고양이 침이 묻은 버튼이 꽁꽁 얼어버렸어요!'],['택배 상자','비둘기 점거','상자를 열었더니… 비둘기가 같이 배송됐어요.'],['UFO 납치','연못에 빠진 버튼','UFO에서 떨어진 버튼이 하필 연못에 퐁당!'],['부장님 개그','노래방 친구','부장님이 기분 좋다며 노래방에 가재요.'],['진흙 범벅','세탁기','닦긴 했는데 냄새가… 세탁기로!'],['풍선 버튼','나무에 걸린 버튼','풍선이 펑! 버튼이 나무에 걸렸어요.'],['과열','얼어붙은 버튼','소화기를 너무 뿌려서 꽁꽁 얼었어요.'],['감기 걸린 버튼','자고 있는 버튼','약 먹었더니 졸려서 잠들었어요.'],['놀아줘 강아지','진흙 범벅','강아지랑 놀다가 진흙탕에 굴렀어요.'],['머리 감은 버튼','구겨진 버튼','드라이기 바람에 쭈글쭈글해졌어요.'],['코인 폭락','버튼 경매','빚 때문에 버튼이 경매에 나왔어요!'],['퇴사 선언','월요일 회의','복직 첫날부터 회의래요.'],['낙엽 더미','비 오는 날','낙엽을 치웠더니 비가 와요.'],['정전','방전된 버튼','전기는 돌아왔는데 버튼이 방전됐어요.'],['비둘기 점거','먹물 테러','비둘기가 떠나면서… 아니, 문어가 먹물을!'],['건배','부장님 개그','건배하자마자 부장님이 입을 여셨어요.'],['버스 하차벨','무단횡단 금지','내렸는데 버튼이 길 건너편에 있어요.'],['떨어지는 버튼','진흙 범벅','받긴 받았는데 진흙에 떨어졌어요.']];
@@ -2456,7 +2457,7 @@ function newRun(mode,fixed){rollVar();RUN={mode,steps:[],twist:false,twisted:fal
   RUN.twist=mode!=='day'&&Math.random()<.25;stepI=0;show('game');startStep()}
 function startStep(){const s=RUN.steps[stepI];if(s.bridge&&stepI>0||RUN.mode==='day'&&s.bridge){interlude(s.bridge,runStep)}else runStep()}
 function interlude(text,next){gen++;stageL.forEach(([t,f])=>stage.removeEventListener(t,f));stageL=[];stage.innerHTML='';const o=add(el('div','inter',`<div><p>${text}</p><button class="tool primary" type="button">계속</button></div>`));o.querySelector('button').onclick=next}
-function runStep(){const s=RUN.steps[stepI];gen++;won=false;stageL.forEach(([t,f])=>stage.removeEventListener(t,f));stageL=[];stage.innerHTML='';stage.style.touchAction='';
+function runStep(){const s=RUN.steps[stepI];gen++;won=false;stage.style.rotate='';stage.classList.remove('quake','frozen');stageL.forEach(([t,f])=>stage.removeEventListener(t,f));stageL=[];stage.innerHTML='';stage.style.touchAction='';
   cur=s.i;curLv=s.lv;const o=OB[cur];if(!D.seenOb.includes(o.name)){D.seenOb.push(o.name);saveD()}
   $('num').textContent=RUN.mode==='day'?`버튼의 하루 · ${stepI+1}/${RUN.steps.length}`:RUN.mode==='today'?'오늘의 특별 방해':RUN.combo?'합체 방해':'랜덤';
   const l=$('lvl');l.textContent=LV[curLv];l.className='lvl l'+curLv;$('nm').textContent=subVar(o.name);
@@ -2509,7 +2510,7 @@ function resultCard(hist,sec){const t=D.equip?TITLES.find(x=>x[0]===D.equip)[1]:
   function prompt2(t){const ta=el('textarea','rta');ta.value=t;c.querySelector('.rc').appendChild(ta);ta.select()}}
 
 /* screens */
-function show(v){['home','game','dex','titles','settings'].forEach(k=>$(k).hidden=k!==v);if(v!=='game'){gen++;stage.innerHTML=''}if(v==='home')updHome();if(v==='settings')renderSettings();if(v==='dex')renderDex();if(v==='titles')renderTitles();window.scrollTo(0,0)}
+function show(v){['home','game','dex','titles','settings'].forEach(k=>$(k).hidden=k!==v);if(v!=='game'){gen++;stage.innerHTML='';stage.style.rotate='';stage.classList.remove('quake','frozen')}if(v==='home')updHome();if(v==='settings')renderSettings();if(v==='dex')renderDex();if(v==='titles')renderTitles();window.scrollTo(0,0)}
 function greet(){const n=D.total,now=new Date(),h=now.getHours();const today=dayKey(),yest=dayKey(new Date(Date.now()-864e5));
   if(!n)return '처음 보는 얼굴이네? 나는 눌러도 아무 일도 안 일어나는 버튼이야.';
   const L=[];if(D.lastDay===yest)L.push('어제도 왔었지? 기억해.');if(D.lastDay===today&&D.todayCount>0)L.push(`오늘 벌써 ${D.todayCount}번째 왔네.`);if(h<5)L.push('이 새벽에? 잠은 언제 자?');else if(h<9)L.push('아침부터 누르러 왔구나.');else if(h>=23)L.push('자기 전에 한 번?');
