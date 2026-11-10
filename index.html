@@ -516,6 +516,8 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .bsay.below{bottom:auto;top:100%;transform:translate(-50%,12px)}
 .bsay.below::after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:#2A2340}
 .bsay.inside{bottom:auto;top:50%;transform:translate(-50%,-50%)}.bsay.inside::after{display:none}
+.pnoti b{display:inline-block;font-weight:400;font-size:11px;background:#5FD18A;color:#22263A;border-radius:4px;padding:0 5px;margin-right:4px}
+.pnoti.adn{background:#5B5F75}.pnoti.adn b{background:#F2C94C}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
@@ -2003,8 +2005,10 @@ OB.push(
 {name:'인증번호',bg:'room',story:'버튼을 누르려면 휴대폰 인증이 필요해요.',run(lv){const B=mkB(lv);const show2=B(3500,2400,1600),spam=B(0,1,2);
   const code=String(Math.floor(rnd(100000,999999)));const ph=add(el('div','phone',`<div class="pnoti" hidden></div><p>버튼 인증</p><input class="field" id="otp" inputmode="numeric" maxlength="6" placeholder="인증번호 6자리"><div class="row"><button type="button" class="tool" id="req">인증번호 받기</button><button type="button" class="tool primary" id="ok">확인</button></div>`));
   const no=ph.querySelector('.pnoti'),f=ph.querySelector('#otp');const b=add(realBtn('','mini'));pos(b,W()-40,H()-40);b.style.width=b.style.height='56px';b.locked=true;
-  const noti=(t,ms)=>{no.textContent=t;no.hidden=false;clearTimeout(noti._t);noti._t=setTimeout(()=>no.hidden=true,ms)};
-  ph.querySelector('#req').onclick=()=>{say('문자 오는 중…');let d=900;for(let i=0;i<spam;i++){const fake=String(Math.floor(rnd(100000,999999)));after(d,()=>noti(`[광고] 감자 할인 쿠폰 ${fake}`,show2));d+=show2+300}after(d,()=>noti(`[버튼] 인증번호 ${code}를 입력하세요.`,show2))};
+  const noti=(t,ms,ad)=>{no.innerHTML=t;no.classList.toggle('adn',!!ad);no.hidden=false;clearTimeout(noti._t);noti._t=setTimeout(()=>no.hidden=true,ms)};const rq=ph.querySelector('#req');let sending=false;
+  rq.onclick=()=>{if(sending)return;sending=true;rq.disabled=true;rq.textContent='보내는 중…';say('문자 오는 중…');let d=900;
+    for(let i=0;i<spam;i++){const fake=String(Math.floor(rnd(100000,999999)));after(d,()=>noti(`<b>광고</b> 감자마트: 쿠폰번호 ${fake}`,show2,true));d+=show2+300}
+    after(d,()=>{noti(`<b>버튼</b> 인증번호 [${code}]를 입력하세요.`,show2);after(show2,()=>{sending=false;rq.disabled=false;rq.textContent='다시 받기'})})};
   ph.querySelector('#ok').onclick=()=>{if(f.value===code){ph.remove();b.locked=false;b.classList.remove('mini');b.style.width=b.style.height='';center(b);say('인증 완료. 당신은 사람입니다.')}else{awk(f.value?'인증번호가 틀렸어요. 다시 받으세요.':'인증번호를 입력하세요.');f.value=''}};
   b.addEventListener('click',()=>{if(b.locked)say('인증부터 하세요.')});say('인증번호를 받아서 입력하세요. 문자는 금방 사라져요.');
 }},
