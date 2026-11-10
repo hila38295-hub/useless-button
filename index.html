@@ -518,6 +518,7 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .bsay.inside{bottom:auto;top:50%;transform:translate(-50%,-50%)}.bsay.inside::after{display:none}
 .pnoti b{display:inline-block;font-weight:400;font-size:11px;background:#5FD18A;color:#22263A;border-radius:4px;padding:0 5px;margin-right:4px}
 .pnoti.adn{background:#5B5F75}.pnoti.adn b{background:#F2C94C}
+.cross.hot{border-color:#F2C94C;box-shadow:0 0 0 6px rgba(242,201,76,.45)}.cross.hot::before,.cross.hot::after{background:#F2C94C}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
@@ -1956,14 +1957,14 @@ OB.push(
       else if(rolled>=rolls){say('핀이 남았어요. 다시 세울게요.');rolled=0;pins.forEach(p=>{p.up=true;p.e.style.rotate='0deg';p.e.style.opacity=1});pos(ball,bx,by)}else{say(`핀이 남았어요. 한 번 더!`);pos(ball,bx,by)}}});
   say('공을 위로 휙 밀어서 굴리세요.');
 }},
-{name:'다트',bg:'shop',story:'다트판 한가운데에 버튼이 박혀 있어요. 맞히면 빠져요.',run(lv){const B=mkB(lv);const need=B(1,1,2),sp2=B(.0025,.004,.006);
+{name:'다트',bg:'shop',story:'다트판 한가운데에 버튼이 박혀 있어요. 맞히면 빠져요.',run(lv){const B=mkB(lv);const need=B(1,1,2),sp2=B(.0018,.0028,.0036);
   const board=add(el('div','dboard'));const R=Math.min(W()*.35,110);board.style.width=board.style.height=R*2+'px';pos(board,W()/2,H()*.42);
   const ch=add(el('div','cross'));let t=0,hits=0,x=0,y=0,cool=false;
-  loop((dt)=>{if(won)return false;t+=dt;x=W()/2+Math.sin(t*sp2)*R*.9;y=H()*.42+Math.sin(t*sp2*1.7)*R*.7;if(lv===2)pos(board,W()/2+Math.sin(t*.0009)*30,H()*.42);pos(ch,x,y)});
+  let hot=false;loop((dt,T)=>{if(won)return false;const off0=dist(x,y,gx(board),gy(board));t+=dt*(.4+.6*Math.min(1,off0/(R*.55)));x=W()/2+Math.sin(t*sp2)*R*.9;y=H()*.42+Math.sin(t*sp2*2)*R*.6;if(lv===2)pos(board,W()/2+Math.sin(T*.0007)*15,H()*.42);pos(ch,x,y);hot=dist(x,y,gx(board),gy(board))<R*.26;ch.classList.toggle('hot',hot)});
   tools(['던지기',()=>{if(cool||won)return;cool=true;after(500,()=>cool=false);const d=add(el('div','dart'));pos(d,x,y);const off=dist(x,y,gx(board),gy(board));
-    if(off<R*.18){hits++;say(hits<need?'불스아이! 한 번 더.':'불스아이!');if(hits>=need){after(400,()=>{board.remove();ch.remove();stage.querySelectorAll('.dart').forEach(e=>e.remove());const b=add(realBtn('뽁','pop'));pos(b,W()/2,H()*.42);say('버튼이 다트판에서 빠졌어요.')})}}
+    if(off<R*.26){hits++;say(hits<need?'불스아이! 한 번 더.':'불스아이!');if(hits>=need){after(400,()=>{board.remove();ch.remove();stage.querySelectorAll('.dart').forEach(e=>e.remove());const b=add(realBtn('뽁','pop'));pos(b,W()/2,H()*.42);say('버튼이 다트판에서 빠졌어요.')})}}
     else say(off<R?pick(['아깝다!','조금만 더 가운데!','점수는 높은데 버튼이 아니에요.']):'다트판도 못 맞혔어요.')},'primary']);
-  say('조준점이 한가운데 올 때 던지세요.');
+  say('조준점이 가운데(빨강·초록)에 와서 노랗게 빛날 때 던지세요. 가운데선 조준점이 느려져요.');
 }},
 {name:'컬링',bg:'snow',story:'버튼이 컬링 하우스 한가운데에서 기다려요.',run(lv){const B=mkB(lv);const r=B(48,34,24),fr=B(.0016,.0013,.0011);
   const hx=W()/2,hy=110;const house=add(el('div','house'));house.style.width=house.style.height=r*2+'px';pos(house,hx,hy);const tgt=add(el('div','cbtn tgt'));pos(tgt,hx,hy);
