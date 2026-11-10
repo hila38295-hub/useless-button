@@ -519,6 +519,8 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .pnoti b{display:inline-block;font-weight:400;font-size:11px;background:#5FD18A;color:#22263A;border-radius:4px;padding:0 5px;margin-right:4px}
 .pnoti.adn{background:#5B5F75}.pnoti.adn b{background:#F2C94C}
 .cross.hot{border-color:#F2C94C;box-shadow:0 0 0 6px rgba(242,201,76,.45)}.cross.hot::before,.cross.hot::after{background:#F2C94C}
+.coin b{position:absolute;right:-8px;bottom:-6px;background:var(--ink);color:#fff;font-weight:400;font-size:12px;border-radius:99px;padding:0 6px}
+.coin.c10{background:#D9A066;width:46px;height:46px;font-size:14px}.coin.empty{opacity:.35}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
@@ -1351,15 +1353,22 @@ OB.push(
   const upd=()=>{const v=+r.value;disp.textContent=fmt(v);const ok=Math.abs(v-tg)<=tol;b.style.opacity=ok?1:Math.abs(v-tg)<60?.12:0;b.style.pointerEvents=ok?'':'none';say(ok?'버튼이 나타났어요!':Math.abs(v-tg)<60?'근처예요. 버튼 그림자가 보여요.':'버튼이 없는 시간이에요.')};
   r.addEventListener('input',upd);minus.onclick=()=>{r.value=Math.max(0,+r.value-1);upd()};plus.onclick=()=>{r.value=Math.min(1439,+r.value+1);upd()};upd();
 }},
-{name:'버튼 자판기',story:'버튼이 자판기 안에 들어갔어요.',run(lv){const B=mkB(lv);const price=B(300,750,1350),exact=lv===2;
-  const vm=add(el('div','vend',`<div class="vwin"><span class="cbtn"></span></div><div class="vlbl">버튼 ${price.toLocaleString()}원${exact?'<br><small>거스름돈 없음</small>':''}</div>`));pos(vm,W()/2-60,H()*.38);
-  const slot=add(el('div','vslot','투입구'));pos(slot,W()/2+90,H()*.3);const sum=add(el('div','sign','0원'));pos(sum,W()/2+90,H()*.3+48);let s=0,fin=false;
-  [500,100,50].forEach((v,i)=>{const x=60+i*((W()-120)/2),y=H()-58;const c=add(el('div','coin'+(v===500?' big5':''),String(v)));pos(c,x,y);
-    drag(c,{end:(cx,cy)=>{springBack(c,x,y);if(fin||dist(cx,cy,gx(slot),gy(slot))>=55)return;s+=v;sum.textContent=s.toLocaleString()+'원';
-      if(exact&&s>price){say('금액이 넘었어요. 거스름돈이 없어서 전부 돌려드려요.');s=0;sum.textContent='0원';return}
-      if(s>=price){fin=true;say(s>price?`덜컹! 거스름돈 ${s-price}원은 자판기가 가져갔어요.`:'덜컹! 버튼이 나왔어요.');vm.querySelector('.cbtn').style.visibility='hidden';stage.querySelectorAll('.coin').forEach(e=>e.remove());const b=add(realBtn('꺼내줘','pop'));pos(b,W()/2,H()-80);b.style.scale=.7}
-      else say(`짤랑. ${(price-s).toLocaleString()}원 더 넣어주세요.`)}})});
-  say('동전을 끌어서 투입구에 넣으세요.');
+{name:'버튼 자판기',story:'버튼이 자판기 안에 들어갔어요. 거스름돈이 안 나오는 자판기래요.',run(lv){
+  const WAL=[{500:1,100:4,50:2},{500:2,100:3,50:3,10:4},{500:2,100:4,50:3,10:6}][lv];const vals=Object.keys(WAL).map(Number).sort((a,b)=>b-a);
+  const all=[];vals.forEach(v=>{for(let k=0;k<WAL[v];k++)all.push(v)});const tot=all.reduce((a,b)=>a+b,0);let price=0;
+  for(let tries=0;tries<200;tries++){const n=Math.floor(rnd(lv===0?2:3,lv===0?5:7));const pick2=shuffle(all.slice()).slice(0,n);price=pick2.reduce((a,b)=>a+b,0);if(price!==tot&&price%500!==0&&price>=[300,600,800][lv]&&(lv===0||pick2.includes(10)||pick2.includes(50)))break}
+  const vm=add(el('div','vend',`<div class="vwin"><span class="cbtn"></span></div><div class="vlbl">버튼 ${price.toLocaleString()}원<br><small>거스름돈 없음</small></div>`));pos(vm,W()/2-70,H()*.34);
+  const slot=add(el('div','vslot','투입구'));pos(slot,W()/2+86,H()*.27);const sum=add(el('div','sign','0원'));pos(sum,W()/2+86,H()*.27+48);
+  let s=0,fin=false;const cnt=Object.assign({},WAL);const stacks={};
+  const upd=()=>{vals.forEach(v=>{const e=stacks[v];e.querySelector('b').textContent='×'+cnt[v];e.classList.toggle('empty',!cnt[v])});sum.textContent=s.toLocaleString()+'원'};
+  const refund=m=>{s=0;Object.assign(cnt,WAL);upd();if(m)say(m)};
+  vals.forEach((v,i)=>{const x=(i+.5)*W()/vals.length,y=H()-108;const c=add(el('div','coin'+(v===500?' big5':v===10?' c10':''),`${v}<b></b>`));pos(c,x,y);stacks[v]=c;
+    drag(c,{start:()=>{if(!cnt[v]){say(`${v}원짜리가 다 떨어졌어요.`)}},end:(cx,cy)=>{springBack(c,x,y);if(fin||!cnt[v]||dist(cx,cy,gx(slot),gy(slot))>=55)return;cnt[v]--;s+=v;upd();
+      if(s>price){awk(`${s.toLocaleString()}원… 넘었어요! 거스름돈이 없어서 전부 돌려드려요.`);refund();return}
+      if(s===price){fin=true;say('덜컹! 딱 맞췄어요.');vm.querySelector('.cbtn').style.visibility='hidden';stage.querySelectorAll('.coin').forEach(e=>e.remove());tl.remove();const b=add(realBtn('꺼내줘','pop'));pos(b,W()/2,H()-90);b.style.scale=.75}
+      else say(`짤랑. ${(price-s).toLocaleString()}원 더.`)}})});
+  const tl=tools(['반환',()=>{if(!fin)refund('동전을 전부 돌려받았어요.')}]);upd();
+  say('지갑 속 동전으로 딱 맞게 넣으세요. 넘으면 다 돌려줘요.');
 }},
 {name:'무궁화 꽃이',story:'술래가 보고 있을 때 움직이면 안 돼요.',run(lv){const B=mkB(lv);const red=B(1300,1700,2200),gm=B(1.4,1,.7);
   const doll=sprite('dollBack',90,W()-52,86);doll.style.pointerEvents='none';const fl=add(el('div','tugline'));fl.style.left=(W()-90)+'px';
