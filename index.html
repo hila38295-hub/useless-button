@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -653,7 +653,7 @@ html,body{overscroll-behavior:none}
 .countd:empty{display:none}
 .mirv{position:absolute;top:0;bottom:0;width:12px;margin-left:-6px;background:linear-gradient(90deg,#CDE9FF,#fff 40%,#9FC6EA);border-left:3px solid var(--ink);border-right:3px solid var(--ink);z-index:1;pointer-events:none}
 .mirh{position:absolute;left:0;right:0;height:12px;margin-top:-6px;background:linear-gradient(#CDE9FF,#fff 40%,#9FC6EA);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);z-index:1;pointer-events:none}
-.mirlbl{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:#fff;border:2.5px solid var(--ink);border-radius:10px;padding:3px 10px;font-family:var(--display);font-size:14px;color:#22263A;z-index:5;white-space:nowrap}
+.mirlbl{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);width:max-content;max-width:92%;white-space:normal!important;text-align:center;background:#fff;border:2.5px solid var(--ink);border-radius:10px;padding:3px 10px;font-family:var(--display);font-size:14px;color:#22263A;z-index:5;white-space:nowrap}
 </style>
 
 </head>
@@ -838,15 +838,17 @@ const OB=[
 {name:'삐진 버튼',bg:'room',story:'버튼이 삐져서 등을 돌렸어요. 살살 달래주세요.',run(lv){const B=mkB(lv);const pk=B(2200,1500,1000),need=B(450,750,1050);
   const b=add(realBtn('흥'));pos(b,W()/2,H()*.48);b.locked=true;const gb=add(el('div','mbar','<i></i>')),gi=gb.querySelector('i');gb.style.width='170px';pos(gb,W()/2+20,28);const gl=add(el('div','sign','기분'));pos(gl,W()/2-90,28);
   const bs=add(el('div','sb'));const bt=t=>{bs.textContent=t;pos(bs,W()/2,H()*.48-78)};
-  let st='away',mood=0,lp=null,scold=false;
+  const gd=add(el('div','mirlbl'));let gt=0;const guide=(t,ms=3500)=>{gd.textContent=t;gd.style.visibility='visible';const k=++gt;after(ms,()=>{if(k===gt)gd.style.visibility='hidden'})};
+  guide('등 돌렸을 땐 기다리고, "힐끔" 볼 때 버튼을 손가락으로 쓱쓱 문질러요',5000);
+  let st='away',mood=0,lp=null,scold=false,moved=false,fd=false,waitUp=false;
   const setSt=s=>{st=s;if(s==='away'){b.classList.add('sulk');b.style.rotate='-14deg';setLabel(b,'흥');bt(pick(['흥.','말 걸지 마.','…','(등 돌림)']))}else{b.classList.remove('sulk');b.style.rotate='6deg';setLabel(b,'…힐끔');bt('(힐끔)')}};
-  const cyc=()=>{if(won||!b.locked)return;setSt('away');after(rnd(1500,2600),()=>{if(won||!b.locked)return;setSt('peek');const d=lv===2&&Math.random()<.35?pk*.5:pk;after(d,cyc)})};cyc();
+  const cyc=()=>{if(won||!b.locked||fd)return;setSt('away');after(rnd(1500,2600),()=>{if(won||!b.locked||fd)return;setSt('peek');const d=lv===2&&Math.random()<.35?pk*.5:pk;after(d,cyc)})};cyc();
   const near=p=>dist(p.x,p.y,gx(b),gy(b))<80;
-  const bad=()=>{if(scold)return;scold=true;mood=Math.max(0,mood-need*.3);gi.style.width=Math.min(100,mood/need*100)+'%';bt('건드리지 마!');shake(b);awk('등 돌리고 있을 때 건드리니까 더 삐졌어요.')};
-  onStage('pointerdown',e=>{const p=sp(e);lp=p;scold=false;if(b.locked&&near(p)&&st==='away')bad()});onStage('pointerup',()=>lp=null);onStage('pointercancel',()=>lp=null);
-  onStage('pointermove',e=>{if(!lp||!b.locked)return;const p=sp(e);if(!near(p)){lp=p;return}const d=dist(p.x,p.y,lp.x,lp.y);lp=p;
-    if(st==='away'){bad();return}mood+=d;gi.style.width=Math.min(100,mood/need*100)+'%';if(Math.random()<.04)bt(pick(['…흥.','(살짝 웃음)','…계속해 봐.']));
-    if(mood>=need){b.classList.remove('sulk');b.style.rotate='0deg';gb.remove();gl.remove();bt('…한 번만 봐준다.');tone(880,.12,'sine',.05);tone(1175,.18,'sine',.05,.1);unlock(b,'…알았어','버튼이 마음을 풀었어요.')}});
+  const bad=()=>{if(scold)return;scold=true;mood=Math.max(0,mood-need*.3);gi.style.width=Math.min(100,mood/need*100)+'%';bt('건드리지 마!');shake(b);awk('등 돌리고 있을 때 건드리니까 더 삐졌어요.');guide('등 돌렸을 땐 기다려요. "힐끔" 볼 때 쓱쓱 문질러요')};
+  onStage('pointerdown',e=>{const p=sp(e);lp=p;scold=false;moved=false;if(b.locked&&near(p)&&st==='away')bad()});onStage('pointerup',e=>{if(waitUp){waitUp=false;lp=null;after(300,()=>unlock(b,'…알았어','버튼이 마음을 풀었어요. 이제 꾹 눌러주세요!'));return}const p=sp(e);if(b.locked&&!moved&&!scold&&st==='peek'&&near(p))guide('꾹 누르지 말고, 손가락으로 쓱쓱 문질러 주세요');lp=null});onStage('pointercancel',()=>lp=null);
+  onStage('pointermove',e=>{if(!lp||!b.locked||fd)return;const p=sp(e);if(!near(p)){lp=p;return}const d=dist(p.x,p.y,lp.x,lp.y);lp=p;
+    if(st==='away'){bad();return}if(d>2)moved=true;mood+=d;gi.style.width=Math.min(100,mood/need*100)+'%';if(Math.random()<.04)bt(pick(['…흥.','(살짝 웃음)','…계속해 봐.']));
+    if(mood>=need&&!fd){fd=true;b.classList.remove('sulk');b.style.rotate='0deg';gb.remove();gl.remove();bs.remove();gt++;gd.remove();tone(880,.12,'sine',.05);tone(1175,.18,'sine',.05,.1);setLabel(b,'…알았어');say('버튼이 마음을 풀었어요. 손을 떼고, 이제 꾹 눌러주세요!');waitUp=true}});
 }},
 {name:'가짜 버튼들',story:'수많은 버튼 중에 진짜는 하나뿐입니다.',run(lv){const B=mkB(lv);const n=B(12,30,48),cols=B(4,5,6);
   const g=add(el('div','grid'));g.style.gridTemplateColumns=`repeat(${cols},1fr)`;
