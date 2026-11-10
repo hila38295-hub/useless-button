@@ -7,13 +7,13 @@
 <meta name="description" content="누르면 아무 일도 일어나지 않는 버튼. 문제는 누르기까지입니다.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="쓸모없는 버튼">
+<meta name="apple-mobile-web-app-title" content="손 많이 가는 버튼">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>쓸모없는 버튼</title>
+<title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap">
@@ -513,6 +513,9 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .titi.tnone.eq{border-style:solid}
 .bzone{position:absolute;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;border:3px dashed #FFE36E;color:#FFE36E;font-family:var(--display);font-size:12px;display:grid;place-items:center;z-index:1;pointer-events:none;transition:background .15s}
 .bzone.hot{background:rgba(255,227,110,.35)}.bzone.pop2{animation:pop .4s}
+.bsay.below{bottom:auto;top:100%;transform:translate(-50%,12px)}
+.bsay.below::after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:#2A2340}
+.bsay.inside{bottom:auto;top:50%;transform:translate(-50%,-50%)}.bsay.inside::after{display:none}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
@@ -520,7 +523,7 @@ body{word-break:keep-all;overflow-wrap:break-word}
 <body>
 <div class="wrap">
   <section id="home">
-    <header class="hhead"><button type="button" class="gear" id="setbtn" aria-label="설정"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1L11 21h4l.4-2.7c.6-.3 1.2-.6 1.7-1l2.5 1 2-3.5L19.4 13ZM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" transform="translate(-1 0)"/></svg></button><h1>세상에서 제일 쓸모없는 버튼</h1><p>누르면 아무 일도 일어나지 않습니다. 문제는 누르기까지입니다.</p></header>
+    <header class="hhead"><button type="button" class="gear" id="setbtn" aria-label="설정"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1L11 21h4l.4-2.7c.6-.3 1.2-.6 1.7-1l2.5 1 2-3.5L19.4 13ZM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" transform="translate(-1 0)"/></svg></button><h1>손 많이 가는 버튼</h1><p>누르면 아무 일도 일어나지 않습니다. 문제는 누르기까지입니다.</p></header>
     <div class="hero"><div class="greet" id="greet"></div><button class="big" id="startbtn" type="button"><span>시작하기</span></button><button type="button" class="tbadge" id="h-title" aria-haspopup="dialog"></button><div class="hmeta"><span id="h-total"></span></div></div>
     <div class="tpick" id="tpick" hidden><div class="tpbox"><div class="sechead"><h2>칭호 달기</h2><button type="button" class="backhome tpx" id="tpclose">닫기</button></div><div class="titlelist" id="tplist"></div></div></div>
     <div class="hcard"><h3>난이도</h3><div class="tgl" id="lvsel"><button type="button" data-l="0" aria-pressed="true">쉬움</button><button type="button" data-l="1" aria-pressed="true">보통</button><button type="button" data-l="2" aria-pressed="true">어려움</button></div><div class="hint" id="lvhint"></div></div>
@@ -2009,7 +2012,7 @@ OB.push(
   const b=add(realBtn('결제중','gray'));pos(b,W()/2,80);b.style.scale=.7;b.locked=true;const pn=add(el('div','menu'));
   const page=(title,items)=>{pn.innerHTML=`<h4>${title}</h4>`;items.forEach(([t,f,cls])=>{const x=el('button','mi '+(cls||''),t);x.type='button';x.onclick=f;pn.appendChild(x)})};
   const wrong=()=>{awk('엉뚱한 메뉴예요. 처음으로.');home()};let k=0;
-  const offer=()=>{if(k>=offers){page('해지 완료',[['확인',()=>{pn.remove();b.classList.remove('gray');setLabel(b,'무료');b.style.scale=1;b.locked=false}]]);return}
+  const offer=()=>{if(k>=offers){page('해지 완료',[['확인',()=>{pn.remove();b.classList.remove('gray');setLabel(b,'무료');b.style.scale=1;b.style.transition='top .5s';pos(b,W()/2,H()/2);b.locked=false}]]);return}
     const O=['지금 해지하면 감자 쿠폰이 사라져요!','50% 할인해 드릴게요!','버튼이 울고 있어요. 정말요?'];page(O[k],shuffle([['혜택 받고 계속 쓰기',()=>{awk('계속 쓰기를 눌렀어요. 처음부터…');k=0;home()},'big2'],['그래도 해지할래요',()=>{k++;offer()},'tiny']]))};
   const home=()=>page('버튼 프리미엄',shuffle([['내 정보',wrong],['고객센터',wrong],['설정',()=>page('설정',shuffle([['알림',wrong],['계정',()=>page('계정',shuffle([['프로필',wrong],['결제 관리',()=>page('결제 관리',shuffle([['결제 수단',wrong],['구독 관리',()=>page('구독 관리',[['구독 해지',offer,'tiny'],['구독 업그레이드',wrong,'big2']])],['영수증',wrong]]))],['보안',wrong]]))],['화면',wrong]]))],['이벤트',wrong]]));home();
   b.addEventListener('click',()=>{if(b.locked)say('결제 중인 버튼은 안 눌려요.')});say('메뉴를 뒤져서 구독을 해지하세요.');
@@ -2043,10 +2046,10 @@ OB.push(
 }},
 {name:'물약 제조',bg:'castle',story:'투명해진 버튼을 되돌리려면 물약이 필요해요.',run(lv){const B=mkB(lv);const k=B(2,3,4);const C=[['#E23B3B','빨강'],['#6E7CF2','파랑'],['#F2C94C','노랑'],['#5FB59A','초록']];
   const rec=[...Array(k)].map(()=>pick(C));const card=bubble('레시피: '+rec.map(x=>x[1]).join(' → '),12);if(lv===2)after(3500,()=>{card.textContent='레시피: (기억하세요)'});
-  const cd=sprite('cauldron',150,W()/2,H()*.42);cd.style.pointerEvents='none';let i2=0;const ghostB=add(el('div','cbtn ghostb'));pos(ghostB,W()/2,H()*.18);
+  const cd=sprite('cauldron',150,W()/2,H()*.56);cd.style.pointerEvents='none';let i2=0;const ghostB=add(el('div','cbtn ghostb'));pos(ghostB,W()/2,H()*.29);
   C.forEach(([col,nm],i)=>{const x=(i+.5)*W()/4,y=H()-56;const j=sprite('x',60,x,y,ART.jar(col));drag(j,{end:(px,py)=>{springBack(j,x,y);if(dist(px,py,gx(cd),gy(cd))>80)return;
-    if(rec[i2][1]===nm){i2++;cd.innerHTML=ART.cauldron.replace('#7CD67E',col);floatUp('뽀글',W()/2,H()*.34);if(i2>=k){say('물약 완성! 버튼에 뿌렸어요.');ghostB.remove();const b=add(realBtn('보인다','pop'));pos(b,W()/2,H()*.18);b.style.scale=.8}}
-    else{i2=0;cd.innerHTML=ART.cauldron;puff(W()/2,H()*.4,W()/2,H()*.2);awk('펑! 순서가 틀렸어요. 처음부터.')}}})});
+    if(rec[i2][1]===nm){i2++;cd.innerHTML=ART.cauldron.replace('#7CD67E',col);floatUp('뽀글',W()/2,H()*.48);if(i2>=k){say('물약 완성! 버튼에 뿌렸어요.');ghostB.remove();const b=add(realBtn('보인다','pop'));pos(b,W()/2,H()*.29);b.style.scale=.8}}
+    else{i2=0;cd.innerHTML=ART.cauldron;puff(W()/2,H()*.54,W()/2,H()*.34);awk('펑! 순서가 틀렸어요. 처음부터.')}}})});
   say('레시피 순서대로 병을 솥에 넣으세요.');
 }},
 {name:'램프의 요정',bg:'sea',story:'버튼이 램프 속에 갇혔어요. 요정을 불러내세요.',run(lv){const B=mkB(lv);const need=B(1,2,3);
@@ -2406,7 +2409,9 @@ const ENDS={'고양이 습격':'침 좀 묻었지만 괜찮아. 눌러줘.','과
 const GEN_ENDS=['이제 눌러줘.','고생했어. 눌러도 돼.','기다렸어. 눌러줘.','여기야, 눌러줘!','이제 진짜 눌려줄게.','준비됐어. 꾹!'];
 const toneLine=t=>TONES[VAR.tone].f(t);
 function finale(b){if(!b||b._fin||won)return;b._fin=1;if(!OB[cur].keepTools)setTimeout(()=>{if(!won&&!b.locked)stage.querySelectorAll(':scope > .tools').forEach(t=>t.remove())},0);const line=toneLine(ENDS[OB[cur].name]||pick(GEN_ENDS));SFX.ding();
-  const sc=parseFloat(b.style.scale||1);if(b.isConnected&&sc>=.5){const bb=el('div','bsay',line);b.appendChild(bb);setTimeout(()=>bb.remove(),2600)}
+  const sc=parseFloat(b.style.scale||1);if(b.isConnected&&sc>=.5){const bb=el('div','bsay',line);b.appendChild(bb);const fit=()=>{if(!bb.isConnected)return;const sr=stage.getBoundingClientRect();let q=bb.getBoundingClientRect();if(q.top<sr.top+6){bb.classList.add('below');q=bb.getBoundingClientRect()}
+    if(q.bottom>sr.bottom-6&&bb.classList.contains('below')){bb.classList.remove('below');bb.classList.add('inside');q=bb.getBoundingClientRect()}
+    let dx=0;if(q.left<sr.left+6)dx=sr.left+6-q.left;else if(q.right>sr.right-6)dx=sr.right-6-q.right;if(dx)bb.style.marginLeft=dx+'px'};requestAnimationFrame(fit);setTimeout(fit,550);setTimeout(()=>bb.remove(),2800)}
   after(1300,()=>{if(!won)say('버튼: '+line)})}
 const _realBtn=realBtn;realBtn=(label='누르기',cls='')=>{const b=el('button','big '+cls,'<span>'+label+'</span>');let lk=false;
   Object.defineProperty(b,'locked',{get:()=>lk,set:v=>{const was=lk;lk=v;if(was&&!v)finale(b)}});
@@ -2498,7 +2503,7 @@ function win(msg){if(won)return;won=true;
   ov.querySelector('#cardBtn').onclick=()=>resultCard(hist,sec);say('')}
 function resultCard(hist,sec){const t=D.equip?TITLES.find(x=>x[0]===D.equip)[1]:'무명의 누름이';const nm=hist.map(subVar);
   const story=RUN.mode==='day'?`버튼의 하루를 ${sec.toFixed(0)}초 만에 버텨냄`:`${nm.join(' → ')}을(를) ${sec.toFixed(1)}초 만에 뚫고 버튼을 누름`;
-  const text=`[세상에서 제일 쓸모없는 버튼]\n${t} · 누른 횟수 ${D.total}번\n오늘 ${story}${RUN.twisted?' (반전: '+RUN.twistName+')':''}${RUN.gold?' ✨황금 버튼':''}\n결과: 아무 일도 일어나지 않음`;
+  const text=`[손 많이 가는 버튼]\n${t} · 누른 횟수 ${D.total}번\n오늘 ${story}${RUN.twisted?' (반전: '+RUN.twistName+')':''}${RUN.gold?' ✨황금 버튼':''}\n결과: 아무 일도 일어나지 않음`;
   const c=add(el('div','rcard',`<div class="rc"><small>결과 카드</small><b>${t}</b><p>${story}${RUN.twisted?`<br>반전: ${RUN.twistName}`:''}${RUN.gold?'<br>황금 버튼!':''}</p><p class="rq">결과: 아무 일도 일어나지 않음</p><div class="row"><button class="tool primary" type="button" id="cpy">글로 복사</button><button class="tool" type="button" id="cls">닫기</button></div></div>`));
   c.querySelector('#cls').onclick=()=>c.remove();c.querySelector('#cpy').onclick=e=>{const b=e.target;navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(text).then(()=>b.textContent='복사됨',()=>{b.textContent='복사 안 됨';prompt2(text)}):prompt2(text)};
   function prompt2(t){const ta=el('textarea','rta');ta.value=t;c.querySelector('.rc').appendChild(ta);ta.select()}}
