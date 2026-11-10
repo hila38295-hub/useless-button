@@ -505,7 +505,7 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .tbadge i{font-style:normal;font-size:11px;background:var(--accent);color:var(--panel);border-radius:99px;padding:2px 8px}
 .tpick{position:fixed;inset:0;background:rgba(20,22,40,.45);z-index:40;display:flex;align-items:flex-end;justify-content:center}
 .tpbox{width:min(520px,100%);max-height:75%;overflow:auto;background:var(--bg);border-radius:20px 20px 0 0;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px}
-.tpempty{margin:0;color:var(--muted);font-size:14px}
+.tpempty{grid-column:1/-1;margin:0;color:var(--muted);font-size:14px}
 .bugcard p{margin:0;font-size:14px;line-height:1.5}
 .stage .spr,.stage .wheel,.stage .big:not(.inline),.stage .sticker,.stage .wedge,.stage .egg2,.stage .bottle,.stage .lstone,.stage .domino,.stage .dough,.stage .dirtyb,.stage .envl,.stage .stone,.stage .closed,.stage .mbar,.stage .ring,.stage .cover,.stage .breath,.stage .noodle,.stage .card{transform-origin:0 0}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
@@ -2511,9 +2511,9 @@ function bindUI(){$('startbtn').onclick=()=>{SFX.click();const d=dayKey();if(D.l
   document.querySelectorAll('#lvsel button').forEach(b=>b.onclick=()=>{const l=+b.dataset.l;if(D.levels.includes(l)){if(D.levels.length===1){toast('하나는 골라야 해요.');return}D.levels=D.levels.filter(x=>x!==l)}else D.levels=[...D.levels,l].sort();bag=[];saveD();updHome()});
   $('setbtn').onclick=()=>show('settings');
   const openTP=()=>{const g=$('tplist');g.innerHTML='';const own=TITLES.filter(t=>D.titles.includes(t[0]));
-    if(!own.length){g.innerHTML='<p class="tpempty">아직 얻은 칭호가 없어요. 버튼을 누르다 보면 생겨요!</p>'}
+    const none=el('button','titi'+(D.equip?'':' eq'),'<b>칭호 없음</b><small>아무 칭호도 안 달기</small>');none.type='button';none.onclick=()=>{D.equip='';saveD();$('tpick').hidden=true;updHome()};g.appendChild(none);
+    if(!own.length){g.appendChild(el('p','tpempty','아직 얻은 칭호가 없어요. 버튼을 누르다 보면 생겨요!'))}
     own.forEach(([id,nm,desc])=>{const b=el('button','titi'+(D.equip===id?' eq':''),`<b>${nm}</b><small>${desc}</small>`);b.type='button';b.onclick=()=>{D.equip=id;saveD();$('tpick').hidden=true;updHome();toast(`'${nm}' 칭호를 달았어요.`)};g.appendChild(b)});
-    if(D.equip){const n=el('button','titi','<b>칭호 떼기</b><small>아무 칭호도 안 달기</small>');n.type='button';n.onclick=()=>{D.equip='';saveD();$('tpick').hidden=true;updHome()};g.appendChild(n)}
     $('tpick').hidden=false};
   $('h-title').onclick=openTP;$('tpclose').onclick=()=>$('tpick').hidden=true;$('tpick').addEventListener('click',e=>{if(e.target.id==='tpick')$('tpick').hidden=true});document.querySelectorAll('#sndsel button').forEach(b=>b.onclick=()=>{D.sound=b.dataset.s==='1';saveD();renderSettings();if(D.sound)SFX.ding()});$('dexbtn').onclick=()=>show('dex');$('titlebtn').onclick=()=>show('titles');
   document.querySelectorAll('.backhome:not(.tpx)').forEach(b=>b.onclick=()=>show('home'));$('skip').onclick=()=>newRun('random');
