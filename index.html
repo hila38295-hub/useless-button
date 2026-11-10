@@ -516,7 +516,7 @@ body{word-break:keep-all;overflow-wrap:break-word}
   <section id="home">
     <header class="hhead"><button type="button" class="gear" id="setbtn" aria-label="설정"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1L11 21h4l.4-2.7c.6-.3 1.2-.6 1.7-1l2.5 1 2-3.5L19.4 13ZM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" transform="translate(-1 0)"/></svg></button><h1>세상에서 제일 쓸모없는 버튼</h1><p>누르면 아무 일도 일어나지 않습니다. 문제는 누르기까지입니다.</p></header>
     <div class="hero"><div class="greet" id="greet"></div><button class="big" id="startbtn" type="button"><span>시작하기</span></button><button type="button" class="tbadge" id="h-title" aria-haspopup="dialog"></button><div class="hmeta"><span id="h-total"></span></div></div>
-    <div class="tpick" id="tpick" hidden><div class="tpbox"><div class="sechead"><h2>칭호 달기</h2><button type="button" class="backhome" id="tpclose">닫기</button></div><div class="titlelist" id="tplist"></div></div></div>
+    <div class="tpick" id="tpick" hidden><div class="tpbox"><div class="sechead"><h2>칭호 달기</h2><button type="button" class="backhome tpx" id="tpclose">닫기</button></div><div class="titlelist" id="tplist"></div></div></div>
     <div class="hcard"><h3>난이도</h3><div class="tgl" id="lvsel"><button type="button" data-l="0" aria-pressed="true">쉬움</button><button type="button" data-l="1" aria-pressed="true">보통</button><button type="button" data-l="2" aria-pressed="true">어려움</button></div><div class="hint" id="lvhint"></div></div>
     <div class="hrow two"><button type="button" id="dexbtn">도감</button><button type="button" id="titlebtn">칭호</button></div>
   </section>
@@ -2511,7 +2511,7 @@ function bindUI(){$('startbtn').onclick=()=>{SFX.click();const d=dayKey();if(D.l
     if(D.equip){const n=el('button','titi','<b>칭호 떼기</b><small>아무 칭호도 안 달기</small>');n.type='button';n.onclick=()=>{D.equip='';saveD();$('tpick').hidden=true;updHome()};g.appendChild(n)}
     $('tpick').hidden=false};
   $('h-title').onclick=openTP;$('tpclose').onclick=()=>$('tpick').hidden=true;$('tpick').addEventListener('click',e=>{if(e.target.id==='tpick')$('tpick').hidden=true});document.querySelectorAll('#sndsel button').forEach(b=>b.onclick=()=>{D.sound=b.dataset.s==='1';saveD();renderSettings();if(D.sound)SFX.ding()});$('dexbtn').onclick=()=>show('dex');$('titlebtn').onclick=()=>show('titles');
-  document.querySelectorAll('.backhome').forEach(b=>b.onclick=()=>show('home'));$('skip').onclick=()=>newRun('random');
+  document.querySelectorAll('.backhome:not(.tpx)').forEach(b=>b.onclick=()=>show('home'));$('skip').onclick=()=>newRun('random');
   $('devtog').onclick=()=>{D.dev=!D.dev;saveD();renderDex()}}
 NUNCHI=OB.slice(OB.findIndex(o=>o.name==='도서관')).filter(o=>o.nunchi!==false).map(o=>o.name).filter(n=>['도서관','단체 사진','잠깐만요!','영화관','클래식 공연','고백 현장','월요일 회의','생일 파티','마지막 한 조각','어서오세요','응원석','시험 시간','아기가 자요','건배','사진 좀…','버스 하차벨','번호표','퀴즈 부저','노래방 친구','화장실','횡단보도 버튼','풀 사람?','고민 상담','떼창','점프 샷','정원 초과','부장님 개그','좁은 복도','청소 시간','지하철 자리'].includes(n)||OB[obIdx(n)].nunchi);
 
