@@ -521,6 +521,8 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .cross.hot{border-color:#F2C94C;box-shadow:0 0 0 6px rgba(242,201,76,.45)}.cross.hot::before,.cross.hot::after{background:#F2C94C}
 .coin b{position:absolute;right:-8px;bottom:-6px;background:var(--ink);color:#fff;font-weight:400;font-size:12px;border-radius:99px;padding:0 6px}
 .coin.c10{background:#D9A066;width:46px;height:46px;font-size:14px}.coin.empty{opacity:.35}
+.pgauge{position:absolute;transform:translate(-50%,-50%);width:16px;height:120px;border:2.5px solid var(--ink);border-radius:8px;background:#fff;overflow:hidden;z-index:4}
+.pgauge i{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(0deg,#5FD18A,#F2C94C 60%,#E23B3B)}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
@@ -1975,14 +1977,18 @@ OB.push(
     else say(off<R?pick(['아깝다!','조금만 더 가운데!','점수는 높은데 버튼이 아니에요.']):'다트판도 못 맞혔어요.')},'primary']);
   say('조준점이 가운데(빨강·초록)에 와서 노랗게 빛날 때 던지세요. 가운데선 조준점이 느려져요.');
 }},
-{name:'컬링',bg:'snow',story:'버튼이 컬링 하우스 한가운데에서 기다려요.',run(lv){const B=mkB(lv);const r=B(48,34,24),fr=B(.0016,.0013,.0011);
+{name:'컬링',bg:'snow',story:'버튼이 컬링 하우스 한가운데에서 기다려요.',run(lv){const B=mkB(lv);const r=B(48,38,30),fr=B(.0012,.0012,.0012);
   const hx=W()/2,hy=110;const house=add(el('div','house'));house.style.width=house.style.height=r*2+'px';pos(house,hx,hy);const tgt=add(el('div','cbtn tgt'));pos(tgt,hx,hy);
-  const sx=W()/2,sy=H()-70;const st=add(el('div','stone'));pos(st,sx,sy);let fly=false,vx=0,vy=0;
-  drag(st,{set:false,move:(x,y)=>{if(fly)return;let dx=x-sx,dy=y-sy;dy=Math.max(0,dy);const d=Math.hypot(dx,dy);if(d>90){dx*=90/d;dy*=90/d}pos(st,sx+dx,sy+dy)},end:()=>{if(fly)return;vx=(sx-gx(st))*.007;vy=(sy-gy(st))*.007;if(vy>-.05){pos(st,sx,sy);return}fly=true}});
-  loop(dt=>{if(won)return false;if(!fly)return;const v=Math.hypot(vx,vy);const nv=Math.max(0,v-fr*dt);if(nv<=0){fly=false;const d=dist(gx(st),gy(st),hx,hy);
-      if(d<r){say('하우스 안에 쏙! 버튼이 신났어요.');st.remove();tgt.remove();const b=add(realBtn('하우스','pop'));pos(b,hx,hy+30);b.style.scale=.8}else{say(gy(st)<hy?'너무 세요!':'너무 약해요!');after(700,()=>pos(st,sx,sy))}return}
-    vx*=nv/v;vy*=nv/v;pos(st,gx(st)+vx*dt,gy(st)+vy*dt);if(gy(st)<-30){fly=false;say('경기장 밖으로 나갔어요!');after(500,()=>pos(st,sx,sy))}});
-  say('스톤을 아래로 당겼다 놓아서 하우스 안에 멈추세요.');
+  const sx=W()/2,sy=H()-80,PULL=110;
+  const st=add(el('div','stone'));pos(st,sx,sy);const gauge=add(el('div','pgauge','<i></i>'));pos(gauge,W()-26,H()-120);const gi=gauge.querySelector('i');
+  const ly=layer(),band=line(ly,'dl');let fly=false,vx=0,vy=0,p=0;
+  drag(st,{set:false,move:(x,y)=>{if(fly)return;let dx=x-sx,dy=Math.max(0,y-sy);const d=Math.hypot(dx,dy);if(d>PULL){dx*=PULL/d;dy*=PULL/d}pos(st,sx+dx,sy+dy);p=Math.min(1,Math.hypot(dx,dy)/PULL);gi.style.height=(p*100)+'%';setLine(band,sx,sy,gx(st),gy(st))},
+    end:()=>{if(fly)return;setLine(band,sx,sy,sx,sy);const dx=sx-gx(st),dy=sy-gy(st),d=Math.hypot(dx,dy);if(dy>-8||d<8){pos(st,sx,sy);gi.style.height='0';say('아래로 당겼다가 놓으세요.');return}
+      const v=Math.sqrt(2*fr*(gy(st)-hy)*Math.min(1,d/PULL)/.7);vx=dx/d*v;vy=dy/d*v;fly=true}});
+  loop(dt=>{if(won)return false;if(!fly)return;const v=Math.hypot(vx,vy);const nv=Math.max(0,v-fr*dt);if(nv<=0){fly=false;gi.style.height='0';const d=dist(gx(st),gy(st),hx,hy);
+      if(d<r){say('하우스 안에 쏙! 버튼이 신났어요.');st.remove();tgt.remove();gauge.remove();const b=add(realBtn('하우스','pop'));pos(b,hx,hy+30);b.style.scale=.8}else{say(gy(st)<hy?'너무 세요! 덜 당겨봐요.':Math.abs(gx(st)-hx)>r?'방향이 비뚤어졌어요. 똑바로 당겨요.':'너무 약해요! 더 당겨봐요.');after(700,()=>pos(st,sx,sy))}return}
+    vx*=nv/v;vy*=nv/v;pos(st,gx(st)+vx*dt,gy(st)+vy*dt);if(gy(st)<-30||gx(st)<-30||gx(st)>W()+30){fly=false;gi.style.height='0';say('경기장 밖으로 나갔어요! 덜 당겨봐요.');after(500,()=>pos(st,sx,sy))}});
+  say('스톤을 아래로 당겼다 놓으세요. 오른쪽 게이지가 힘이에요. 끝까지 당기면 너무 세요.');
 }},
 {name:'골프 퍼팅',bg:'park',story:'버튼이 홀컵에 빠졌어요. 공을 넣으면 튀어나온대요.',run(lv){const B=mkB(lv);
   const hx=rnd(70,W()-70),hy=100;const hole=add(el('div','hole2'));pos(hole,hx,hy);if(lv>0){for(let i=0;i<lv;i++){const s=add(el('div','sand'));pos(s,rnd(60,W()-60),rnd(170,H()-150))}}
