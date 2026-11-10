@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -539,6 +539,8 @@ html,body{overscroll-behavior:none}
 .photo small{display:block;font-size:12px;color:#6A7088;margin-bottom:4px}
 .hot{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;border-radius:10px;cursor:pointer;z-index:5;padding:0}
 .hot.ok{border:3px solid #1E9E62;background:rgba(30,158,98,.12)}
+.newbtn{display:flex;flex-direction:column;align-items:center;gap:2px;border:2px dashed var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--panel));color:var(--fg);border-radius:14px;padding:10px;cursor:pointer;font-family:var(--body)}
+.newbtn b{font-family:var(--display);font-weight:400;font-size:18px;color:var(--accent)}.newbtn small{font-size:12px;color:var(--muted)}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
@@ -550,6 +552,7 @@ html,body{overscroll-behavior:none}
     <div class="hero"><div class="greet" id="greet"></div><button class="big" id="startbtn" type="button"><span>시작하기</span></button><button type="button" class="tbadge" id="h-title" aria-haspopup="dialog"></button><div class="hmeta"><span id="h-total"></span></div></div>
     <div class="tpick" id="tpick" hidden><div class="tpbox"><div class="sechead"><h2>칭호 달기</h2><button type="button" class="backhome tpx" id="tpclose">닫기</button></div><div class="titlelist" id="tplist"></div></div></div>
     <div class="hcard"><h3>난이도</h3><div class="tgl" id="lvsel"><button type="button" data-l="0" aria-pressed="true">쉬움</button><button type="button" data-l="1" aria-pressed="true">보통</button><button type="button" data-l="2" aria-pressed="true">어려움</button></div><div class="hint" id="lvhint"></div></div>
+    <button type="button" class="newbtn" id="newbtn"><b>안 해본 방해</b><small id="newcnt"></small></button>
     <div class="hrow two"><button type="button" id="dexbtn">도감</button><button type="button" id="titlebtn">칭호</button></div>
   </section>
   <section id="game" hidden>
@@ -2529,13 +2532,13 @@ function newRun(mode,fixed){rollVar();RUN={mode,steps:[],twist:false,twisted:fal
   if(mode==='day'){DAY_SLOTS.forEach(([time,lab,pool])=>{const ok=pool.filter(n=>obIdx(n)>=0);const i=obIdx(pick(ok));const want=pick(D.levels);RUN.steps.push({i,lv:nearestLv(OB[i],want),bridge:`${time} · ${lab}`})})}
   else if(mode==='today'){const p=todayPick();RUN.steps.push(p)}
   else if(fixed){RUN.steps.push(fixed)}
-  else{const [i,lv]=nextPair();RUN.steps.push({i,lv});const c=COMBOS.filter(x=>x[0]===OB[i].name&&obIdx(x[1])>=0);if(c.length&&Math.random()<.3){const k=pick(c);RUN.combo=true;RUN.steps.push({i:obIdx(k[1]),lv:nearestLv(OB[obIdx(k[1])],lv),bridge:'그런데… '+k[2]})}}
+  else{let [i,lv]=nextPair();if(mode==='unseen'){const un=OB.map((o,k)=>k).filter(k=>!D.seenOb.includes(OB[k].name)&&allowedLv(OB[k]));if(un.length){i=pick(un);lv=pick(allowedLv(OB[i]))}else{RUN.mode=mode='random';toast('모든 방해를 다 만나봤어요! 랜덤으로 할게요.')}}RUN.steps.push({i,lv});const c=COMBOS.filter(x=>x[0]===OB[i].name&&obIdx(x[1])>=0);if(c.length&&Math.random()<.3){const k=pick(c);RUN.combo=true;RUN.steps.push({i:obIdx(k[1]),lv:nearestLv(OB[obIdx(k[1])],lv),bridge:'그런데… '+k[2]})}}
   RUN.twist=mode!=='day'&&Math.random()<.25;stepI=0;show('game');startStep()}
 function startStep(){const s=RUN.steps[stepI];if(s.bridge&&stepI>0||RUN.mode==='day'&&s.bridge){interlude(s.bridge,runStep)}else runStep()}
 function interlude(text,next){gen++;stageL.forEach(([t,f])=>stage.removeEventListener(t,f));stageL=[];stage.innerHTML='';const o=add(el('div','inter',`<div><p>${text}</p><button class="tool primary" type="button">계속</button></div>`));o.querySelector('button').onclick=next}
 function runStep(){const s=RUN.steps[stepI];gen++;won=false;MISS=0;stage.style.rotate='';stage.classList.remove('quake','frozen');stageL.forEach(([t,f])=>stage.removeEventListener(t,f));stageL=[];stage.innerHTML='';stage.style.touchAction='';
   cur=s.i;curLv=s.lv;const o=OB[cur];if(!D.seenOb.includes(o.name)){D.seenOb.push(o.name);saveD()}
-  $('num').textContent=RUN.mode==='day'?`버튼의 하루 · ${stepI+1}/${RUN.steps.length}`:RUN.mode==='today'?'오늘의 특별 방해':RUN.combo?'합체 방해':'랜덤';
+  $('num').textContent=RUN.mode==='unseen'?'안 해본 방해':RUN.mode==='day'?`버튼의 하루 · ${stepI+1}/${RUN.steps.length}`:RUN.mode==='today'?'오늘의 특별 방해':RUN.combo?'합체 방해':'랜덤';
   const l=$('lvl');l.textContent=LV[curLv];l.className='lvl l'+curLv;$('nm').textContent=subVar(o.name);
   addScene(o.name);if(stepI===0)startT=performance.now();
   o.run(curLv);say(o.story+' '+(HINTS[o.name]||''));
@@ -2577,7 +2580,7 @@ function win(msg){if(won)return;won=true;
   const hist=RUN.steps.map(s=>OB[s.i].name);checkTitles();saveD();updHome();
   const line=RUN.gold?'황금 버튼을 눌렀습니다.<br>그래도 아무 일도 일어나지 않았습니다.':(msg||pick(NOTHING).replace(/\. /,'.<br>'));
   const ov=add(el('div','win',`<div><p class="k">${RUN.gold?'반짝, 딸깍.':'딸깍.'}</p><h2>${line}</h2><dl><dt>${RUN.mode==='day'?'하루':'방해'}</dt><dd>${hist.map(subVar).join(' → ')}</dd>${RUN.twisted?`<dt>반전</dt><dd>${RUN.twistName}</dd>`:''}<dt>난이도</dt><dd>${LV[curLv]}</dd><dt>걸린 시간</dt><dd>${sec.toFixed(1)}초</dd><dt>누른 횟수</dt><dd>${D.total}번</dd></dl><div class="row"><button class="tool" id="cardBtn" type="button">결과 카드</button><button class="tool primary" id="nextBtn" type="button">한 번 더</button></div><button class="linkb" id="homeBtn2" type="button">처음으로</button></div>`));
-  ov.querySelector('#nextBtn').onclick=()=>newRun('random');ov.querySelector('#homeBtn2').onclick=()=>show('home');
+  ov.querySelector('#nextBtn').onclick=()=>newRun(RUN.mode==='unseen'?'unseen':'random');ov.querySelector('#homeBtn2').onclick=()=>show('home');
   ov.querySelector('#cardBtn').onclick=()=>resultCard(hist,sec);say('')}
 function resultCard(hist,sec){const t=D.equip?TITLES.find(x=>x[0]===D.equip)[1]:'무명의 누름이';const nm=hist.map(subVar);
   const story=RUN.mode==='day'?`버튼의 하루를 ${sec.toFixed(0)}초 만에 버텨냄`:`${nm.join(' → ')}을(를) ${sec.toFixed(1)}초 만에 뚫고 버튼을 누름`;
@@ -2592,7 +2595,7 @@ function greet(){const n=D.total,now=new Date(),h=now.getHours();const today=day
   if(!n)return '처음 보는 얼굴이네? 나는 눌러도 아무 일도 안 일어나는 버튼이야.';
   const L=[];if(D.lastDay===yest)L.push('어제도 왔었지? 기억해.');if(D.lastDay===today&&D.todayCount>0)L.push(`오늘 벌써 ${D.todayCount}번째 왔네.`);if(h<5)L.push('이 새벽에? 잠은 언제 자?');else if(h<9)L.push('아침부터 누르러 왔구나.');else if(h>=23)L.push('자기 전에 한 번?');
   if(n>=100)L.push('우리 이제 꽤 친하지?');else if(n>=30)L.push('또 왔네. 반가워.');else L.push('또 왔어? 오늘은 쉽게 안 눌려줄 거야.');return pick(L)}
-function updHome(){$('greet').textContent=greet();$('h-total').textContent=`누른 횟수 ${D.total}번 · 만난 방해 ${D.seenOb.length}/${OB.length}종`;
+function updHome(){$('greet').textContent=greet();{const un=OB.filter(o=>!D.seenOb.includes(o.name)&&allowedLv(o)).length;$('newcnt').textContent=un?`아직 못 만난 방해 ${un}개 중에서 랜덤`:'다 만나봤어요! (누르면 랜덤)'}$('h-total').textContent=`누른 횟수 ${D.total}번 · 만난 방해 ${D.seenOb.length}/${OB.length}종`;
   const eq=TITLES.find(x=>x[0]===D.equip);$('h-title').innerHTML=eq?`<small>칭호</small><b>${eq[1]}</b><i>바꾸기</i>`:'<small>칭호</small><b>아직 없음</b><i>보기</i>';
   document.querySelectorAll('#lvsel button').forEach(b=>b.setAttribute('aria-pressed',D.levels.includes(+b.dataset.l)));
   const k=D.levels.length;$('lvhint').textContent=k===1?LV[D.levels[0]]+'만 나와요':D.levels.map(l=>LV[l]).join('·')+' 중 랜덤';}
@@ -2609,7 +2612,8 @@ function bindUI(){$('startbtn').onclick=()=>{SFX.click();const d=dayKey();if(D.l
     own.forEach(([id,nm,desc])=>{const b=el('button','titi'+(D.equip===id?' eq':''),`<b>${nm}</b><small>${desc}</small>`);b.type='button';b.onclick=()=>{D.equip=id;saveD();$('tpick').hidden=true;updHome();toast(`'${nm}' 칭호를 달았어요.`)};g.appendChild(b)});
     $('tpick').hidden=false};
   $('h-title').onclick=openTP;$('tpclose').onclick=()=>$('tpick').hidden=true;$('tpick').addEventListener('click',e=>{if(e.target.id==='tpick')$('tpick').hidden=true});document.querySelectorAll('#sndsel button').forEach(b=>b.onclick=()=>{D.sound=b.dataset.s==='1';saveD();renderSettings();if(D.sound)SFX.ding()});$('dexbtn').onclick=()=>show('dex');$('titlebtn').onclick=()=>show('titles');
-  document.querySelectorAll('.backhome:not(.tpx)').forEach(b=>b.onclick=()=>show('home'));$('skip').onclick=()=>newRun('random');
+  document.querySelectorAll('.backhome:not(.tpx)').forEach(b=>b.onclick=()=>show('home'));$('skip').onclick=()=>newRun(RUN&&RUN.mode==='unseen'?'unseen':'random');
+  $('newbtn').onclick=()=>{const d=dayKey();if(D.lastDay!==d){D.todayCount=0}D.todayCount++;D.lastDay=d;saveD();newRun('unseen')};
   $('devtog').onclick=()=>{D.dev=!D.dev;saveD();renderDex()}}
 NUNCHI=OB.slice(OB.findIndex(o=>o.name==='도서관')).filter(o=>o.nunchi!==false).map(o=>o.name).filter(n=>['도서관','단체 사진','잠깐만요!','영화관','클래식 공연','고백 현장','월요일 회의','생일 파티','마지막 한 조각','어서오세요','응원석','시험 시간','아기가 자요','건배','사진 좀…','버스 하차벨','번호표','퀴즈 부저','노래방 친구','화장실','횡단보도 버튼','풀 사람?','고민 상담','떼창','점프 샷','정원 초과','부장님 개그','좁은 복도','청소 시간','지하철 자리'].includes(n)||OB[obIdx(n)].nunchi);
 
