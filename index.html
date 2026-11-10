@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -523,6 +523,8 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .coin.c10{background:#D9A066;width:46px;height:46px;font-size:14px}.coin.empty{opacity:.35}
 .pgauge{position:absolute;transform:translate(-50%,-50%);width:16px;height:120px;border:2.5px solid var(--ink);border-radius:8px;background:#fff;overflow:hidden;z-index:4}
 .pgauge i{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(0deg,#5FD18A,#F2C94C 60%,#E23B3B)}
+html,body{overscroll-behavior:none}
+#game{touch-action:pan-x pan-y}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
@@ -2532,7 +2534,7 @@ function resultCard(hist,sec){const t=D.equip?TITLES.find(x=>x[0]===D.equip)[1]:
   function prompt2(t){const ta=el('textarea','rta');ta.value=t;c.querySelector('.rc').appendChild(ta);ta.select()}}
 
 /* screens */
-function show(v){['home','game','dex','titles','settings'].forEach(k=>$(k).hidden=k!==v);if(v!=='game'){gen++;stage.innerHTML='';stage.style.rotate='';stage.classList.remove('quake','frozen')}if(v==='home')updHome();if(v==='settings')renderSettings();if(v==='dex')renderDex();if(v==='titles')renderTitles();window.scrollTo(0,0)}
+function show(v){['home','game','dex','titles','settings'].forEach(k=>$(k).hidden=k!==v);try{sessionStorage.setItem('ubView',v==='game'?'game':'')}catch(e){}if(v!=='game'){gen++;stage.innerHTML='';stage.style.rotate='';stage.classList.remove('quake','frozen')}if(v==='home')updHome();if(v==='settings')renderSettings();if(v==='dex')renderDex();if(v==='titles')renderTitles();window.scrollTo(0,0)}
 function greet(){const n=D.total,now=new Date(),h=now.getHours();const today=dayKey(),yest=dayKey(new Date(Date.now()-864e5));
   if(!n)return '처음 보는 얼굴이네? 나는 눌러도 아무 일도 안 일어나는 버튼이야.';
   const L=[];if(D.lastDay===yest)L.push('어제도 왔었지? 기억해.');if(D.lastDay===today&&D.todayCount>0)L.push(`오늘 벌써 ${D.todayCount}번째 왔네.`);if(h<5)L.push('이 새벽에? 잠은 언제 자?');else if(h<9)L.push('아침부터 누르러 왔구나.');else if(h>=23)L.push('자기 전에 한 번?');
@@ -2574,7 +2576,7 @@ function applyTheme(){const t=THEMES.find(x=>x[0]===(D.theme||'auto'))||THEMES[0
 function renderSettings(){const g=$('themelist');g.innerHTML='';THEMES.forEach(([id,nm,desc,c])=>{const b=el('button','thm'+((D.theme||'auto')===id?' on':''),`<span class="sw">${c?`<i style="background:${c.bg}"></i><i style="background:${c.panel}"></i><i style="background:${c.accent}"></i>`:'<i class="auto"></i>'}</span><b>${nm}</b><small>${desc}</small>`);b.type='button';b.setAttribute('aria-pressed',(D.theme||'auto')===id);b.onclick=()=>{D.theme=id;saveD();applyTheme();renderSettings()};g.appendChild(b)});
   document.querySelectorAll('#sndsel button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.s==='1')===!!D.sound))}
 applyTheme();
-bindUI();show('home');
+bindUI();{let v='';try{v=sessionStorage.getItem('ubView')}catch(e){}if(v==='game')newRun('random');else show('home')}
 
 </script>
 
