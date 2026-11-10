@@ -405,7 +405,7 @@ canvas.draw{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-e
 .titi.lock{opacity:.5;cursor:default}.titi.eq{border-color:var(--accent);box-shadow:0 0 0 1.5px var(--accent)}
 .sechead{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .sechead h2{margin:0;font-family:var(--display);font-weight:400;font-size:22px}
-#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--panel);font-family:var(--display);font-size:16px;padding:10px 18px;border-radius:99px;z-index:50}
+#toast{white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--panel);font-family:var(--display);font-size:16px;padding:10px 18px;border-radius:99px;z-index:50}
 #toast.on{animation:pop .4s}
 .noodle{position:absolute;transform:translate(-50%,-50%);width:100px;height:36px;border-radius:50%;background:repeating-linear-gradient(60deg,#F2C94C 0 4px,#E8B25A 4px 8px);border:2.5px solid var(--ink);z-index:4}
 .egg2{position:absolute;transform:translate(-50%,-50%);width:110px;height:92px;border-radius:48% 52% 45% 55%;background:#fff;border:3px solid var(--ink);box-shadow:inset 0 0 0 calc(var(--k,0)*10px) rgb(calc(255 - var(--k,0)*60) calc(230 - var(--k,0)*100) 150);z-index:4;transition:rotate .35s}
@@ -500,6 +500,13 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .thm.on{border-color:var(--accent);box-shadow:0 0 0 1.5px var(--accent)}
 .thm b{font-family:var(--display);font-weight:400;font-size:15px}.thm small{font-size:11px;color:var(--muted)}
 .sw{display:flex;width:100%;height:22px;border-radius:6px;overflow:hidden;border:1.5px solid var(--line);margin-bottom:4px}.sw i{flex:1}.sw i.auto{background:linear-gradient(90deg,#E9ECF3 50%,#151827 50%)}
+.tbadge{display:flex;align-items:center;gap:8px;border:2px solid var(--accent);background:var(--panel);color:var(--fg);border-radius:99px;padding:6px 8px 6px 14px;cursor:pointer;font-family:var(--body);max-width:100%}
+.tbadge small{font-size:11px;color:var(--muted)}.tbadge b{font-family:var(--display);font-weight:400;font-size:17px;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbadge i{font-style:normal;font-size:11px;background:var(--accent);color:var(--panel);border-radius:99px;padding:2px 8px}
+.tpick{position:fixed;inset:0;background:rgba(20,22,40,.45);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.tpbox{width:min(520px,100%);max-height:75%;overflow:auto;background:var(--bg);border-radius:20px 20px 0 0;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px}
+.tpempty{margin:0;color:var(--muted);font-size:14px}
+.bugcard p{margin:0;font-size:14px;line-height:1.5}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
@@ -508,7 +515,8 @@ body{word-break:keep-all;overflow-wrap:break-word}
 <div class="wrap">
   <section id="home">
     <header class="hhead"><button type="button" class="gear" id="setbtn" aria-label="설정"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1L11 21h4l.4-2.7c.6-.3 1.2-.6 1.7-1l2.5 1 2-3.5L19.4 13ZM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" transform="translate(-1 0)"/></svg></button><h1>세상에서 제일 쓸모없는 버튼</h1><p>누르면 아무 일도 일어나지 않습니다. 문제는 누르기까지입니다.</p></header>
-    <div class="hero"><div class="greet" id="greet"></div><button class="big" id="startbtn" type="button"><span>시작하기</span></button><div class="hmeta"><span id="h-title"></span><span id="h-total"></span></div></div>
+    <div class="hero"><div class="greet" id="greet"></div><button class="big" id="startbtn" type="button"><span>시작하기</span></button><button type="button" class="tbadge" id="h-title" aria-haspopup="dialog"></button><div class="hmeta"><span id="h-total"></span></div></div>
+    <div class="tpick" id="tpick" hidden><div class="tpbox"><div class="sechead"><h2>칭호 달기</h2><button type="button" class="backhome" id="tpclose">닫기</button></div><div class="titlelist" id="tplist"></div></div></div>
     <div class="hcard"><h3>난이도</h3><div class="tgl" id="lvsel"><button type="button" data-l="0" aria-pressed="true">쉬움</button><button type="button" data-l="1" aria-pressed="true">보통</button><button type="button" data-l="2" aria-pressed="true">어려움</button></div><div class="hint" id="lvhint"></div></div>
     <div class="hrow two"><button type="button" id="dexbtn">도감</button><button type="button" id="titlebtn">칭호</button></div>
   </section>
@@ -520,6 +528,7 @@ body{word-break:keep-all;overflow-wrap:break-word}
   <section id="dex" hidden><div class="sechead"><h2>도감 <small id="dexcount" style="font-size:14px;color:var(--muted)"></small></h2><button class="backhome" type="button">← 처음</button></div><p class="hint" style="margin:0;color:var(--muted);font-size:13px">만난 방해는 난이도를 눌러서 다시 할 수 있어요.</p><div class="dexlist" id="dexlist"></div><button class="linkb" id="devtog" type="button"></button></section>
   <section id="settings" hidden><div class="sechead"><h2>설정</h2><button class="backhome" type="button">← 처음</button></div>
     <div class="hcard"><h3>테마 색</h3><div class="themes" id="themelist"></div></div>
+    <div class="hcard bugcard"><h3>버그 발생 시</h3><p>정연이에게 알려주세요! 어떤 방해에서, 어떻게 됐는지 말해주면 고칠게요.</p></div>
     <div class="hcard"><h3>소리</h3><div class="tgl two" id="sndsel"><button type="button" data-s="1">켜기</button><button type="button" data-s="0">끄기</button></div></div>
   </section>
   <section id="titles" hidden><div class="sechead"><h2>칭호</h2><button class="backhome" type="button">← 처음</button></div><p class="hint" style="margin:0;color:var(--muted);font-size:13px">얻은 칭호를 누르면 대표 칭호로 달 수 있어요.</p><div class="titlelist" id="titlelist"></div></section>
@@ -2365,7 +2374,7 @@ const TONES={
   polite:{name:'공손',f:t=>'저기… 실례지만 '+t+' 부탁드려요.',greet:['와주셔서 감사합니다.','오늘도 잘 부탁드립니다.','어서 오십시오.']}};
 const CATS=[['cat','고양이'],['raccoon','너구리'],['penguin','펭귄']],BIRDS=[['pigeon','비둘기','#A3A8BE','#5FB59A'],['gull','갈매기','#F2F2F5','#B8BFD6'],['crow','까마귀','#3B3F57','#6E7CF2']];
 let VAR={cat:'cat',catName:'고양이',bird:BIRDS[0],tone:'basic',tod:'',weather:''};
-function rollVar(){const c=pick(CATS),bd=pick(BIRDS);VAR={cat:c[0],catName:c[1],bird:bd,tone:pick(Object.keys(TONES)),tod:pick(['','','dusk','night']),weather:Math.random()<.18?pick(['snow','petal']):''}}
+function rollVar(){const c=pick(CATS),bd=pick(BIRDS);VAR={cat:c[0],catName:c[1],bird:bd,tone:'basic',tod:pick(['','','dusk','night']),weather:Math.random()<.18?pick(['snow','petal']):''}}
 const subVar=t=>String(t).replace(/고양이/g,VAR.catName).replace(/비둘기/g,VAR.bird[1]);
 const baseSay=say;say=t=>baseSay(subVar(t));
 const _talk=talk;talk=(s,t,ms)=>_talk(s,t==null?t:subVar(t),ms);
@@ -2435,7 +2444,7 @@ function runStep(){const s=RUN.steps[stepI];gen++;won=false;stageL.forEach(([t,f
   $('num').textContent=RUN.mode==='day'?`버튼의 하루 · ${stepI+1}/${RUN.steps.length}`:RUN.mode==='today'?'오늘의 특별 방해':RUN.combo?'합체 방해':'랜덤';
   const l=$('lvl');l.textContent=LV[curLv];l.className='lvl l'+curLv;$('nm').textContent=subVar(o.name);
   addScene(o.name);if(stepI===0)startT=performance.now();
-  o.run(curLv);say(o.story+' '+(HINTS[o.name]||''));if(stepI===0&&Math.random()<.5)after(2600,()=>{if(!won)say('버튼('+TONES[VAR.tone].name+' 말투): '+pick(TONES[VAR.tone].greet))})}
+  o.run(curLv);say(o.story+' '+(HINTS[o.name]||''));if(stepI===0&&Math.random()<.5)after(2600,()=>{if(!won)say('버튼: '+pick(TONES.basic.greet))})}
 function retry(){runStep()}
 const goCur=()=>retry();
 
@@ -2446,7 +2455,19 @@ const TITLES=[['first','첫 딸깍','처음으로 버튼을 눌렀다',d=>d.tota
  ['nunchi','눈치 9단','눈치 방해를 10개 해결했다',d=>NUNCHI.filter(n=>d.clears[n]).length>=10],['nunchi3','눈치 초보','눈치 방해를 3개 해결했다',d=>NUNCHI.filter(n=>d.clears[n]).length>=3],
  ['hard','고통을 즐기는 자','어려움을 20번 깼다',d=>d.hard>=20],['fast','번개손','5초 안에 깼다',d=>d.fast>=1],['slow','끈기 대장','2분 넘게 버텨서 깼다',d=>d.slow>=1],['gold','황금손','황금 버튼을 눌렀다',d=>d.gold>=1],
  ['combo','연쇄 해결사','합체 방해를 깼다',d=>d.combos>=1],['twist','속아도 꿈결','반전 결말을 3번 겪었다',d=>d.twists>=3],
- ['dex30','수집가','방해 30종을 만났다',d=>d.seenOb.length>=30],['dex100','버튼 박사','방해 100종을 만났다',d=>d.seenOb.length>=100]];
+ ['dex30','수집가','방해 30종을 만났다',d=>d.seenOb.length>=30],['dex100','버튼 박사','방해 100종을 만났다',d=>d.seenOb.length>=100],
+ ['t200','버튼 장인','버튼을 200번 눌렀다',d=>d.total>=200],['t500','버튼과 한 몸','버튼을 500번 눌렀다',d=>d.total>=500],['t1000','전설의 손가락','버튼을 1000번 눌렀다',d=>d.total>=1000],
+ ['dex50','방해 탐험가','방해 50종을 만났다',d=>d.seenOb.length>=50],['dex150','방해 백과사전','방해 150종을 만났다',d=>d.seenOb.length>=150],['dexall','모든 걸 본 자','방해를 전부 만났다',d=>d.seenOb.length>=OB.length],
+ ['hard50','고통 중독자','어려움을 50번 깼다',d=>d.hard>=50],['easy10','평화주의자','쉬움을 10번 깼다',d=>(d.easyc||0)>=10],['fast5','번개손 마스터','5초 안에 5번 깼다',d=>d.fast>=5],
+ ['twist10','반전 면역','반전 결말을 10번 겪었다',d=>d.twists>=10],['combo5','연쇄 마스터','합체 방해를 5번 깼다',d=>d.combos>=5],['gold3','미다스의 손','황금 버튼을 3번 눌렀다',d=>d.gold>=3],
+ ['owl','올빼미','새벽 0~5시에 눌렀다',d=>(d.night||0)>=1],['early','아침형 인간','아침 5~8시에 눌렀다',d=>(d.morning||0)>=1],['days7','개근상','7일 동안 들렀다',d=>(d.days2||[]).length>=7],
+ ['perfect','완벽주의자','한 방해를 쉬움·보통·어려움 다 깼다',d=>Object.values(d.clears).some(c=>c[0]&&c[1]&&c[2])],
+ ['pigeon','비둘기 친구','비둘기 점거를 해결했다',d=>!!d.clears['비둘기 점거']],['fire','명예 소방관','과열을 해결했다',d=>!!d.clears['과열']],['ufo','외계인 협상가','UFO 납치를 해결했다',d=>!!d.clears['UFO 납치']],
+ ['coin','존버의 신','코인 폭락을 해결했다',d=>!!d.clears['코인 폭락']],['auction','경매왕','버튼 경매에서 낙찰받았다',d=>!!d.clears['버튼 경매']],['dragon','용 길들이는 자','용의 보물을 되찾았다',d=>!!d.clears['용의 보물']],
+ ['panda','판다 집사','판다에게서 버튼을 빼냈다',d=>!!d.clears['판다']],['ramen','라면 장인','라면을 꼬들하게 끓였다',d=>!!d.clears['라면 끓이기']],['bowling','스트라이커','볼링에서 스트라이크',d=>!!d.clears['볼링']],
+ ['adblock','광고 차단기','팝업 광고를 다 닫았다',d=>!!d.clears['팝업 광고']],['unsub','해지의 달인','구독 해지에 성공했다',d=>!!d.clears['구독 해지']],['social','사회생활 만렙','부장님 개그에 맞춰 웃었다',d=>!!d.clears['부장님 개그']],
+ ['grand','효손','할머니 용돈을 예쁘게 받았다',d=>!!d.clears['할머니 용돈']],['wedding','하객 프로','결혼식 꽃가루 타이밍 완벽',d=>!!d.clears['결혼식']],['library','도서관 닌자','도서관에서 들키지 않았다',d=>!!d.clears['도서관']],
+ ['duck','오리 지킴이','오리 가족을 기다려줬다',d=>!!d.clears['오리 가족']],['maze','길잡이','미로를 빠져나왔다',d=>!!d.clears['미로 속 버튼']],['safe','금고털이','금고를 열었다',d=>!!d.clears['금고 속 버튼']]];
 let NUNCHI=[];
 function toast(t){const x=$('toast');x.textContent=t;x.hidden=false;x.classList.remove('on');void x.offsetWidth;x.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>x.hidden=true,2600)}
 function checkTitles(){TITLES.forEach(([id,nm,,fn])=>{if(!D.titles.includes(id)&&fn(D)){D.titles.push(id);if(!D.equip)D.equip=id;setTimeout(()=>toast('칭호 획득: '+nm),400)}})}
@@ -2454,7 +2475,7 @@ function win(msg){if(won)return;won=true;
   if(stepI<RUN.steps.length-1){const o=OB[cur];D.clears[o.name]=D.clears[o.name]||[0,0,0];D.clears[o.name][curLv]++;saveD();SFX.ding();stepI++;after(500,startStep);return}
   if(RUN.twist&&!RUN.twisted){RUN.twisted=true;SFX.click();after(350,playTwist);return}
   SFX[RUN.gold?'gold':'win']();const o=OB[cur],sec=(performance.now()-startT)/1000;
-  D.total++;D.clears[o.name]=D.clears[o.name]||[0,0,0];D.clears[o.name][curLv]++;if(curLv===2)D.hard++;if(sec<5)D.fast++;if(sec>120)D.slow++;if(RUN.gold)D.gold++;if(RUN.combo)D.combos++;if(RUN.twisted)D.twists++;if(RUN.mode==='day')D.days++;if(RUN.mode==='today')D.special[dayKey()]=1;
+  D.total++;D.clears[o.name]=D.clears[o.name]||[0,0,0];D.clears[o.name][curLv]++;if(curLv===2)D.hard++;if(curLv===0)D.easyc=(D.easyc||0)+1;{const h=new Date().getHours();if(h<5)D.night=(D.night||0)+1;else if(h<8)D.morning=(D.morning||0)+1;D.days2=D.days2||[];if(!D.days2.includes(dayKey()))D.days2.push(dayKey())}if(sec<5)D.fast++;if(sec>120)D.slow++;if(RUN.gold)D.gold++;if(RUN.combo)D.combos++;if(RUN.twisted)D.twists++;if(RUN.mode==='day')D.days++;if(RUN.mode==='today')D.special[dayKey()]=1;
   const hist=RUN.steps.map(s=>OB[s.i].name);checkTitles();saveD();updHome();
   const line=RUN.gold?'황금 버튼을 눌렀습니다.<br>그래도 아무 일도 일어나지 않았습니다.':(msg||pick(NOTHING).replace(/\. /,'.<br>'));
   const ov=add(el('div','win',`<div><p class="k">${RUN.gold?'반짝, 딸깍.':'딸깍.'}</p><h2>${line}</h2><dl><dt>${RUN.mode==='day'?'하루':'방해'}</dt><dd>${hist.map(subVar).join(' → ')}</dd>${RUN.twisted?`<dt>반전</dt><dd>${RUN.twistName}</dd>`:''}<dt>난이도</dt><dd>${LV[curLv]}</dd><dt>걸린 시간</dt><dd>${sec.toFixed(1)}초</dd><dt>누른 횟수</dt><dd>${D.total}번</dd></dl><div class="row"><button class="tool" id="cardBtn" type="button">결과 카드</button><button class="tool primary" id="nextBtn" type="button">한 번 더</button></div><button class="linkb" id="homeBtn2" type="button">처음으로</button></div>`));
@@ -2474,7 +2495,7 @@ function greet(){const n=D.total,now=new Date(),h=now.getHours();const today=day
   const L=[];if(D.lastDay===yest)L.push('어제도 왔었지? 기억해.');if(D.lastDay===today&&D.todayCount>0)L.push(`오늘 벌써 ${D.todayCount}번째 왔네.`);if(h<5)L.push('이 새벽에? 잠은 언제 자?');else if(h<9)L.push('아침부터 누르러 왔구나.');else if(h>=23)L.push('자기 전에 한 번?');
   if(n>=100)L.push('우리 이제 꽤 친하지?');else if(n>=30)L.push('또 왔네. 반가워.');else L.push('또 왔어? 오늘은 쉽게 안 눌려줄 거야.');return pick(L)}
 function updHome(){$('greet').textContent=greet();$('h-total').textContent=`누른 횟수 ${D.total}번 · 만난 방해 ${D.seenOb.length}/${OB.length}종`;
-  const eq=TITLES.find(x=>x[0]===D.equip);$('h-title').textContent=eq?'칭호 · '+eq[1]:'칭호 없음';
+  const eq=TITLES.find(x=>x[0]===D.equip);$('h-title').innerHTML=eq?`<small>칭호</small><b>${eq[1]}</b><i>바꾸기</i>`:'<small>칭호</small><b>아직 없음</b><i>보기</i>';
   document.querySelectorAll('#lvsel button').forEach(b=>b.setAttribute('aria-pressed',D.levels.includes(+b.dataset.l)));
   const k=D.levels.length;$('lvhint').textContent=k===1?LV[D.levels[0]]+'만 나와요':D.levels.map(l=>LV[l]).join('·')+' 중 랜덤';}
 function renderDex(){const g=$('dexlist');g.innerHTML='';let n=0;OB.forEach((o,i)=>{const s=D.seenOb.includes(o.name)||D.dev;if(D.seenOb.includes(o.name))n++;const cl=D.clears[o.name]||[0,0,0];
@@ -2483,7 +2504,13 @@ function renderDex(){const g=$('dexlist');g.innerHTML='';let n=0;OB.forEach((o,i
 function renderTitles(){const g=$('titlelist');g.innerHTML='';TITLES.forEach(([id,nm,desc])=>{const has=D.titles.includes(id);const it=el('button','titi'+(has?'':' lock')+(D.equip===id?' eq':''),`<b>${has?nm:'???'}</b><small>${desc}</small>`);it.type='button';if(has)it.onclick=()=>{D.equip=id;saveD();renderTitles()};g.appendChild(it)})}
 function bindUI(){$('startbtn').onclick=()=>{SFX.click();const d=dayKey();if(D.lastDay!==d){D.todayCount=0}D.todayCount++;D.lastDay=d;if(!D.first)D.first=Date.now();saveD();newRun('random')};
   document.querySelectorAll('#lvsel button').forEach(b=>b.onclick=()=>{const l=+b.dataset.l;if(D.levels.includes(l)){if(D.levels.length===1){toast('하나는 골라야 해요.');return}D.levels=D.levels.filter(x=>x!==l)}else D.levels=[...D.levels,l].sort();bag=[];saveD();updHome()});
-  $('setbtn').onclick=()=>show('settings');document.querySelectorAll('#sndsel button').forEach(b=>b.onclick=()=>{D.sound=b.dataset.s==='1';saveD();renderSettings();if(D.sound)SFX.ding()});$('dexbtn').onclick=()=>show('dex');$('titlebtn').onclick=()=>show('titles');
+  $('setbtn').onclick=()=>show('settings');
+  const openTP=()=>{const g=$('tplist');g.innerHTML='';const own=TITLES.filter(t=>D.titles.includes(t[0]));
+    if(!own.length){g.innerHTML='<p class="tpempty">아직 얻은 칭호가 없어요. 버튼을 누르다 보면 생겨요!</p>'}
+    own.forEach(([id,nm,desc])=>{const b=el('button','titi'+(D.equip===id?' eq':''),`<b>${nm}</b><small>${desc}</small>`);b.type='button';b.onclick=()=>{D.equip=id;saveD();$('tpick').hidden=true;updHome();toast(`'${nm}' 칭호를 달았어요.`)};g.appendChild(b)});
+    if(D.equip){const n=el('button','titi','<b>칭호 떼기</b><small>아무 칭호도 안 달기</small>');n.type='button';n.onclick=()=>{D.equip='';saveD();$('tpick').hidden=true;updHome()};g.appendChild(n)}
+    $('tpick').hidden=false};
+  $('h-title').onclick=openTP;$('tpclose').onclick=()=>$('tpick').hidden=true;$('tpick').addEventListener('click',e=>{if(e.target.id==='tpick')$('tpick').hidden=true});document.querySelectorAll('#sndsel button').forEach(b=>b.onclick=()=>{D.sound=b.dataset.s==='1';saveD();renderSettings();if(D.sound)SFX.ding()});$('dexbtn').onclick=()=>show('dex');$('titlebtn').onclick=()=>show('titles');
   document.querySelectorAll('.backhome').forEach(b=>b.onclick=()=>show('home'));$('skip').onclick=()=>newRun('random');
   $('devtog').onclick=()=>{D.dev=!D.dev;saveD();renderDex()}}
 NUNCHI=OB.slice(OB.findIndex(o=>o.name==='도서관')).filter(o=>o.nunchi!==false).map(o=>o.name).filter(n=>['도서관','단체 사진','잠깐만요!','영화관','클래식 공연','고백 현장','월요일 회의','생일 파티','마지막 한 조각','어서오세요','응원석','시험 시간','아기가 자요','건배','사진 좀…','버스 하차벨','번호표','퀴즈 부저','노래방 친구','화장실','횡단보도 버튼','풀 사람?','고민 상담','떼창','점프 샷','정원 초과','부장님 개그','좁은 복도','청소 시간','지하철 자리'].includes(n)||OB[obIdx(n)].nunchi);
