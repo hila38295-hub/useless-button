@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2093,18 +2093,19 @@ OB.push(
     if(t>lim&&b.locked){awk('엄마: 냉장고 문 닫아!! (처음부터)');after(900,retry);return false}});
   b.addEventListener('click',()=>{if(b.locked)say('반찬통에 가려서 안 닿아요.')});say('반찬통을 냉장고 밖으로 꺼내세요. 빨리!');
 }},
-{name:'주차하기',bg:'street',story:'버튼이 주차장 맨 끝 칸에 있어요. 거기 차를 대야 눌러져요.',run(lv){const B=mkB(lv);const sw=B(110,92,80);
-  const lot=add(el('div','plot'));const tx=W()/2,ty=90;const spot=add(el('div','pspot'));spot.style.width=sw+'px';pos(spot,tx,ty);
-  for(const dx of [-1,1]){const c=sprite('x',90,tx+dx*(sw/2+50),ty,ART.car(pick(['#6E7CF2','#F2B544','#5FB59A'])));c.style.rotate='-90deg';c.style.pointerEvents='none'}
-  const car=sprite('x',86,W()/2,H()-90,ART.car('#F0533D'));car.style.pointerEvents='none';let x=W()/2,y=H()-90,a=-Math.PI/2,v=0,steer=0,thr=0,done=false;
+{name:'주차하기',bg:'street',story:'버튼이 주차장 빈칸에 있어요. 거기 차를 대야 눌러져요.',run(lv){const B=mkB(lv);const sw=B(112,96,86);
+  const lot=add(el('div','plot'));const tx=rnd(W()*.5,W()-sw/2-20),ty=88;const spot=add(el('div','pspot'));spot.style.width=sw+'px';pos(spot,tx,ty);
+  for(const dx of [-1,1]){const nx=tx+dx*(sw/2+46);if(nx>20&&nx<W()-20){const c=sprite('x',90,nx,ty,ART.car(pick(['#6E7CF2','#F2B544','#5FB59A'])));c.style.rotate='-90deg';c.style.pointerEvents='none'}}
+  const X0=60,Y0=H()-110;const car=sprite('x',86,X0,Y0,ART.car('#F0533D'));car.style.pointerEvents='none';let x=X0,y=Y0,a=0,v=0,steer=0,thr=0,done=false;
+  const reset=m=>{x=X0;y=Y0;a=0;v=0;awk(m)};
   const hold=(lab,fn)=>{const bt=el('button','tool',lab);bt.type='button';bt.addEventListener('pointerdown',()=>fn(1));['pointerup','pointerleave','pointercancel'].forEach(ev=>bt.addEventListener(ev,()=>fn(0)));return bt};
-  const tl=add(el('div','tools'));tl.append(hold('↺',k=>steer=-k),hold('전진',k=>thr=k),hold('후진',k=>thr=-k),hold('↻',k=>steer=k));
-  loop(dt=>{if(done)return false;v+=(thr*.0006-v*.004)*dt;a+=steer*v*.025*dt/16;x+=Math.cos(a)*v*dt;y+=Math.sin(a)*v*dt;
-    if(x<20||x>W()-20||y<20||y>H()-20){x=W()/2;y=H()-90;a=-Math.PI/2;v=0;awk('쿵! 벽에 박았어요. 처음부터.')}
-    if(Math.abs(y-ty)<40&&Math.abs(x-tx)>sw/2&&Math.abs(x-tx)<sw/2+90){x=W()/2;y=H()-90;a=-Math.PI/2;v=0;awk('옆 차를 긁을 뻔했어요! 처음부터.')}
+  const tl=add(el('div','tools'));tl.append(hold('↺ 왼쪽',k=>steer=-k),hold('전진',k=>thr=k),hold('후진',k=>thr=-k*.7),hold('오른쪽 ↻',k=>steer=k));
+  loop(dt=>{if(done)return false;v+=(thr*.0005-v*.004)*dt;a+=steer*v*dt*.012;x+=Math.cos(a)*v*dt;y+=Math.sin(a)*v*dt;
+    if(x<25||x>W()-25||y<25||y>H()-70)reset('쿵! 벽에 박았어요. 처음부터.');
+    if(Math.abs(y-ty)<60&&Math.abs(x-tx)>sw/2-14&&Math.abs(x-tx)<sw/2+92)reset('옆 차를 긁을 뻔했어요! 처음부터.');
     pos(car,x,y);car.style.rotate=(a*180/Math.PI)+'deg';
-    if(Math.abs(x-tx)<sw/2-30&&Math.abs(y-ty)<22&&Math.abs(v)<.03&&Math.abs(Math.sin(a))>.9){done=true;tl.remove();car.style.transition='opacity .5s';car.style.opacity=.4;const b=add(realBtn('주차 완료','pop mid'));pos(b,tx,ty+90);say('완벽한 주차! 내려서 버튼을 누르세요.')}});
-  say('전진·후진·핸들을 꾹 눌러서 빈칸에 반듯하게 세우세요.');
+    if(Math.abs(x-tx)<sw/2-28&&Math.abs(y-ty)<24&&Math.abs(v)<.03&&Math.abs(Math.sin(a))>.92){done=true;tl.remove();car.style.transition='opacity .5s';car.style.opacity=.4;const b=add(realBtn('주차 완료','pop mid'));pos(b,tx,ty+100);say('완벽한 주차! 내려서 버튼을 누르세요.')}});
+  say('차가 옆을 보고 있어요. 전진하면서 핸들을 꺾어 위쪽 빈칸에 반듯하게 세우세요.');
 }},
 {name:'꼬인 이어폰',bg:'room',story:'버튼이 이어폰 줄에 꽁꽁 엉켰어요.',run(lv){const B=mkB(lv);const n=B(5,6,8);const cx=W()/2,cy=H()/2,R=Math.min(W(),H())/2-50;
   const P=[...Array(n)].map((_,i)=>[cx+Math.cos(i/n*6.28)*R,cy+Math.sin(i/n*6.28)*R]);const E=[];for(let i=0;i<n;i++)E.push([i,(i+1)%n]);for(let i=2;i<n-1;i+=2)E.push([0,i]);
@@ -2440,7 +2441,7 @@ function finale(b){if(!b||b._fin||won)return;b._fin=1;if(b.parentElement===stage
   after(1300,()=>{if(!won)say('버튼: '+line)})}
 const _realBtn=realBtn;realBtn=(label='누르기',cls='')=>{const b=el('button','big '+cls,'<span>'+label+'</span>');let lk=false;
   Object.defineProperty(b,'locked',{get:()=>lk,set:v=>{const was=lk;lk=v;if(was&&!v)finale(b)}});
-  b.addEventListener('click',()=>{if(!b.locked){SFX.click();win()}});if(RUN&&RUN.gold)b.classList.add('gold');if(/\bpop\b/.test(cls))setTimeout(()=>finale(b),250);return b};
+  const press=()=>{if(!b.locked&&!won){SFX.click();win()}};b.addEventListener('pointerdown',e=>{if(e.button>0)return;press()});b.addEventListener('click',press);if(RUN&&RUN.gold)b.classList.add('gold');if(/\bpop\b/.test(cls))setTimeout(()=>finale(b),250);return b};
 const _gate=gate;gate=(b,ok,bad)=>{_gate(b,ok,bad);let t0=0;every(250,()=>{if(won||b._fin)return;if(ok()){t0+=250;if(t0>=2500)finale(b)}else t0=0})};
 const _awk=awk;awk=m=>{SFX.awk();_awk(m)};
 
