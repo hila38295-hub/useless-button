@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1550,14 +1550,23 @@ OB.push(
   const tl=tools(['반환',()=>{if(!fin)refund('동전을 전부 돌려받았어요.')}]);upd();
   say('지갑 속 동전으로 딱 맞게 넣으세요. 넘으면 다 돌려줘요.');
 }},
-{name:'무궁화 꽃이',story:'버튼이 무궁화꽃이 피었습니다를 하재요. 술래 몰래 버튼을 결승선까지 옮겨주세요.',run(lv){const B=mkB(lv);const red=B(1300,1700,2200),gm=B(1.4,1,.7);
-  const doll=sprite('dollBack',90,W()-52,86);doll.style.pointerEvents='none';const fl=add(el('div','tugline'));fl.style.left=(W()-90)+'px';
-  const sx=56,y=H()*.62;const b=add(realBtn('살금','mid'));pos(b,sx,y);b.locked=true;let looking=false,t=rnd(1500,3000)*gm,gT=t,phase='g',bx=sx,done=false;
-  const ph='무궁화꽃이피었습니다';
-  drag(b,{set:false,move:x=>{if(done)return;const nx=Math.max(sx,Math.min(W()-40,x));if(looking&&Math.abs(nx-bx)>3){bx=sx;pos(b,bx,y);miss();say('움직였어요! 처음으로.');shake(b);return}bx=nx;pos(b,bx,y);if(bx>=W()-90){done=true;after(250,()=>unlock(b,'도착','통과! 술래가 못 봤어요.'))}}});
-  loop(dt=>{if(done)return false;t-=dt;if(phase==='g'){say('술래: '+ph.slice(0,Math.ceil((1-Math.max(0,t)/gT)*ph.length)));if(t<=0){phase='r';looking=true;doll.innerHTML=ART.dollFront;t=red*rnd(.8,1.2);say('술래가 봐요! 멈춰!')}}
-    else if(t<=0){phase='g';looking=false;doll.innerHTML=ART.dollBack;t=gT=rnd(1500,3200)*gm}});
-  b.addEventListener('click',()=>{if(b.locked&&!done)say('점선까지 끌고 가야 해요.')});
+{name:'무궁화 꽃이',bg:'park',story:'버튼은 눌릴 때마다 딸깍 소리가 나요. 술래가 노래하는 동안 몰래 꾹 누르고, 돌아보면 손을 떼세요!',run(lv){const B=mkB(lv);const need=B(3000,4500,6000),red=B(1400,1700,2000);
+  const doll=sprite('dollBack',96,W()/2,108);doll.style.pointerEvents='none';const song=add(el('div','sb'));pos(song,W()/2,52);song.style.zIndex=9;
+  const b=add(realBtn('꾹','')) ;pos(b,W()/2,H()*.56);b.locked=true;b._fin=1;
+  const gb=add(el('div','mbar','<i></i>')),gi=gb.querySelector('i');gb.style.width=Math.min(260,W()-60)+'px';gb.style.height='18px';pos(gb,W()/2,H()-34);const gl=add(el('div','sign','딸깍 게이지'));pos(gl,W()/2,H()-60);
+  const ph='무궁화꽃이피었습니다';let phase='g',t=0,gT=0,held=false,gauge=0,caught=false,tk=0,quick=false,done=false,lt=0;
+  const sing=()=>{phase='g';doll.innerHTML=ART.dollBack;caught=false;const r=[[2200,3200],[1300,3300],[900,3500]][lv];gT=rnd(r[0],r[1]);t=0;quick=lv===2&&Math.random()<.3};
+  const look=()=>{phase='r';lt=0;doll.innerHTML=ART.dollFront;t=red*rnd(.8,1.2);song.textContent='(획!)'};
+  sing();
+  b.addEventListener('pointerdown',()=>{held=true});onStage('pointerup',()=>held=false);onStage('pointercancel',()=>held=false);b.addEventListener('pointerleave',()=>held=false);
+  loop(dt=>{if(done||won)return false;
+    if(phase==='g'){t+=dt;const k=Math.min(1,t/gT);const n=quick&&k>.45?ph.length:Math.ceil(k*ph.length);song.textContent=ph.slice(0,Math.max(1,n))+(n<ph.length?'…':'!');
+      if(held){gauge+=dt;tk+=dt;if(tk>260){tk=0;tone(1600,.02,'square',.025)}}
+      if(k>=1||(quick&&k>.45)){look();return}}
+    else{t-=dt;lt+=dt;if(held&&lt>150&&!caught){caught=true;gauge=Math.max(0,gauge-need*.25);tone(1600,.06,'square',.08);shake(b);awk('딸깍! 술래한테 들켰어요. 게이지가 줄었어요.')}if(t<=0)sing()}
+    gi.style.width=Math.min(100,gauge/need*100)+'%';
+    if(gauge>=need){done=true;song.textContent='…어? 방금 무슨 소리?';b.locked=false;SFX.click();win()}});
+  say('술래가 노래할 때 버튼을 꾹 누르고 있다가, 돌아보면 손을 떼요.');
 }},
 {name:'비 오는 날',story:'비가 와요. 버튼이 젖지 않게 우산을 씌워주세요.',run(lv){const B=mkB(lv);const need=B(2000,4000,6000),v=B(.025,.05,.08);const by=H()*.65;
   const [cv,c]=mkCanvas();cv.style.zIndex=1;const cl=sprite('rainCloud',130,W()/2,40);cl.style.pointerEvents='none';
@@ -2486,7 +2495,7 @@ tissue:S(`<rect x="-30" y="-4" width="60" height="30" rx="4" fill="#9FD3F0"/><pa
 pouch:S(`<path d="M-24 -6 q-16 36 24 36 q40 0 24 -36z" fill="#E3B53C"/><path d="M-12 -8 l-8 -16 h40 l-8 16z" fill="#E3B53C"/><path d="M-14 -8 h28" fill="none"/><text x="0" y="20" text-anchor="middle" font-size="20" font-weight="700" fill="#2A2340" stroke="none">금</text>`),
 wring:S(`<circle cx="0" cy="8" r="22" fill="none" stroke="#2A2340" stroke-width="10"/><circle cx="0" cy="8" r="22" fill="none" stroke="#E3B53C" stroke-width="5"/><path d="M-10 -18 l10 -12 l10 12 l-10 9z" fill="#CDE9FF"/>`)
 });
-Object.assign(HINTS,{'알 품기':'온도계가 끝까지 차야 해요. 손을 멈추지 말고 쓱쓱.','대리 버튼':'결재는 아랫사람부터 윗사람 순서.','퇴사 선언':'버튼이 흘리는 한숨에 답이 있어요.','UFO 납치':'초록 빔이 보이면 잘하고 있는 거예요.','중세의 기사':'가위바위보는 운이에요. 기도하세요.','노래방 버튼':'간격이 들쭉날쭉해요. 음표만 보세요.','초점 나간 버튼':'선명해졌을 때가 누를 때.','명상하는 버튼':'원이 초록이면 잘하고 있는 거예요.','붕어빵 틀':'노릇노릇할 때 꺼내고, 가운데를 쓱.','볼링':'핀 뒤에 누가 숨어 있어요.','몽타주':'목격자 말을 하나씩 지워가며.','감기 걸린 버튼':'열엔 물수건, 기침엔 차, 콧물엔 휴지.','코인 폭락':'점선 위에서 팔아요. 욕심은 금물.','용의 보물':'빼고, 바로 채우고.','결혼식':'사회자 질문은 끝까지 듣고 대답.','할머니 용돈':'할머니 말씀은 끝까지 들어야 해요.','썸 타는 버튼':'썸은 관심과 리액션이에요.','택배 기사':'송장 특징을 전부 가진 집은 하나뿐.','오리 가족':'널빤지 끝이 물 위에 살짝 걸치게.','주차하기':'핸들을 꺾어 두고 전진. 꺾은 핸들은 그대로 유지돼요.','버스 하차벨':'내릴 곳이 "다음 정류장"에 뜨면 그때 벨.','고민 상담':'말이 끊길 때 끄덕, 다 들으면 꼭.','떼창':'버튼이 "다 같이!" 할 때만.','도서관':'시끄러운 소리에 딸깍을 숨겨요.','영화관':'쿠키 영상까지 다 끝나야 불을 켜요.','아기가 자요':'ZZZ 쿨쿨일 때가 깊은 잠.','단톡방':'좋은 소식에만 전송.','마지막 한 조각':'먼저 물어보고, 흔들리는 눈빛엔 양보.','판다':'팔이 풀리면 아주 천천히.','삐진 버튼':'등 돌렸을 땐 가만히, 힐끔 볼 때 쓰담쓰담.','놀아줘 강아지':'강아지는 다 보고 있어요. 지칠 때까지 놀아줘요.','단체 사진':'"셋!" 할 때 찰칵.','거울 나라':'아래 안내를 보면 어느 쪽 거울인지 알 수 있어요.','사진 좀…':'관광객이 다 찍고 떠나면 누르기.','비둘기 점거':'빵을 휙! 버튼에서 멀리.','고백 현장':'"좋아해!"가 나오는 순간 꾹.'});
+Object.assign(HINTS,{'알 품기':'온도계가 끝까지 차야 해요. 손을 멈추지 말고 쓱쓱.','대리 버튼':'결재는 아랫사람부터 윗사람 순서.','퇴사 선언':'버튼이 흘리는 한숨에 답이 있어요.','UFO 납치':'초록 빔이 보이면 잘하고 있는 거예요.','중세의 기사':'가위바위보는 운이에요. 기도하세요.','노래방 버튼':'간격이 들쭉날쭉해요. 음표만 보세요.','초점 나간 버튼':'선명해졌을 때가 누를 때.','명상하는 버튼':'원이 초록이면 잘하고 있는 거예요.','붕어빵 틀':'노릇노릇할 때 꺼내고, 가운데를 쓱.','볼링':'핀 뒤에 누가 숨어 있어요.','몽타주':'목격자 말을 하나씩 지워가며.','감기 걸린 버튼':'열엔 물수건, 기침엔 차, 콧물엔 휴지.','코인 폭락':'점선 위에서 팔아요. 욕심은 금물.','용의 보물':'빼고, 바로 채우고.','결혼식':'사회자 질문은 끝까지 듣고 대답.','할머니 용돈':'할머니 말씀은 끝까지 들어야 해요.','썸 타는 버튼':'썸은 관심과 리액션이에요.','택배 기사':'송장 특징을 전부 가진 집은 하나뿐.','오리 가족':'널빤지 끝이 물 위에 살짝 걸치게.','주차하기':'핸들을 꺾어 두고 전진. 꺾은 핸들은 그대로 유지돼요.','버스 하차벨':'내릴 곳이 "다음 정류장"에 뜨면 그때 벨.','고민 상담':'말이 끊길 때 끄덕, 다 들으면 꼭.','떼창':'버튼이 "다 같이!" 할 때만.','도서관':'시끄러운 소리에 딸깍을 숨겨요.','영화관':'쿠키 영상까지 다 끝나야 불을 켜요.','아기가 자요':'ZZZ 쿨쿨일 때가 깊은 잠.','단톡방':'좋은 소식에만 전송.','마지막 한 조각':'먼저 물어보고, 흔들리는 눈빛엔 양보.','판다':'팔이 풀리면 아주 천천히.','삐진 버튼':'등 돌렸을 땐 가만히, 힐끔 볼 때 쓰담쓰담.','놀아줘 강아지':'강아지는 다 보고 있어요. 지칠 때까지 놀아줘요.','단체 사진':'"셋!" 할 때 찰칵.','거울 나라':'아래 안내를 보면 어느 쪽 거울인지 알 수 있어요.','사진 좀…':'관광객이 다 찍고 떠나면 누르기.','비둘기 점거':'빵을 휙! 버튼에서 멀리.','고백 현장':'"좋아해!"가 나오는 순간 꾹.','무궁화 꽃이':'노래할 땐 꾹, 돌아보면 손 떼기.'});
 var ENDS_EXTRA=Object.assign(window.ENDS_EXTRA||{},{'붕어빵 틀':'팥 아니고 버튼이야. 눌러줘.','볼링':'데구르르… 나 여기 있었어! 눌러줘.','결혼식':'딸깍! 평생 눌려줄게.','할머니 용돈':'할머니가 꽁꽁 숨겨두셨더라. 눌러줘.','썸 타는 버튼':'…나도 좋아. 같이 눌러줘!','택배 기사':'배송 완료! 이제 눌러줘.','오리 가족':'꽥! 엄마 오리가 주는 선물이야. 눌러줘.','주차하기':'데굴데굴… 나 바퀴였어! 눌러줘.','고민 상담':'고마워… 꼭 안아줘.','떼창':'다 같이! 고마워!','영화관':'상영 끝! 불 켜줘.','아기가 자요':'(속삭임) 아주 살살…','버스 하차벨':'이번에 내려요! 띵동.','단톡방':'전송!','마지막 한 조각':'…나 버튼이었어. 냠 대신 꾹!','용의 보물':'쉿, 살금살금 눌러줘.','코인 폭락':'익절했어! 다시는 안 해. 눌러줘.','감기 걸린 버튼':'콜록… 이제 좀 살 것 같아. 눌러줘.'});
 Object.assign(ART,{
 fWard:S(`<rect x="-36" y="-48" width="72" height="96" rx="3" fill="#C98A3C"/><rect x="-40" y="-50" width="80" height="8" rx="2" fill="#A86A2C"/><path d="M0 -42 V48" fill="none"/><circle cx="-6" cy="0" r="3" fill="#2A2340"/><circle cx="6" cy="0" r="3" fill="#2A2340"/><path d="M-30 40 h24 M6 40 h24" fill="none" stroke-width="2"/>`),
@@ -2761,8 +2770,8 @@ function renderSettings(){const g=$('themelist');g.innerHTML='';THEMES.forEach((
 applyTheme();
 
 /* update notice */
-const APP_VER='2026.11.11c';
-const CHANGELOG=[{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
+const APP_VER='2026.11.11d';
+const CHANGELOG=[{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
  '빨간 것 천국: 물건이 수북이 쌓였어요. 끌어서 치우며 버튼을 찾아요.',
  '할머니 용돈: 가구 그림이 매번 섞이고 쉬움 4개, 보통 6개, 어려움 9개예요. 할머니가 "장롱 왼쪽"처럼 위치로 알려줘요.',
  '몽타주: 목격자 진술이 위에 크게 보이고, 모자와 안경을 새로 그렸어요.',
