@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -560,7 +560,7 @@ html,body{overscroll-behavior:none}
 @keyframes blinkred{to{filter:drop-shadow(0 0 10px #F0533D)}}
 .rpsh{position:absolute;width:84px;height:84px;margin:-42px 0 0 -42px;z-index:6;pointer-events:none;transition:opacity .2s}
 .rpsh svg{width:100%;height:100%}
-.rpsh.k{rotate:180deg}
+.rpsh.k{}
 .rpsh.shk{animation:rpsshk .3s ease-in-out 3}
 @keyframes rpsshk{50%{translate:0 -18px}}
 .holdind{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);font-family:var(--display);font-size:16px;background:var(--chip);border:2.5px solid var(--ink);border-radius:99px;padding:5px 14px;z-index:6;color:var(--fg)}
@@ -704,7 +704,7 @@ html,body{overscroll-behavior:none}
     <div class="hcard"><h3>테마 색</h3><div class="themes" id="themelist"></div></div>
     <div class="hcard bugcard"><h3>버그 발생 시</h3><p>정연이에게 알려주세요! 어떤 방해에서, 어떻게 됐는지 말해주면 고칠게요.</p></div>
     <div class="hcard"><h3>효과음</h3><div class="tgl two" id="sndsel"><button type="button" data-s="1">켜기</button><button type="button" data-s="0">끄기</button></div></div>
-    <div class="hcard"><h3>배경음악</h3><div class="tgl two" id="bgmsel"><button type="button" data-s="1">켜기</button><button type="button" data-s="0">끄기</button></div><div class="tgl" id="bgmtrack" style="margin-top:8px"><button type="button" data-t="0">행진곡<small>경쾌하게</small></button><button type="button" data-t="1">느긋한 오후<small>잔잔하게</small></button><button type="button" data-t="2">두근두근<small>긴장감 있게</small></button></div></div>
+    <div class="hcard"><h3>배경음악</h3><div class="tgl two" id="bgmsel"><button type="button" data-s="1">켜기</button><button type="button" data-s="0">끄기</button></div><div class="tgl" id="bgmtrack" style="margin-top:8px"><button type="button" data-t="0">행진곡<small>경쾌하게</small></button><button type="button" data-t="1">느긋한 오후<small>잔잔하게</small></button><button type="button" data-t="2">두근두근<small>긴장감</small></button><button type="button" data-t="3">딸깍 디스코<small>신나게</small></button><button type="button" data-t="4">비 오는 오후<small>피아노</small></button><button type="button" data-t="5">최종 보스<small>비장하게</small></button><button type="button" data-t="6">느릿느릿 스윙<small>재즈</small></button></div></div>
   </section>
   <section id="titles" hidden><div class="sechead"><h2>칭호</h2><button class="backhome" type="button">← 처음</button></div><p class="hint" style="margin:0;color:var(--muted);font-size:13px">얻은 칭호를 누르면 대표 칭호로 달 수 있어요.</p><div class="titlelist" id="titlelist"></div></section>
 </div>
@@ -2477,9 +2477,9 @@ var ENDS_EXTRA=Object.assign(window.ENDS_EXTRA||{},{'결혼식':'축하해! 꽃�
 
 /* ---------- v33 art ---------- */
 Object.assign(ART,{
-rpsR:S(`<path d="M-26 -6 q0 -16 14 -16 h26 q14 0 14 14 v18 q0 18 -20 18 h-14 q-20 0 -20 -20z" fill="#F6D3B5"/><path d="M-12 -22 v12 M2 -22 v12 M16 -20 v10" fill="none"/><path d="M-26 0 q-10 -2 -10 8 q0 8 12 8" fill="#F6D3B5"/>`),
-rpsS:S(`<path d="M-24 0 q0 -12 12 -12 h22 q14 0 14 14 v12 q0 18 -20 18 h-8 q-20 0 -20 -20z" fill="#F6D3B5"/><path d="M-12 -12 l-10 -34 q-2 -8 6 -9 q7 -1 9 6 l9 37" fill="#F6D3B5"/><path d="M4 -12 l12 -32 q3 -8 10 -5 q7 3 4 10 l-12 29" fill="#F6D3B5"/><path d="M-24 4 q-10 -2 -10 8 q0 8 12 8" fill="#F6D3B5"/>`),
-rpsP:S(`<path d="M-22 4 v-22 q0 -6 6 -6 q6 0 6 6 v-14 q0 -6 6 -6 q6 0 6 6 v-4 q0 -6 6 -6 q6 0 6 6 v8 q0 -6 6 -6 q6 0 6 6 v34 q0 22 -24 22 h-4 q-14 0 -22 -12 l-14 -20 q-4 -6 2 -9 q6 -3 10 3z" fill="#F6D3B5"/><path d="M-10 -18 v14 M2 -32 v28 M14 -26 v22" fill="none"/>`),
+rpsR:`<svg viewBox="-50 -50 100 100"><g stroke="#2A2340" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" fill="#F6D3B5"><path d="M-38 24 q-6 -24 10 -40 q18 -14 40 -6 q22 8 24 32 q2 16 -10 18 h-56 q-6 0 -8 -4z" fill="#A3A8BE"/><path d="M-20 -6 q8 -6 18 -2 M6 6 q8 2 12 10" fill="none" stroke-width="2.5"/><circle cx="-8" cy="12" r="3" fill="#8C90A6" stroke="none"/></g></svg>`,
+rpsS:`<svg viewBox="-50 -50 100 100"><g stroke="#2A2340" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" fill="#F6D3B5"><path d="M-4 -2 L34 -36" fill="none" stroke-width="7"/><path d="M-4 -2 L34 -36" fill="none" stroke="#D7DBE6" stroke-width="3"/><path d="M4 -2 L-34 -36" fill="none" stroke-width="7"/><path d="M4 -2 L-34 -36" fill="none" stroke="#D7DBE6" stroke-width="3"/><circle cx="-14" cy="22" r="13" fill="#E25B4B"/><circle cx="14" cy="22" r="13" fill="#E25B4B"/><circle cx="-14" cy="22" r="5" fill="#FBE3DC"/><circle cx="14" cy="22" r="5" fill="#FBE3DC"/><path d="M-6 12 L0 0 L6 12" fill="#E25B4B"/><circle cx="0" cy="4" r="3" fill="#2A2340" stroke="none"/></g></svg>`,
+rpsP:`<svg viewBox="-50 -50 100 100"><g stroke="#2A2340" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" fill="#F6D3B5"><path d="M-36 -32 h56 l16 16 v50 h-72z" fill="#FFFFFF"/><path d="M20 -32 v16 h16" fill="#E9ECF3"/><path d="M-26 -12 h40 M-26 0 h44 M-26 12 h38 M-26 24 h30" fill="none" stroke-width="2.5" opacity=".5"/></g></svg>`,
 bung:S(`<path d="M-40 0 C-32 -24 14 -26 28 -6 L44 -20 L42 20 L28 6 C14 26 -32 24 -40 0Z" fill="#D9934A"/><circle cx="-24" cy="-5" r="3" fill="#2A2340" stroke="none"/><path d="M-30 6 q4 4 8 0" fill="none"/><path d="M-8 -12 q6 6 0 12 M4 -12 q6 6 0 12 M16 -9 q5 5 0 9" fill="none"/>`),
 tea:S(`<path d="M-26 -12 h44 v24 a16 16 0 0 1 -16 16 h-12 a16 16 0 0 1 -16 -16z" fill="#F6F7FB"/><path d="M18 -4 a10 10 0 0 1 0 20" fill="none"/><rect x="-23" y="-9" width="38" height="8" fill="#C98A3C" stroke="none"/><path d="M-12 -22 q4 -6 0 -12 M2 -22 q4 -6 0 -12" fill="none"/>`),
 tissue:S(`<rect x="-30" y="-4" width="60" height="30" rx="4" fill="#9FD3F0"/><path d="M-12 -4 q2 -24 12 -24 q10 0 12 24" fill="#fff"/><path d="M-30 8 h60" fill="none"/>`),
@@ -2524,29 +2524,56 @@ document.addEventListener('pointerdown',e=>{const b=e.target.closest&&e.target.c
 
 /* background music: synthesized loops */
 const BGM=(()=>{const mf=m=>440*Math.pow(2,(m-69)/12);let timer=null,step=0,nextT=0,master=null,noise=null,playing=-1;
-  const T=[{bpm:120,len:32,
-     mel:[72,76,79,76,77,81,79,null,76,79,84,79,77,76,74,null,72,76,79,76,77,81,79,77,76,74,72,74,72,null,null,null],ml:'square',mv:.035,
-     bass:[48,55,48,55,53,60,53,60,48,55,48,55,43,50,43,50,48,55,48,55,53,60,53,60,43,50,43,50,48,55,48,null],bl:'triangle',bv:.09,
-     dr:i=>i%8===0||i%8===4?'k':i%8===2||i%8===6?'s':'h'},
-    {bpm:85,len:32,
-     mel:[76,null,79,null,null,77,76,null,72,null,null,74,76,null,null,null,74,null,77,null,81,null,79,77,79,null,null,null,null,null,null,null],ml:'sine',mv:.05,
-     chords:[[60,64,67,71],[57,60,64,67],[62,65,69,72],[55,59,62,65]],
-     bass:[48,null,null,null,48,null,null,null,45,null,null,null,45,null,null,null,50,null,null,null,50,null,null,null,43,null,null,null,43,null,47,null],bl:'sine',bv:.11,
-     dr:i=>i%8===0?'k':i%8===4?'s2':i%2===1?'h2':null},
-    {bpm:140,len:32,
-     mel:[69,null,72,null,76,null,74,72,69,null,72,null,76,77,76,74,72,null,69,null,72,null,74,null,71,null,74,null,79,null,77,76],ml:'square',mv:.028,
-     bass:[45,45,57,45,45,45,57,45,45,45,57,45,45,45,57,45,41,41,53,41,41,41,53,41,43,43,55,43,43,43,55,43],bl:'sawtooth',bv:.05,
-     dr:i=>i%2===0?(i%4===0?'k':'tick'):'tock'}];
-  const env=(type,f,t,d,v,dest)=>{const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(dest);o.start(t);o.stop(t+d+.05)};
+  const T=[
+ {id:1,old:1,name:'행진곡',desc:'경쾌한 8비트 행진. 지금 기본 곡.',bpm:120,len:32,
+  mel:[72,76,79,76,77,81,79,null,76,79,84,79,77,76,74,null,72,76,79,76,77,81,79,77,76,74,72,74,72,null,null,null],ml:'square',mv:.035,
+  bass:[48,55,48,55,53,60,53,60,48,55,48,55,43,50,43,50,48,55,48,55,53,60,53,60,43,50,43,50,48,55,48,null],bl:'triangle',bv:.09,bd:.9,
+  dr:i=>i%8===0||i%8===4?'k':i%8===2||i%8===6?'s':'h'},
+ {id:2,old:1,name:'느긋한 오후',desc:'로파이 느낌의 잔잔한 곡.',bpm:85,len:32,
+  mel:[76,null,79,null,null,77,76,null,72,null,null,74,76,null,null,null,74,null,77,null,81,null,79,77,79,null,null,null,null,null,null,null],ml:'sine',mv:.05,
+  chords:[[60,64,67,71],[57,60,64,67],[62,65,69,72],[55,59,62,65]],
+  bass:[48,null,null,null,48,null,null,null,45,null,null,null,45,null,null,null,50,null,null,null,50,null,null,null,43,null,null,null,43,null,47,null],bl:'sine',bv:.11,bd:3.5,
+  dr:i=>i%8===0?'k':i%8===4?'s2':i%2===1?'h2':null},
+ {id:3,old:1,name:'두근두근',desc:'시간에 쫓기는 듯한 긴장감.',bpm:140,len:32,
+  mel:[69,null,72,null,76,null,74,72,69,null,72,null,76,77,76,74,72,null,69,null,72,null,74,null,71,null,74,null,79,null,77,76],ml:'square',mv:.028,
+  bass:[45,45,57,45,45,45,57,45,45,45,57,45,45,45,57,45,41,41,53,41,41,41,53,41,43,43,55,43,43,43,55,43],bl:'sawtooth',bv:.05,bd:.9,
+  dr:i=>i%2===0?(i%4===0?'k':'tick'):'tock'},
+ {id:5,name:'딸깍 디스코',desc:'둥둥 쿵짝, 신나는 댄스곡.',bpm:124,len:32,
+  mel:[69,null,72,74,null,76,null,74,72,null,69,null,72,74,72,null,67,null,72,74,null,76,null,79,76,null,74,null,72,null,null,null],ml:'saw',mv:.03,
+  chords:[[57,60,64],[53,57,60],[48,52,55],[55,59,62]],stab:1,
+  bass:[45,57,45,57,45,57,45,57,41,53,41,53,41,53,41,53,48,60,48,60,48,60,48,60,43,55,43,55,43,55,43,55],bl:'square',bv:.05,bd:.7,
+  dr:i=>i%2===0?(i%4===2?'kc':'k'):'h'},
+ {id:6,name:'비 오는 오후',desc:'창밖에 비 오는 날의 잔잔한 피아노.',bpm:72,len:32,
+  arp:[[53,57,60,64],[52,55,59,62],[50,53,57,60],[48,52,55,59]],
+  mel:[null,null,76,null,74,null,72,null,null,null,74,null,72,null,71,null,null,null,72,null,69,null,72,74,76,null,null,null,null,null,null,null],ml:'piano',mv:.07,
+  bass:[41,null,null,null,null,null,null,null,40,null,null,null,null,null,null,null,38,null,null,null,null,null,null,null,36,null,null,null,null,null,null,null],bl:'sine',bv:.09,bd:7,
+  dr:()=>null},
+ {id:8,name:'최종 보스 버튼',desc:'마지막 결전처럼 비장하고 빠른 게임 음악.',bpm:152,len:32,
+  mel:[64,null,67,null,71,null,70,71,72,71,67,null,64,null,62,null,64,null,67,null,71,null,74,null,76,74,72,71,72,null,71,null],ml:'square',mv:.03,
+  bass:[40,40,52,40,40,40,52,40,36,36,48,36,36,36,48,36,38,38,50,38,38,38,50,38,35,35,47,35,35,35,47,35],bl:'saw',bv:.045,bd:.8,
+  dr:i=>i%4===0?'k':i%4===2?'s':'h'},
+ {id:9,name:'느릿느릿 스윙',desc:'통통 튀는 베이스의 여유로운 재즈.',bpm:104,len:32,swing:.64,
+  mel:[72,null,75,76,null,79,null,null,77,null,76,null,74,null,72,null,70,null,72,null,75,76,null,null,72,null,null,null,null,null,null,null],ml:'piano',mv:.06,
+  chords:[[60,64,67,70],[60,64,67,70],[65,69,72,75],[67,71,74,77]],comp:1,
+  bass:[48,null,52,null,55,null,57,null,58,null,57,null,55,null,52,null,53,null,57,null,60,null,57,null,55,null,59,null,62,null,59,null],bl:'triangle',bv:.1,bd:1.8,
+  dr:i=>i%2===0?'ride':'ride2'}];
+  const osc=(type,f,t,d,v,att=.01)=>{const g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+Math.max(d,att+.02));g.connect(master);
+    const mk=(ty,fr,gain=1)=>{const o=AC.createOscillator();o.type=ty;o.frequency.setValueAtTime(fr,t);if(gain!==1){const g2=AC.createGain();g2.gain.value=gain;o.connect(g2).connect(g)}else o.connect(g);o.start(t);o.stop(t+d+att+.1)};
+    if(type==='bell'){mk('sine',f);mk('sine',f*2,.35);mk('sine',f*3,.12)}else if(type==='piano'){mk('triangle',f);mk('sine',f*2,.25)}else if(type==='saw'){mk('sawtooth',f,.6)}else mk(type,f)};
   const nz=(t,d,v,hp)=>{if(!noise){noise=AC.createBuffer(1,AC.sampleRate*.5,AC.sampleRate);const a=noise.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=Math.random()*2-1}const s=AC.createBufferSource();s.buffer=noise;const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=hp;const g=AC.createGain();g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);s.connect(f).connect(g).connect(master);s.start(t);s.stop(t+d+.02)};
   const kick=(t,v)=>{const o=AC.createOscillator(),g=AC.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(45,t+.12);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+.15);o.connect(g).connect(master);o.start(t);o.stop(t+.17)};
-  const play=(tr,i,t)=>{const e=(60/tr.bpm)/2;const m=tr.mel[i];if(m)env(tr.ml,mf(m),t,e*1.6,tr.mv,master);const b=tr.bass[i];if(b)env(tr.bl,mf(b),t,e*(tr.bpm<100?3.5:.9),tr.bv,master);
-    if(tr.chords&&i%8===0){const c=tr.chords[(i/8)|0];c.forEach(n=>{env('triangle',mf(n),t,e*3.2,.022,master);env('sine',mf(n)*2,t,e*2,.008,master)})}
-    if(tr.chords&&i%8===5){const c=tr.chords[(i/8)|0];c.forEach(n=>env('triangle',mf(n),t,e*1.4,.014,master))}
-    const d=tr.dr(i);if(d==='k')kick(t,tr.bpm<100?.22:.3);else if(d==='s')nz(t,.12,.09,1500);else if(d==='s2')nz(t,.1,.05,2500);else if(d==='h')nz(t,.03,.04,7000);else if(d==='h2')nz(t,.025,.02,8000);else if(d==='tick')env('sine',1800,t,.04,.05,master);else if(d==='tock')env('sine',1250,t,.04,.035,master)};
-  const tick=()=>{if(!AC||playing<0)return;const tr=T[playing],e=(60/tr.bpm)/2;while(nextT<AC.currentTime+.25){play(tr,step,nextT);step=(step+1)%tr.len;nextT+=e}};
+  const play=(tr,i,t)=>{const e=60/tr.bpm/2;const bar=(i/8)|0;const m=tr.mel[i];
+  if(m)osc(tr.ml,mf(m),t,tr.ml==='bell'?e*3:tr.ml==='piano'?e*2.4:e*1.5,tr.mv);const b=tr.bass[i];if(b)osc(tr.bl,mf(b),t,e*tr.bd,tr.bv);
+  if(tr.arp){const c=tr.arp[bar];const n=c[i%4];osc(tr.arpBell?'bell':'piano',mf(n+12),t,e*2.5,tr.arpBell?.028:.035)}
+  if(tr.chords){const c=tr.chords[bar];
+    if(tr.pad&&i%8===0)c.forEach(n=>osc('triangle',mf(n),t,e*7.5,.025,e*2));
+    else if(tr.stab&&i%2===1)c.forEach(n=>osc('saw',mf(n+12),t,e*.5,.012));
+    else if(tr.comp&&(i%8===3||i%8===6))c.forEach(n=>osc('piano',mf(n),t,e*.8,.02));
+    else if(!tr.pad&&!tr.stab&&!tr.comp){if(i%8===0)c.forEach(n=>{osc('triangle',mf(n),t,e*3.2,.022);osc('sine',mf(n)*2,t,e*2,.008)});if(i%8===5)c.forEach(n=>osc('triangle',mf(n),t,e*1.4,.014))}}
+  const d=tr.dr(i);if(!d)return;if(d==='k')kick(t,tr.bpm<100?.22:.3);else if(d==='kc'){kick(t,.3);nz(t,.12,.08,1800)}else if(d==='s')nz(t,.12,.09,1500);else if(d==='s2')nz(t,.1,.05,2500);else if(d==='h')nz(t,.03,.04,7000);else if(d==='h2')nz(t,.025,.02,8000);else if(d==='ride')nz(t,.08,.03,6000);else if(d==='ride2')nz(t,.04,.02,7000);else if(d==='tick')osc('sine',1800,t,.04,.05);else if(d==='tock')osc('sine',1250,t,.04,.035)};
+  const tick=()=>{if(!AC||playing<0||!master)return;const tr=T[playing],e=60/tr.bpm/2;while(nextT<AC.currentTime+.25){const sw=tr.swing&&step%2===1?(tr.swing-.5)*2*e:0;play(tr,step,nextT+sw);step=(step+1)%tr.len;nextT+=e}};
   const ensure=()=>{try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();if(!master){master=AC.createGain();master.gain.value=.55;master.connect(AC.destination)}return true}catch(e){return false}};
-  return{start(i=D.bgmTrack||0){if(playing===i&&timer)return;this.stop();if(!ensure())return;playing=i;step=0;nextT=AC.currentTime+.08;master.gain.cancelScheduledValues(AC.currentTime);master.gain.setValueAtTime(.55,AC.currentTime);timer=setInterval(tick,60);tick()},
+  return{names:T.map(t=>t.name),start(i=D.bgmTrack||0){if(i>=T.length)i=0;if(playing===i&&timer)return;this.stop();if(!ensure())return;playing=i;step=0;nextT=AC.currentTime+.08;timer=setInterval(tick,60);tick()},
     stop(){if(timer){clearInterval(timer);timer=null}playing=-1;if(master&&AC){master.gain.cancelScheduledValues(AC.currentTime);master.gain.setValueAtTime(0,AC.currentTime);const m=master;master=null;setTimeout(()=>{try{m.disconnect()}catch(e){}},300)}},
     sync(){if(D.bgm!==false&&!document.hidden)this.start(D.bgmTrack||0);else this.stop()}}})();
 document.addEventListener('pointerdown',()=>{if(D.bgm!==false)BGM.sync()},{passive:true});
@@ -2734,8 +2761,8 @@ function renderSettings(){const g=$('themelist');g.innerHTML='';THEMES.forEach((
 applyTheme();
 
 /* update notice */
-const APP_VER='2026.11.11b';
-const CHANGELOG=[{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
+const APP_VER='2026.11.11c';
+const CHANGELOG=[{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
  '빨간 것 천국: 물건이 수북이 쌓였어요. 끌어서 치우며 버튼을 찾아요.',
  '할머니 용돈: 가구 그림이 매번 섞이고 쉬움 4개, 보통 6개, 어려움 9개예요. 할머니가 "장롱 왼쪽"처럼 위치로 알려줘요.',
  '몽타주: 목격자 진술이 위에 크게 보이고, 모자와 안경을 새로 그렸어요.',
