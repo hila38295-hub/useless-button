@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -657,6 +657,16 @@ html,body{overscroll-behavior:none}
 .spr.pop2{animation:pop .4s cubic-bezier(.3,1.6,.6,1)}
 .tsign{position:absolute;transform:translate(-50%,-50%);background:#F2C94C;border:3px solid var(--ink);border-radius:8px;padding:3px 12px;font-family:var(--display);font-size:16px;color:#22263A;white-space:nowrap;z-index:4}
 .big.crush{background:#F7A1BF;cursor:default}.big.crush::before{background:#FFD6E4}
+
+.updpop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:rgba(42,35,64,.45);padding:16px;animation:fade .25s}
+.updbox{position:relative;width:min(340px,100%);background:var(--panel);color:var(--fg);border:3px solid var(--ink);border-radius:18px;box-shadow:0 6px 0 var(--ink);padding:44px 18px 16px;text-align:center}
+.updbtn{position:absolute;left:50%;top:-30px;width:60px;height:60px;margin-left:-30px;border-radius:50%;background:var(--btn);border:3.5px solid var(--ink);box-shadow:0 5px 0 var(--ink)}
+.updbtn::before{content:"";position:absolute;left:20%;top:15%;width:24%;height:13%;border-radius:50%;background:var(--btn-hi);rotate:-25deg}
+.updbox h3{margin:0 0 4px;font-family:var(--display);font-weight:400;font-size:24px}
+.updbox p{margin:0 0 12px;color:var(--muted);font-size:14px}
+.updbox ul{text-align:left;margin:0 0 14px;padding-left:18px;max-height:52vh;overflow:auto;font-size:14px;line-height:1.55}
+.updbox li{margin-bottom:6px}
+.updrow{display:flex;gap:8px;justify-content:center}
 </style>
 
 </head>
@@ -2691,7 +2701,25 @@ function applyTheme(){const t=THEMES.find(x=>x[0]===(D.theme||'auto'))||THEMES[0
 function renderSettings(){const g=$('themelist');g.innerHTML='';THEMES.forEach(([id,nm,desc,c])=>{const b=el('button','thm'+((D.theme||'auto')===id?' on':''),`<span class="sw">${c?`<i style="background:${c.bg}"></i><i style="background:${c.panel}"></i><i style="background:${c.accent}"></i>`:'<i class="auto"></i>'}</span><b>${nm}</b><small>${desc}</small>`);b.type='button';b.setAttribute('aria-pressed',(D.theme||'auto')===id);b.onclick=()=>{D.theme=id;saveD();applyTheme();renderSettings()};g.appendChild(b)});
   document.querySelectorAll('#sndsel button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.s==='1')===!!D.sound));document.querySelectorAll('#bgmsel button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.s==='1')===(D.bgm!==false)));document.querySelectorAll('#bgmtrack button').forEach(b=>b.setAttribute('aria-pressed',D.bgm!==false&&+b.dataset.t===(D.bgmTrack||0)))}
 applyTheme();
+
+/* update notice */
+const APP_VER='2026.11.11';
+const CHANGELOG=[{v:'2026.11.11',title:'버튼이 새 단장을 했어요',items:[
+ '방해를 정리했어요. 버튼과 상관없던 것, 서로 겹치던 것을 빼서 150개가 됐어요.',
+ '버튼이 주인공인 방해로 새로 바뀌었어요: 결혼식, 할머니 용돈, 썸 타는 버튼, 고백 현장, 고민 상담, 떼창, 오리 가족, 택배 기사, 코인 폭락, 용의 보물, 단체 사진, 사진 좀… 등',
+ '조작이 더 알기 쉬워졌어요: 주차하기(핸들 고정), 삐진 버튼(쓰다듬기), 거울 나라(거울 표시), 노래방(박자 소리) 등',
+ '문지르다 손을 떼면 저절로 눌려서 넘어가던 문제를 고쳤어요.',
+ '배경 8종이 새로 생기고, 비 오는 날은 항상 비가 와요.',
+ '배경음악 3곡이 생겼어요. 설정(톱니바퀴)에서 고르거나 끌 수 있어요.',
+ '새 칭호: 눈 깜짝할 새에, 버튼 감별사, 계란 후라이. 몇몇 칭호 이름과 조건이 바뀌었어요.',
+ '황금 버튼이 0.01% 확률로 아주 귀해졌어요.']}];
+function showUpdate(){if(D.seenVer===APP_VER)return;if(!D.total&&!D.seenVer){D.seenVer=APP_VER;saveD();return}
+  const c=CHANGELOG[0];const o=el('div','updpop',`<div class="updbox" role="dialog" aria-modal="true" aria-label="업데이트 안내"><div class="updbtn"></div><h3>업데이트됐어요!</h3><p>${c.title}</p><ul hidden>${c.items.map(i=>`<li>${i}</li>`).join('')}</ul><div class="updrow"><button type="button" class="tool updmore">더보기</button><button type="button" class="tool primary updok">확인</button></div></div>`);
+  document.body.appendChild(o);const ul=o.querySelector('ul'),mb=o.querySelector('.updmore');
+  mb.onclick=()=>{ul.hidden=!ul.hidden;mb.textContent=ul.hidden?'더보기':'접기';try{SFX.click()}catch(e){}};
+  o.querySelector('.updok').onclick=()=>{D.seenVer=APP_VER;saveD();o.remove();try{SFX.click()}catch(e){}}}
 bindUI();{let v='';try{v=sessionStorage.getItem('ubView')}catch(e){}if(v==='game')newRun('random');else show('home')}
+setTimeout(showUpdate,500);
 
 </script>
 
