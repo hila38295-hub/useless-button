@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -576,7 +576,7 @@ html,body{overscroll-behavior:none}
 .gpile{position:absolute;width:160px;height:56px;margin:-28px 0 0 -80px;border-radius:50%;background:radial-gradient(#FFE08A,#E3B53C);border:3px solid var(--ink);z-index:1}
 .aisle{position:absolute;left:calc(50% - 46px);width:70px;margin-left:-35px;top:34%;bottom:0;background:repeating-linear-gradient(0deg,#F7C9D6 0 18px,#FBDDE6 18px 36px);border-left:3px solid var(--ink);border-right:3px solid var(--ink);z-index:0}
 .bride{position:absolute;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:#FFE3EC;border:3.5px solid var(--ink);box-shadow:0 6px 0 var(--ink);z-index:3}
-.bride::before{content:"";position:absolute;left:-14px;right:-14px;top:-20px;height:60px;border-radius:50% 50% 30% 30%;background:rgba(255,255,255,.8);border:2.5px solid var(--ink);z-index:-1}
+.bride::before{content:"";position:absolute;left:-8px;right:-8px;top:-16px;height:34px;border-radius:50% 50% 30% 30%;background:rgba(255,255,255,.8);border:2.5px solid var(--ink);z-index:-1}
 .furns{position:absolute;left:18px;right:18px;top:38%;bottom:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;z-index:2}
 .furn{border:3px solid var(--ink);border-radius:10px;font-family:var(--display);font-size:17px;color:#22263A;cursor:pointer;box-shadow:0 4px 0 var(--ink)}
 .furn:active{translate:0 2px;box-shadow:0 2px 0 var(--ink)}
@@ -1032,7 +1032,7 @@ const OB=[
   const ask=()=>{if(t)t.remove();const g=G[r];const line=lv===2?g[2]:g[1];bsb.textContent=line;bsb.style.visibility='visible';say('버튼: '+line);
     const opts=shuffle([[g[0],1],...shuffle(G.filter(x=>x!==g)).slice(0,nOpt-1).map(x=>[x[0],0])]);
     t=tools(...opts.map(([l,ok])=>[l,()=>{if(ok){r++;if(r>=rounds){t.remove();bsb.remove();b.locked=false;setLabel(b,'복직');say('복직했습니다. 오늘만 출근합니다.')}else{bsb.textContent='…솔깃하네. 근데 그것만이 아니야.';say('버튼: …솔깃하네. 근데 그것만이 아니야.');after(1300,ask)}}
-      else{shake(b);awk(pick(['버튼: 그게 아니라…','버튼: 내 말 안 들었구나?','버튼: 그건 별로 안 아쉬운데.']));after(1200,()=>{if(won)return;if(lv===2&&r>0){r=0;say('버튼: 처음부터 다시 생각해 볼래.');after(1000,ask)}else say('버튼: '+line)})}}]))};
+      else{shake(b);awk(pick(['버튼: 그게 아니라…','버튼: 내 말 안 들었구나?','버튼: 그건 별로 안 아쉬운데.']));after(1200,()=>{if(won)return;if(lv===2&&r>0){r=0;say('버튼: 처음부터 다시 생각해 볼래.');after(1000,ask)}else say('버튼: '+line)})}}]));t.classList.add('compact')};
   ask();b.addEventListener('click',()=>{if(b.locked)say('사직서 수리되기 전엔 안 눌려요.')});
 }},
 {name:'코인 폭락',story:'버튼이 코인으로 다 잃고 울고 있습니다. 본전에서 팔게 도와주세요.',run(lv){const B=mkB(lv);const amp=B(48,42,36),mid=B(-6,-12,-18),per=B(6000,4600,3400),noise=B(3,6,10),stp=B(220,180,140);
@@ -2320,7 +2320,7 @@ OB.push(
   const confess=()=>{if(won)return;post('…(입력 중)');after(1200,()=>{ms.lastChild.textContent='저기… 나랑 버튼 누를래?';after(900,()=>{ph.style.transition='opacity .4s';ph.style.opacity=0;hb.remove();after(400,()=>{ph.remove();const b=add(realBtn('좋아!','pop'));center(b);say('버튼이 고백했어요. 대답은 버튼으로!')})})})};
   say('버튼한테 온 메시지에 답장을 골라요. 호감도를 다 채우면…?');after(500,round);
 }},
-{name:'반대 나라',bg:'lab',story:'버튼이 반대 나라에 갔어요. 여기선 "누르지 마시오" 칸에 있어야만 눌려요. 움직임도 전부 반대로…',run(lv){const B=mkB(lv);
+{name:'반대 나라',bg:'lab',story:'반대 나라에선 "누르지 마시오" 칸에서만 눌려요.',run(lv){const B=mkB(lv);
   const goal=add(el('div','seat nopress','누르지<br>마시오'));goal.style.width=goal.style.height='110px';const gx0=rnd(80,W()-80),gy0=lv===0?H()*.25:rnd(80,H()*.4);pos(goal,gx0,gy0);
   const b=add(realBtn('거꾸로','mid'));const sx=W()/2,sy=H()-80;pos(b,sx,sy);b.locked=true;let ox=sx,oy=sy,st=null,placed=false;
   b.addEventListener('pointerdown',e=>{if(placed)return;e.preventDefault();st=sp(e);ox=gx(b);oy=gy(b);try{b.setPointerCapture(e.pointerId)}catch(_){}});
@@ -2376,12 +2376,12 @@ OB.push(
     <rect x="46" y="140" width="28" height="46" fill="${DC[h.door][1]}"/><circle cx="68" cy="164" r="2" fill="#2A2340"/>
     ${h.mb?'<rect x="96" y="150" width="4" height="36" fill="#6B7085"/><rect x="88" y="138" width="22" height="16" rx="4" fill="#6B7085"/>':''}
     ${h.pot?'<path d="M16 172 h18 l-3 14 h-12z" fill="#C98A3C"/><circle cx="25" cy="164" r="9" fill="#5FB59A"/>':''}</g></svg>`};
-  const slip=bubble('',10);const tb=add(el('div','tbar','<i></i>')),ti=tb.querySelector('i');tb.style.top='52px';
+  const slip=bubble('',10);slip.style.whiteSpace='normal';slip.style.width='max-content';slip.style.maxWidth=(W()-28)+'px';slip.style.textAlign='center';slip.style.fontSize='15px';const tb=add(el('div','tbar','<i></i>')),ti=tb.querySelector('i');tb.style.top='52px';
   const al=add(el('div','alley')),strip=add(el('div','strip'),al);let off=0,tLeft=lim,active=false,keys=[];
   const mv=d=>{const mx=Math.max(0,strip.scrollWidth-al.clientWidth);off=Math.max(0,Math.min(mx,off+d));strip.style.translate=(-off)+'px 0'};
   const build=()=>{strip.innerHTML='';off=0;mv(0);keys=shuffle(Object.keys(CL)).slice(0,nc);const tg={door:F.door(),fl:F.fl(),mb:F.mb(),pot:F.pot()};const hs=[tg];let guard=0;
     while(hs.length<nh&&guard++<500){const h={door:F.door(),fl:F.fl(),mb:F.mb(),pot:F.pot()};if(!keys.every(k=>h[k]===tg[k]))hs.push(h)}shuffle(hs);
-    slip.textContent='송장: '+keys.map(k=>CL[k](tg)).join(' · ');
+    slip.textContent='송장: '+keys.map(k=>CL[k](tg)).join(' · ');{const tt=slip.offsetTop+slip.offsetHeight+6;tb.style.top=tt+'px';al.style.top=(tt+20)+'px'}
     hs.forEach(h=>{const x=add(el('button','hs2',svg(h)),strip);x.setAttribute('aria-label','집');x.onclick=()=>{if(!active||won)return;
       if(h===tg){active=false;al.remove();tb.remove();ts.remove();const p=person(W()/2,H()*.46,'#6E7CF2','happy',80);talk(p,'어머 택배 왔네요! 버튼 주문했었는데.',1800);tone(880,.1,'sine',.05);tone(660,.2,'sine',.05,.12);after(1600,()=>{const b=add(realBtn('도착','pop'));pos(b,W()/2,H()-70)})}
       else{x.disabled=true;x.classList.add('nope2');awk(pick(['…저 이거 안 시켰는데요?','(문 안 열어줌)','옆집 아니에요?']))}}});
@@ -2479,7 +2479,7 @@ OB.push(
   say('널빤지 끝(동그라미)을 끌어서 물 위에 걸쳐주세요. 물이 출렁여서 높이가 계속 바뀌어요!');
 }},
 );
-Object.assign(HINTS,{'결혼식':'꽃가루는 두 사람이 걸어 나올 때.','택시 통화':'기사님 통화가 끝나면, 그리고 목적지 바로 앞에서.','식당 호출벨':'직원분 손이 비었을 때가 기회예요.','소개팅 계산':'다 먹고, 상대가 지갑 꺼내기 전에.','영상통화':'화면이 멈춰도 할머니는 말씀 중일 수 있어요.','미용실 다녀온 친구':'어제 사진을 잘 기억해 두세요.','할머니 용돈':'바로 받으면 넙죽, 너무 빼면 서운. 적당히.','선배가 사주는 밥':'인사 먼저, 숟가락은 선배 다음.','단톡방':'좋은 소식에만 축하를.','사춘기 버튼':'노크는 역효과일 수도.','다이어트 버튼':'눈에 안 보이면 괜찮대요. 숨겨둔 간식도 조심.','양치기 버튼':'거짓말할 때 뒤에서 뭔가 하고 있어요.','썸 타는 버튼':'답장 내용에 따라 반응이 달라요.','반대 나라':'반대 나라에선 하지 말라는 게 하라는 거예요. 움직임도 반대로.','기울어진 화면':'살살 끌어야 살살 기울어요.','그림자 놀이':'구멍이나 이빨 자국이 있으면 버튼이 아니죠.','흉내쟁이 버튼':'다들 가만히 있는데 혼자 꿈틀.','크리스마스 선물':'리본부터, 그다음은 마구 뜯기.','세배':'공손하게, 순서대로. 큰절은 천천히.','송편 빚기':'펴고, 넣고, 접고, 여미고.','할로윈':'유령마다 좋아하는 색이 달라요.','청진기':'쿵쿵이 빨라지면 가까워요.','택배 기사':'층과 호수를 잘 보세요.','몽타주':'목격자 말 세 가지를 다 맞춰봐요.','지진':'흔들리면 탁자 밑. 멈추면 나와요.','블랙홀':'반짝이는 표시를 지날 때가 기회예요.','용암 건너기':'돌이 가까이 올 때까지 기다렸다가 폴짝.','시간 정지':'시간이 멈춘 동안만 눌려요.','판다':'배부르면 팔이 풀려요. 빼낼 땐 살살.','앵무새':'엄마 말과 앵무새 말은 다르죠.','햄스터 쳇바퀴':'맨 아래에 올 때가 기회.','오리 가족':'늘 한 마리는 늦게 와요.'});
+Object.assign(HINTS,{'결혼식':'꽃가루는 두 사람이 걸어 나올 때.','택시 통화':'기사님 통화가 끝나면, 그리고 목적지 바로 앞에서.','식당 호출벨':'직원분 손이 비었을 때가 기회예요.','소개팅 계산':'다 먹고, 상대가 지갑 꺼내기 전에.','영상통화':'화면이 멈춰도 할머니는 말씀 중일 수 있어요.','미용실 다녀온 친구':'어제 사진을 잘 기억해 두세요.','할머니 용돈':'바로 받으면 넙죽, 너무 빼면 서운. 적당히.','선배가 사주는 밥':'인사 먼저, 숟가락은 선배 다음.','단톡방':'좋은 소식에만 축하를.','사춘기 버튼':'노크는 역효과일 수도.','다이어트 버튼':'눈에 안 보이면 괜찮대요. 숨겨둔 간식도 조심.','양치기 버튼':'거짓말할 때 뒤에서 뭔가 하고 있어요.','썸 타는 버튼':'답장 내용에 따라 반응이 달라요.','반대 나라':'끄는 방향도 반대예요.','기울어진 화면':'살살 끌어야 살살 기울어요.','그림자 놀이':'구멍이나 이빨 자국이 있으면 버튼이 아니죠.','흉내쟁이 버튼':'다들 가만히 있는데 혼자 꿈틀.','크리스마스 선물':'리본부터, 그다음은 마구 뜯기.','세배':'공손하게, 순서대로. 큰절은 천천히.','송편 빚기':'펴고, 넣고, 접고, 여미고.','할로윈':'유령마다 좋아하는 색이 달라요.','청진기':'쿵쿵이 빨라지면 가까워요.','택배 기사':'층과 호수를 잘 보세요.','몽타주':'목격자 말 세 가지를 다 맞춰봐요.','지진':'흔들리면 탁자 밑. 멈추면 나와요.','블랙홀':'반짝이는 표시를 지날 때가 기회예요.','용암 건너기':'돌이 가까이 올 때까지 기다렸다가 폴짝.','시간 정지':'시간이 멈춘 동안만 눌려요.','판다':'배부르면 팔이 풀려요. 빼낼 땐 살살.','앵무새':'엄마 말과 앵무새 말은 다르죠.','햄스터 쳇바퀴':'맨 아래에 올 때가 기회.','오리 가족':'늘 한 마리는 늦게 와요.'});
 var ENDS_EXTRA=Object.assign(window.ENDS_EXTRA||{},{'결혼식':'축하해! 꽃가루 팡!','사춘기 버튼':'…간식 고마워. 눌러도 돼.','썸 타는 버튼':'주말에 본대! 기념으로 눌러줘!','판다':'판다 품 따뜻했는데… 눌러줘.','오리 가족':'꽥! 이제 출발!','블랙홀':'살았다! 꾹 눌러줘.'});
 
 /* ---------- v33 art ---------- */
@@ -2768,8 +2768,8 @@ function renderSettings(){const g=$('themelist');g.innerHTML='';THEMES.forEach((
 applyTheme();
 
 /* update notice */
-const APP_VER='2026.11.11e';
-const CHANGELOG=[{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['빨간 것 천국: 버튼도 다른 물건처럼 끌어서 옮길 수 있고, 톡 눌러야 성공해요.','무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
+const APP_VER='2026.11.11f';
+const CHANGELOG=[{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['빨간 것 천국: 버튼도 다른 물건처럼 끌어서 옮길 수 있고, 톡 눌러야 성공해요.','화면 점검: 퇴사 선언 보기 버튼, 택배 기사 송장, 반대 나라 설명, 결혼식 신부 그림이 잘리거나 겹치던 걸 고쳤어요.','무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
  '빨간 것 천국: 물건이 수북이 쌓였어요. 끌어서 치우며 버튼을 찾아요.',
  '할머니 용돈: 가구 그림이 매번 섞이고 쉬움 4개, 보통 6개, 어려움 9개예요. 할머니가 "장롱 왼쪽"처럼 위치로 알려줘요.',
  '몽타주: 목격자 진술이 위에 크게 보이고, 모자와 안경을 새로 그렸어요.',
