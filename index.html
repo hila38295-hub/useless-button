@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -693,6 +693,21 @@ html,body{overscroll-behavior:none}
 .tutskip{margin-top:10px}
 .instol{text-align:left;margin:8px 0 10px;padding-left:20px;font-size:15px;line-height:1.7}
 .tutsmall{font-size:12.5px!important;color:var(--muted)}
+
+.mball.batt{width:34px;height:18px;border-radius:4px;background:linear-gradient(90deg,#3B3F57 0 30%,#F2C94C 30%);}
+.mball.batt::after{content:"";position:absolute;right:-6px;top:4px;width:4px;height:6px;background:#2A2340;border-radius:1px}
+
+.scroller.plainbg{background:#E8EDE4}
+.scroller.plainbg .tall{background-image:radial-gradient(circle,rgba(42,35,64,.12) 1.5px,transparent 2px);background-size:36px 36px}
+.zlayer{position:absolute;left:0;top:0;transform-origin:0 0;z-index:2;background-image:radial-gradient(circle,rgba(42,35,64,.10) .8px,transparent 1.2px);background-size:14px 14px}
+.zlayer .big{min-width:0;min-height:0}
+.zlayer .big::before{display:none}
+.ant{position:absolute;width:3px;height:2px;margin:-1px 0 0 -1.5px;border-radius:50%;background:#2A2340;pointer-events:none}
+.ant.dim{opacity:.55}
+.zoomlbl{position:absolute;right:10px;top:10px;background:var(--chip);border:2.5px solid var(--ink);border-radius:99px;padding:2px 10px;font-family:var(--display);font-size:14px;z-index:6;pointer-events:none;color:var(--fg)}
+
+.hintb{flex:none;width:44px;border:1.5px solid var(--line);background:var(--panel);color:var(--accent);border-radius:14px;font-family:var(--display);font-size:22px;cursor:pointer}
+.hintb.used{color:var(--muted)}
 </style>
 
 </head>
@@ -707,7 +722,7 @@ html,body{overscroll-behavior:none}
     <div class="hrow two"><button type="button" id="dexbtn">도감</button><button type="button" id="titlebtn">칭호</button></div>
   </section>
   <section id="game" hidden>
-    <div class="gtop"><button class="backhome" type="button">← 처음</button><div class="now"><div class="meta"><span id="num"></span><span class="lvl" id="lvl"></span></div><div class="nm" id="nm"></div></div><button class="skip" id="skip" type="button">다른 방해</button></div>
+    <div class="gtop"><button class="backhome" type="button">← 처음</button><div class="now"><div class="meta"><span id="num"></span><span class="lvl" id="lvl"></span></div><div class="nm" id="nm"></div></div><button class="hintb" id="hintb" type="button" aria-label="힌트 보기">?</button><button class="skip" id="skip" type="button">다른 방해</button></div>
     <div class="stage" id="stage"></div>
     <div class="cap" id="cap" aria-live="polite"></div>
   </section>
@@ -867,13 +882,17 @@ const OB=[
   if(lv>0)every(500,()=>{if(b.locked&&n>0&&performance.now()-last>1200){n--;say(`다시 잠들고 있어요… (${n}/${need})`)}});
   say('버튼이 자고 있습니다. 계속 두드려서 깨우세요.');
 }},
-{name:'굴러간 버튼',story:'버튼이 화면 밖으로 굴러갔어요.',run(lv){const B=mkB(lv);const f=B(1,1.6,2.4);stage.style.touchAction='auto';
-  const sc=add(el('div','scroller')),inner=add(el('div','tall'),sc);const w=1100*f,h=1600*f;inner.style.width=w+'px';inner.style.height=h+'px';
-  const signs=['굴러간 자국 →','여기 아님','↓ 이쪽으로 감','비둘기가 봤대요','거의 다 왔어요 ↘','여기 아님 2','방금 지나감','데굴데굴','여기도 아님','조금만 더'];
-  signs.slice(0,B(5,8,10)).forEach((t,i)=>{const s=add(el('div','sign',t),inner);pos(s,rnd(100,w-100),(i+1)/(signs.length+1)*h)});
-  if(lv===2)for(let i=0;i<6;i++){const s=add(el('div','sign','버튼인 척하는 돌'),inner);pos(s,rnd(100,w-100),rnd(200,h-200))}
-  const b=add(realBtn('여기!','mid'),inner);pos(b,rnd(w*.75,w-90),rnd(h*.8,h-90));
-  say('화면 밖으로 굴러갔어요. 스크롤해서 찾아보세요. 오른쪽 아래 어딘가예요.');
+{name:'굴러간 버튼',story:'버튼이 데굴데굴 굴러가 버렸어요. 화면을 위아래, 양옆 어느 쪽으로든 밀어서 찾아보세요.',run(lv){const f=[1.2,1.9,3][lv];stage.style.touchAction='auto';
+  const sc=add(el('div','scroller plainbg')),inner=add(el('div','tall'),sc);const w=Math.round(1100*f),h=Math.round(1300*f);inner.style.width=w+'px';inner.style.height=h+'px';
+  const cx=w/2,cy=h/2;const a=rnd(0,6.28),R=Math.min(w,h)*rnd(.38,.46);const bx=Math.max(90,Math.min(w-90,cx+Math.cos(a)*R)),by=Math.max(90,Math.min(h-90,cy+Math.sin(a)*R));
+  const ARR=(x,y)=>{const t=Math.atan2(by-y,bx-x)*180/Math.PI;const d=['→','↘','↓','↙','←','↖','↑','↗'][((Math.round(t/45)%8)+8)%8];return d};
+  const T=['굴러간 자국','이쪽으로 감','데굴데굴','방금 지나감','거의 다 왔어요','비둘기가 봤대요'];
+  const ns=[6,8,10][lv];for(let i=0;i<ns;i++){const x=rnd(80,w-80),y=rnd(80,h-80);if(dist(x,y,bx,by)<160)continue;const s=add(el('div','sign',(lv===2&&Math.random()<.3?'여기 아님':pick(T)+' '+ARR(x,y))),inner);pos(s,x,y)}
+  if(lv===2)for(let i=0;i<6;i++){const s=add(el('div','sign','버튼인 척하는 돌'),inner);pos(s,rnd(100,w-100),rnd(100,h-100))}
+  const st=add(el('div','sign','여기서 굴러갔어요 '+ARR(cx,cy)),inner);pos(st,cx,cy);
+  const b=add(realBtn('여기!','mid'),inner);pos(b,bx,by);
+  requestAnimationFrame(()=>{sc.scrollLeft=cx-sc.clientWidth/2;sc.scrollTop=cy-sc.clientHeight/2});
+  say('화면을 손가락으로 위, 아래, 양옆 어느 쪽으로든 밀어서 찾아요. 화살표를 따라가요.');
 }},
 {name:'삐진 버튼',bg:'room',story:'버튼이 삐져서 등을 돌렸어요. 살살 달래주세요.',run(lv){const B=mkB(lv);const pk=B(2200,1500,1000),need=B(450,750,1050);
   const b=add(realBtn('흥'));pos(b,W()/2,H()*.48);b.locked=true;const gb=add(el('div','mbar','<i></i>')),gi=gb.querySelector('i');gb.style.width='170px';pos(gb,W()/2+20,28);const gl=add(el('div','sign','기분'));pos(gl,W()/2-90,28);
@@ -962,12 +981,31 @@ const OB=[
           if(!ps.length){b.locked=false;say('비둘기가 다 떠났어요. 똥은 안 쌌습니다.')}else{say(`냠냠. 남은 비둘기 ${ps.length}마리.`);after(300,spawn)}});return false})}})};
   spawn();say('어딘가 생긴 빵을 잡고, 버튼에서 먼 곳으로 휙 던지세요.');
 }},
-{name:'개미 이사',story:'개미들이 버튼을 들고 이사 중입니다.',run(lv){const B=mkB(lv);const v=B(.08,.14,.22);
-  const b=add(realBtn('누르기',lv===2?'mid':''));b.innerHTML='<span>누르기</span>';const ants=add(el('div','sign','개미 개미 개미 개미'));ants.style.fontSize='12px';
-  let x=W()/2,y=H()/2,a=rnd(0,6.28),t=0;
-  loop(dt=>{t+=dt;a+=rnd(-.09,.09);x+=Math.cos(a)*v*dt;y+=Math.sin(a)*v*dt;if(x<80||x>W()-80){a=Math.PI-a;x=Math.max(80,Math.min(W()-80,x))}if(y<80||y>H()-90){a=-a;y=Math.max(80,Math.min(H()-90,y))}pos(b,x,y);pos(ants,x,y+76);
-    if(lv===2)b.style.opacity=.35+.65*Math.abs(Math.sin(t*.0012))});
-  say('개미들이 버튼을 이사시키는 중이에요. 따라가서 누르세요.');
+{name:'개미 이사',bg:'park',story:'버튼이 개미만큼 작아졌어요! 개미들이 들고 이사 중이에요. 손가락 두 개로 확대해서 찾아 누르세요.',run(lv){const bs=[9,5,3][lv],need=34,vv=[0,.004,.008][lv];
+  const zl=add(el('div','zlayer'));zl.style.width=W()+'px';zl.style.height=H()+'px';let s=1,tx=0,ty=0;
+  const apply=()=>{s=Math.max(1,Math.min(20,s));tx=Math.min(0,Math.max(W()-W()*s,tx));ty=Math.min(0,Math.max(H()-H()*s,ty));zl.style.transform=`translate(${tx}px,${ty}px) scale(${s})`;zm.textContent=`× ${s.toFixed(1)}`};
+  const zm=add(el('div','zoomlbl','× 1.0'));
+  let x=rnd(60,W()-60),y=rnd(60,H()-90),a=rnd(0,6.28);const b=add(realBtn('','mini'),zl);b.style.width=b.style.height=bs+'px';b.style.borderWidth=Math.max(.6,bs/12)+'px';b.style.boxShadow='none';b.style.fontSize='0';b.locked=true;b._fin=1;b.style.pointerEvents='none';pos(b,x,y);
+  const ants=[...Array(4)].map(()=>{const d=add(el('i','ant'),zl);return d});
+  for(let i=0;i<40;i++){const d=add(el('i','ant dim'),zl);pos(d,rnd(10,W()-10),rnd(10,H()-10))}
+  apply();
+  loop(dt=>{if(won)return false;if(vv){a+=rnd(-.05,.05);x+=Math.cos(a)*vv*dt;y+=Math.sin(a)*vv*dt;if(x<30||x>W()-30)a=Math.PI-a;if(y<30||y>H()-60)a=-a;x=Math.max(30,Math.min(W()-30,x));y=Math.max(30,Math.min(H()-60,y));pos(b,x,y)}
+    ants.forEach((d,i)=>{const t=i/4*6.28;pos(d,x+Math.cos(t)*bs*.7,y+Math.sin(t)*bs*.7)})});
+  const P=new Map();let pinch=null,pan=null,moved=0,lastTap=0;
+  const S=e=>{const r=stage.getBoundingClientRect();return{x:e.clientX-r.left-stage.clientLeft,y:e.clientY-r.top-stage.clientTop}};
+  const zoomAt=(px,py,ns)=>{const lx=(px-tx)/s,ly=(py-ty)/s;s=Math.max(1,Math.min(20,ns));tx=px-lx*s;ty=py-ly*s;apply()};
+  onStage('pointerdown',e=>{if(e.target.closest('.tools'))return;P.set(e.pointerId,S(e));moved=0;try{stage.setPointerCapture(e.pointerId)}catch(_){}
+    if(P.size===2){const [p1,p2]=[...P.values()];pinch={d:dist(p1.x,p1.y,p2.x,p2.y),s,mx:(p1.x+p2.x)/2,my:(p1.y+p2.y)/2};pan=null}else if(P.size===1){const p=S(e);pan={x:p.x,y:p.y,tx,ty}}});
+  onStage('pointermove',e=>{if(!P.has(e.pointerId))return;const p=S(e);const o=P.get(e.pointerId);moved+=dist(p.x,p.y,o.x,o.y);P.set(e.pointerId,p);
+    if(pinch&&P.size>=2){const [p1,p2]=[...P.values()];const d=dist(p1.x,p1.y,p2.x,p2.y);zoomAt((p1.x+p2.x)/2,(p1.y+p2.y)/2,pinch.s*d/Math.max(10,pinch.d));pinch.s=s;pinch.d=d}
+    else if(pan){tx=pan.tx+(p.x-pan.x);ty=pan.ty+(p.y-pan.y);apply()}});
+  const up=e=>{if(!P.has(e.pointerId))return;const p=S(e);P.delete(e.pointerId);if(P.size<2)pinch=null;if(P.size===1){const q=[...P.values()][0];pan={x:q.x,y:q.y,tx,ty}}
+    if(P.size===0){pan=null;if(moved<8){const now=performance.now();const lx=(p.x-tx)/s,ly=(p.y-ty)/s;
+      if(dist(lx,ly,x,y)<Math.max(bs*.7,10/s)){if(bs*s>=need){b.locked=false;SFX.click();win()}else say(`찾았는데 너무 작아서 못 누르겠어요. 더 확대해요! (지금 ${Math.round(bs*s)}px)`)}
+      else if(now-lastTap<320){zoomAt(p.x,p.y,s*2);lastTap=0}else lastTap=now}}};
+  onStage('pointerup',up);onStage('pointercancel',up);
+  onStage('wheel',e=>{if(won)return;e.preventDefault();const p=S(e);zoomAt(p.x,p.y,s*(e.deltaY<0?1.15:1/1.15))});
+  say('두 손가락으로 벌려서 확대하고(두 번 톡톡도 돼요), 한 손가락으로 밀어서 둘러보세요. 버튼이 충분히 커지면 눌러요.');
 }},
 {name:'알 품기',story:'버튼 위에 알이 있습니다. 부화시켜야 해요.',run(lv){const B=mkB(lv);const need=B(500,1100,2000);
   const b=add(realBtn());center(b);b.locked=true;const e=sprite('egg',96,W()/2,H()/2-8);let cr=0,done=0;
@@ -1331,7 +1369,7 @@ OB.push(
   const addDrop=()=>{const a=rnd(0,6.28),r=rnd(10,78);const d=sprite('drop',rnd(22,32),cx+Math.cos(a)*r,cy+Math.sin(a)*r);d.style.pointerEvents='none';ds.push({e:d,h:1})};
   for(let i=0;i<n;i++)addDrop();
   const dr=sprite('dryer',84,W()-60,H()-64);let held=false,pt=0,fin=false;drag(dr,{start:()=>held=true,end:()=>held=false});
-  let hotT=0;loop(dt=>{if(fin)return false;const nx=gx(dr)-84*.36,ny=gy(dr)-84*.1;const hot=lv===2&&held&&dist(nx,ny,cx,cy)<62;b.classList.toggle('hot',hot);if(hot){hotT+=dt;if(hotT>500){hotT=-1500;awk('앗 뜨거! 너무 가까이 댔어요. 조금 떨어져서 말려요.')}}else hotT=Math.min(hotT,0);if(held&&!hot){pt+=dt;for(let i=ds.length-1;i>=0;i--){const d=ds[i];if(dist(nx,ny,gx(d.e),gy(d.e))<75){d.h-=dt*.0016;d.e.style.opacity=Math.max(0,d.h);if(d.h<=0){d.e.remove();ds.splice(i,1)}}}if(pt>140){pt=0;puff(nx,ny,nx-60,ny)}}
+  let hotT=0;loop(dt=>{if(fin)return false;const fl=gx(dr)<cx;dr.style.scale=fl?'-1 1':'1 1';const nx=gx(dr)+(fl?1:-1)*84*.36,ny=gy(dr)-84*.1;const hot=lv===2&&held&&dist(nx,ny,cx,cy)<62;b.classList.toggle('hot',hot);if(hot){hotT+=dt;if(hotT>500){hotT=-1500;awk('앗 뜨거! 너무 가까이 댔어요. 조금 떨어져서 말려요.')}}else hotT=Math.min(hotT,0);if(held&&!hot){pt+=dt;for(let i=ds.length-1;i>=0;i--){const d=ds[i];if(dist(nx,ny,gx(d.e),gy(d.e))<75){d.h-=dt*.0016;d.e.style.opacity=Math.max(0,d.h);if(d.h<=0){d.e.remove();ds.splice(i,1)}}}if(pt>140){pt=0;puff(nx,ny,nx+(fl?60:-60),ny)}}
     if(lv===2&&ds.length&&ds.length<n&&Math.random()<dt/2500){addDrop();say('땀이 났어요. 또 말려야 해요.')}
     if(!ds.length){fin=true;dr.remove();unlock(b,'뽀송','다 말랐어요. 머릿결이 좋아졌대요.')}});
   b.addEventListener('click',()=>{if(b.locked)say('젖어서 미끄러워요. 먼저 말려주세요.')});say(lv===2?'드라이기로 말려요. 버튼에 너무 가까이 대면 뜨거워해요!':'드라이기를 끌어서 물방울에 바람을 쐬어주세요.');
@@ -1360,20 +1398,20 @@ OB.push(
     if(hits>=need){fin=true;notes.forEach(n=>n.remove());hl.remove();const b=add(realBtn('100점','pop'));center(b);say('100점! 버튼이 앵콜을 원하지만 무시하세요.')}});
   say('음표가 선에 닿을 때 화면 아무 데나 탭하세요. 간격이 들쭉날쭉해요!');
 }},
-{name:'미로 속 버튼',story:'버튼이 미로 끝에 숨어 있어요.',run(lv){const B=mkB(lv);const C=B(4,5,7),R=B(5,7,9);
+{name:'미로 속 버튼',story:'버튼 건전지가 다 됐어요! 새 건전지를 미로 끝의 버튼까지 배달해 주세요.',run(lv){const B=mkB(lv);const C=B(4,5,7),R=B(5,7,9);
   const ox=18,oy=18,cw=(W()-36)/C,ch=(H()-36)/R;const wall=[...Array(R)].map(()=>[...Array(C)].map(()=>({n:1,s:1,e:1,w:1})));const seen=[...Array(R)].map(()=>Array(C).fill(0));
   const stk=[[0,0]];seen[0][0]=1;while(stk.length){const [r,c]=stk[stk.length-1];const nb=[[r-1,c,'n','s'],[r+1,c,'s','n'],[r,c+1,'e','w'],[r,c-1,'w','e']].filter(([a,b2])=>a>=0&&a<R&&b2>=0&&b2<C&&!seen[a][b2]);if(!nb.length){stk.pop();continue}const [a,b2,d1,d2]=pick(nb);wall[r][c][d1]=0;wall[a][b2][d2]=0;seen[a][b2]=1;stk.push([a,b2])}
   const [cv,g]=mkCanvas();cv.style.zIndex=1;g.strokeStyle='#2A2340';g.lineWidth=4;g.lineCap='round';g.beginPath();
   for(let r=0;r<R;r++)for(let c=0;c<C;c++){const x=ox+c*cw,y=oy+r*ch,w=wall[r][c];if(w.n){g.moveTo(x,y);g.lineTo(x+cw,y)}if(w.w){g.moveTo(x,y);g.lineTo(x,y+ch)}if(r===R-1&&w.s){g.moveTo(x,y+ch);g.lineTo(x+cw,y+ch)}if(c===C-1&&w.e){g.moveTo(x+cw,y);g.lineTo(x+cw,y+ch)}}g.stroke();
   const cell=(x,y)=>[Math.floor((y-oy)/ch),Math.floor((x-ox)/cw)],ctr=(r,c)=>[ox+(c+.5)*cw,oy+(r+.5)*ch];
-  const b=add(realBtn('','mini'));const [ex,ey]=ctr(R-1,C-1);pos(b,ex,ey);b.locked=true;
-  const ball=add(el('div','mball'));const [sx,sy]=ctr(0,0);pos(ball,sx,sy);let cr=0,cc=0,done=false;
+  const b=add(realBtn('','mini nope'));const [ex,ey]=ctr(R-1,C-1);pos(b,ex,ey);b.locked=true;
+  const ball=add(el('div','mball batt'));const [sx,sy]=ctr(0,0);pos(ball,sx,sy);let cr=0,cc=0,done=false;
   drag(ball,{set:false,move:(x,y)=>{if(done)return;const [r,c]=cell(x,y);
     if(r===cr&&c===cc){pos(ball,Math.max(ox+cc*cw+8,Math.min(ox+(cc+1)*cw-8,x)),Math.max(oy+cr*ch+8,Math.min(oy+(cr+1)*ch-8,y)));return}
     const w=wall[cr][cc];const ok=(r===cr-1&&c===cc&&!w.n)||(r===cr+1&&c===cc&&!w.s)||(c===cc+1&&r===cr&&!w.e)||(c===cc-1&&r===cr&&!w.w);
-    if(ok){cr=r;cc=c;pos(ball,x,y);if(r===R-1&&c===C-1){done=true;ball.remove();unlock(b,'','도착! 버튼을 누르세요.')}}
+    if(ok){cr=r;cc=c;pos(ball,x,y);if(r===R-1&&c===C-1){done=true;ball.remove();b.classList.remove('nope');unlock(b,'','건전지 넣기 완료! 버튼에 불이 들어왔어요.')}}
     else if(lv===2&&(cr||cc)){cr=0;cc=0;pos(ball,sx,sy);say('벽에 부딪혔어요! 처음부터.')}}});
-  b.addEventListener('click',()=>{if(b.locked)say('공을 굴려서 여기까지 와야 해요.')});say('파란 공을 끌어서 미로 끝의 버튼까지 가세요.');
+  b.addEventListener('click',()=>{if(b.locked)say('건전지가 없어서 안 눌려요.')});say('건전지를 끌어서 미로 끝의 버튼까지 가져가세요.');
 }},
 {name:'빨간 것 천국',bg:'room',story:'빨간 물건들이 수북이 쌓였어요. 버튼도 그 속에 섞여 있대요. 물건을 치우면서 찾아서 눌러주세요.',run(lv){const n=[14,22,30][lv],sz=[62,56,50][lv],pr=[62,78,90][lv];
   const K=['apple','tomato','cherry','ladybug','rdot'];const DOT=S(`<circle r="26" fill="#E23B3B"/><circle cx="-8" cy="-6" r="3" fill="#2A2340" stroke="none"/><circle cx="8" cy="-6" r="3" fill="#2A2340" stroke="none"/><circle cx="-8" cy="8" r="3" fill="#2A2340" stroke="none"/><circle cx="8" cy="8" r="3" fill="#2A2340" stroke="none"/>`);
@@ -1648,9 +1686,10 @@ OB.push(
   c.beginPath();c.moveTo(20,y0);for(let i=0;i<n;i++){c.lineTo(20+i*sw,y0-(i+1)*sh);c.lineTo(20+(i+1)*sw,y0-(i+1)*sh)}c.lineTo(20+n*sw,y0);c.closePath();c.fill();c.stroke();
   const b=add(realBtn('','mini'));pos(b,20+n*sw+30,y0-n*sh-28);b.locked=true;const me=sprite('fan',44,0,0,ART.fan('#2A2340'));me.style.pointerEvents='none';me.style.transition='left .15s,top .15s';me.style.zIndex=4;
   let s=0,lastF=null;const place=()=>pos(me,20+(Math.max(0,s-1)+.5)*sw,y0-s*sh-24);place();
-  const step=f=>{if(!b.locked)return;if(f===lastF){s=Math.max(0,s-back);place();say(back?`같은 발 두 번! 미끄러졌어요. (${s}/${n})`:'같은 발 두 번이에요. 번갈아 디뎌요.');shake(me);lastF=null;return}lastF=f;s++;place();say(`${s} / ${n} 계단`);if(s>=n)unlock(b,'','꼭대기 도착! 헉헉. 버튼을 누르세요.')};
+  let stairGo=null;if(lv===2){const lim=10000;let tl=lim,started=false;const tb=add(el('div','tbar','<i></i>')),ti=tb.querySelector('i');loop(dt=>{if(!b.locked||won)return false;if(!started)return;tl-=dt;ti.style.width=Math.max(0,tl/lim*100)+'%';if(tl<=0){s=0;lastF=null;place();started=false;tl=lim;ti.style.width='100%';awk('시간 초과! 숨이 차서 맨 아래로 미끄러졌어요. 10초 안에 올라가요.')}});stairGo=()=>{started=true}}
+  const step=f=>{if(!b.locked)return;if(stairGo)stairGo();if(f===lastF){s=Math.max(0,s-back);place();say(back?`같은 발 두 번! 미끄러졌어요. (${s}/${n})`:'같은 발 두 번이에요. 번갈아 디뎌요.');shake(me);lastF=null;return}lastF=f;s++;place();say(`${s} / ${n} 계단`);if(s>=n)unlock(b,'','꼭대기 도착! 헉헉. 버튼을 누르세요.')};
   tools(['왼발',()=>step('L')],['오른발',()=>step('R')]);
-  b.addEventListener('click',()=>{if(b.locked)say('계단을 다 올라가야 닿아요.')});say('왼발, 오른발을 번갈아 누르며 올라가세요.');
+  b.addEventListener('click',()=>{if(b.locked)say('계단을 다 올라가야 닿아요.')});say(lv===2?'왼발, 오른발을 번갈아! 첫 발을 디디면 10초 안에 올라가야 해요.':'왼발, 오른발을 번갈아 누르며 올라가세요.');
 }},
 {name:'나무에 걸린 버튼',story:'버튼이 나무에 걸렸어요. 새총으로 떨어뜨리세요.',run(lv){const B=mkB(lv);const hr=B(42,32,24),wind=lv===2?rnd(.00006,.00012)*(Math.random()<.5?-1:1):0;
   const tr=add(el('div','tree'));pos(tr,W()-90,H()*.36);const bx=W()-90+rnd(-30,30),by=H()*.24+rnd(-15,15);const b=add(realBtn('','mini'));pos(b,bx,by);b.locked=true;b.style.zIndex=3;
@@ -1667,7 +1706,7 @@ OB.push(
 {name:'풍선 속 버튼',story:'버튼이 풍선 하나에 숨었어요.',run(lv){const B=mkB(lv);const n=B(6,9,14),need=B(3,6,10),v=B(.04,.06,.09);const C=['#6E7CF2','#F2B544','#5FB59A','#E8A0B4','#B07CE0'];
   let pops=0,fin=false;const bs=[];
   for(let i=0;i<n;i++){const s=sprite('x',62,rnd(40,W()-40),rnd(80,H()+80),ART.balloonC(pick(C)));s.dataset.v=rnd(.7,1.3);
-    s.addEventListener('pointerdown',()=>{if(fin||s.dataset.p)return;pops++;if(pops>=need){fin=true;const x=gx(s),y=gy(s);s.remove();const b=add(realBtn('여기','pop mid'));pos(b,x,y);b.style.transition='top .8s cubic-bezier(.5,0,.7,1.3)';after(40,()=>pos(b,x,H()-70));say('펑! 버튼이 나왔어요!');return}
+    s.addEventListener('pointerdown',()=>{if(fin||s.dataset.p)return;pops++;if(pops>=need){fin=true;const x=gx(s),y=gy(s);s.remove();const b=add(realBtn('여기','pop mid'));b.locked=true;pos(b,x,y);b.style.transition='top .8s cubic-bezier(.5,0,.7,1.3)';after(40,()=>pos(b,x,H()-70));say('펑! 버튼이 떨어져요!');after(900,()=>{b.style.transition='';b.locked=false});return}
       s.dataset.p=1;s.style.transition='scale .15s,opacity .15s';s.style.scale=1.5;s.style.opacity=0;say(pick(['펑! 꽝.','펑! 비었어요.','펑! 다음 풍선!']));after(220,()=>{s.dataset.p='';s.style.transition='';s.style.scale=1;s.style.opacity=1;pos(s,rnd(40,W()-40),H()+60)})});bs.push(s)}
   loop(dt=>{if(fin)return false;bs.forEach(s=>{if(!s.isConnected)return;let y=gy(s)-v*dt*s.dataset.v;if(y<-60)pos(s,rnd(40,W()-40),H()+60);else pos(s,gx(s)+Math.sin(y*.02)*.3,y)})});
   say('풍선을 터뜨려서 버튼을 찾으세요.');
@@ -1715,11 +1754,18 @@ OB.push(
     if(n>=need){fin=true;bt.style.rotate='0deg';say('뽁! 빠졌어요.');bt.querySelector('.cbtn').remove();const b=add(realBtn('뽁','pop'));pos(b,W()/2,Math.max(80,gy(bt)-150));b.style.scale=.8}},end:()=>{if(!fin)springBack(bt,ox,oy);bt.style.rotate='0deg'}});
   say('병을 잡고 좌우로 세게 흔드세요.');
 }},
-{name:'레이저 포인터',story:'고양이가 버튼 위에서 식빵을 굽고 있어요.',run(lv){const B=mkB(lv);const v=B(.3,.24,.18),rng=B(9999,260,190);const cx=W()/2,cy=H()/2;
-  const b=add(realBtn());center(b);b.locked=true;const c=sprite('cat',92,cx,cy-10);c.style.pointerEvents='none';const box=add(el('div','cbox','상자'));pos(box,Math.random()<.5?75:W()-75,H()-60);
-  const dot=add(el('div','laser'));dot.style.display='none';let on=false,fin=false;
-  const mv=e=>{const p=sp(e);pos(dot,p.x,p.y)};onStage('pointerdown',e=>{on=true;dot.style.display='';mv(e)});onStage('pointermove',e=>{if(on)mv(e)});const off=()=>{on=false;dot.style.display='none'};onStage('pointerup',off);onStage('pointercancel',off);
-  loop(dt=>{if(fin)return false;if(on){const x=gx(c),y=gy(c),tx=gx(dot),ty=gy(dot),d=dist(x,y,tx,ty);if(d<rng&&d>8){const k=Math.min(1,v*dt/d);pos(c,x+(tx-x)*k,y+(ty-y)*k);c.style.scale=tx>x?'-1 1':'1 1'}}
+{name:'레이저 포인터',story:'고양이가 버튼 위에서 식빵을 굽고 있어요.',run(lv){const B=mkB(lv);const v=B(.3,.24,.2),rng=B(9999,260,220);const cx=W()/2,cy=H()/2;
+  const b=add(realBtn());center(b);b.locked=true;const c=sprite('cat',92,cx,cy-10);c.style.pointerEvents='none';const bxs=Math.random()<.5?75:W()-75,bys=H()-60;const box=add(el('div','cbox','상자'));pos(box,bxs,bys);
+  const pots=[];const np=[0,1,2][lv];for(let i=0;i<np;i++){const t=(i+1)/(np+1);const px=cx+(bxs-cx)*t+(i%2?-1:1)*rnd(10,30),py=(cy-10)+(bys-cy+10)*t;const s=sprite('x',46,px,py,ART.fPlant);s.style.pointerEvents='none';pots.push({e:s,x:px,y:py})}
+  const dot=add(el('div','laser'));dot.style.display='none';let on=false,fin=false,lx=0,ly=0,lt=0,bored=0,home=false;
+  const mv=e=>{const p=sp(e);const now=performance.now();if(on&&lt){const sp2=dist(p.x,p.y,lx,ly)/Math.max(1,now-lt);if(lv===2&&sp2>1.1)bored+=1}lx=p.x;ly=p.y;lt=now;pos(dot,p.x,p.y)};
+  onStage('pointerdown',e=>{on=true;dot.style.display='';lt=0;mv(e)});onStage('pointermove',e=>{if(on)mv(e)});const off=()=>{on=false;dot.style.display='none'};onStage('pointerup',off);onStage('pointercancel',off);
+  const goHome=m=>{home=true;c.style.transition='left .6s,top .6s';pos(c,cx,cy-10);after(650,()=>{c.style.transition='';home=false});say(m)};
+  loop(dt=>{if(fin)return false;if(home)return;
+    if(bored>=3){bored=0;goHome('레이저가 너무 빨라서 고양이가 흥미를 잃었어요. 버튼으로 돌아갔어요. 천천히!');return}
+    if(on){const x=gx(c),y=gy(c),tx=gx(dot),ty=gy(dot),d=dist(x,y,tx,ty);if(d<rng&&d>8){const k=Math.min(1,v*dt/d);pos(c,x+(tx-x)*k,y+(ty-y)*k);c.style.scale=tx>x?'-1 1':'1 1'}}
+    for(const p of pots){if(p.e.isConnected&&dist(gx(c),gy(c),p.x,p.y)<34){p.e.remove();const f=add(el('div','sign','와장창!'));pos(f,p.x,p.y);f.style.color='#D2343A';after(900,()=>f.remove());awk('고양이가 화분을 깼어요! 화분을 피해서 유인해요.');
+      after(1200,()=>{if(!fin){const s=sprite('x',46,p.x,p.y,ART.fPlant);s.style.pointerEvents='none';p.e=s}});goHome('고양이가 놀라서 버튼으로 도망갔어요.');return}}
     if(dist(gx(c),gy(c),gx(box),gy(box))<45){fin=true;pos(c,gx(box),gy(box)-24);c.innerHTML=ART.cat('happy');unlock(b,'누르기','고양이가 상자에 쏙 들어갔어요. 고양이는 상자를 못 참죠.')}});
   b.addEventListener('click',()=>{if(b.locked)say('고양이가 깔고 앉아 있어요.')});say('화면을 누른 채 움직여 레이저로 고양이를 상자까지 유인하세요.');
 }},
@@ -1811,13 +1857,6 @@ OB.push(
     const right=inh===held;if(!right)bad+=dt;else bad=Math.max(0,bad-dt*.5);c.classList.toggle('good',right);c.classList.toggle('bad',!right);gb.querySelector('i').style.width=Math.min(100,bad/8)+'%';
     if(bad>800){bad=0;t=-1500;phase=0;done=0;lastMsg='';awk('호흡이 흐트러졌어요. 처음부터.');shake(b);return}
     if(t>=ph){t=0;if(phase===1){done++;if(done>=cyc){fin=true;c.remove();ind.remove();gb.remove();gl.remove();unlock(b,'평온','마음의 평화를 찾았어요. 이제 눌러도 돼요.');return false}}phase=1-phase}});
-}},
-{name:'도미노',story:'도미노를 쓰러뜨려 잠든 버튼을 깨워야 해요.',run(lv){const B=mkB(lv);const n=9,gaps=B(1,2,3);const y=H()*.45,x0=36,sp6=(W()-140)/n;
-  const b=add(realBtn('쿨쿨','mid'));pos(b,W()-58,y-12);b.locked=true;const holes=shuffle([...Array(n-1).keys()].map(i=>i+1)).slice(0,gaps);const ds=[];
-  for(let i=0;i<n;i++){const x=x0+i*sp6;if(holes.includes(i)){const s=add(el('div','dslot'));pos(s,x,y);s.dataset.i=i;ds[i]=null}else{const d=add(el('div','domino'));pos(d,x,y);ds[i]=d}}
-  holes.forEach((h,k)=>{const sx=60+k*70,sy=H()-60;const p=add(el('div','domino spare'));pos(p,sx,sy);drag(p,{end:(x,yy)=>{const s=[...stage.querySelectorAll('.dslot')].find(s=>!s.dataset.f&&dist(x,yy,gx(s),gy(s))<34);if(s){s.dataset.f=1;pos(p,gx(s),gy(s));p.classList.remove('spare','drag');p.style.pointerEvents='none';ds[+s.dataset.i]=p;say('끼웠어요.')}else springBack(p,sx,sy)}})});
-  let falling=false;const fall=()=>{if(falling||!b.locked)return;falling=true;let i=0;const nx=()=>{const d=ds[i];if(!d){say('중간이 비어서 멈췄어요. 빈칸을 채우세요.');after(900,()=>{ds.forEach(e=>e&&(e.style.rotate='0deg'));falling=false});return}d.style.rotate='60deg';i++;if(i>=n){after(250,()=>{shake(b);unlock(b,'깼다','버튼이 깼어요. 기분이 썩 좋진 않대요.')});return}after(140,nx)};nx()};
-  ds[0].classList.add('first');ds[0].onclick=fall;b.addEventListener('click',()=>{if(b.locked)say('자고 있어요. 도미노로 깨워야 해요.')});say('노란 도미노를 빈칸에 끼우고, 첫 도미노(초록)를 눌러 쓰러뜨리세요.');
 }},
 {name:'높은 선반',story:'버튼이 높은 선반 위에 있어요. 블록을 쌓아 올라가세요.',run(lv){const B=mkB(lv);const need=B(3,5,8),v=B(.15,.22,.3),tol=B(.4,.28,.18);
   const base=H()-80,bw=110,bh=Math.min(34,(H()-220)/need);const sy=base-need*bh-10;const shelf=add(el('div','shelf'));shelf.style.top=sy+'px';
@@ -2379,12 +2418,12 @@ OB.push(
     if(d<r0){acc+=dt;if(acc>=hold){done=true;sth.remove();beat.remove();pt.locked=false;setLabel(pt,'건강');say('의사: 아주 건강하네요. 꾹 눌러주면 낫습니다.')}}else acc=0});
   say('청진기를 버튼 위로 옮기세요. 쿵쿵이 빨라지는 곳에서 멈춰요.');
 }},
-{name:'택배 기사',bg:'street',story:'버튼을 배달해야 해요. 송장을 보고 골목에서 집을 찾으세요.',run(lv){const B=mkB(lv);const nh=B(5,7,9),nc=B(2,3,4),lim=B(30000,24000,18000);
+{name:'택배 기사',bg:'street',story:'버튼을 배달해야 해요. 송장을 보고 골목에서 집을 찾으세요.',run(lv){const B=mkB(lv);const nh=B(5,7,9),lim=B(30000,26000,22000);const FK=[['door','fl'],['door','fl','mb','pot'],['door','fl','mb','pot','roof','ch']][lv];const RC=[['보라 지붕','#B07CE0'],['빨간 지붕','#E25B4B'],['초록 지붕','#5FB59A']];
   const DC=[['빨간','#E25B4B'],['파란','#5E7CE2'],['초록','#5FB59A'],['노란','#F2C94C']];
-  const F={door:()=>Math.floor(Math.random()*4),fl:()=>1+Math.floor(Math.random()*2),mb:()=>Math.random()<.5,pot:()=>Math.random()<.5};
-  const CL={door:h=>DC[h.door][0]+' 대문',fl:h=>h.fl+'층집',mb:h=>h.mb?'우체통 옆':'우체통 없음',pot:h=>h.pot?'화분 있는 집':'화분 없는 집'};
+  const FR={door:()=>Math.floor(Math.random()*4),fl:()=>1+Math.floor(Math.random()*2),mb:()=>Math.random()<.5,pot:()=>Math.random()<.5,roof:()=>Math.floor(Math.random()*3),ch:()=>Math.random()<.5};const DEF={mb:false,pot:false,roof:0,ch:false};const mkH=()=>{const h={};Object.keys(FR).forEach(k=>h[k]=FK.includes(k)?FR[k]():DEF[k]);return h};
+  const CL={door:h=>DC[h.door][0]+' 대문',fl:h=>h.fl+'층집',mb:h=>h.mb?'우체통 옆':'우체통 없음',pot:h=>h.pot?'화분 있음':'화분 없음',roof:h=>RC[h.roof][0],ch:h=>h.ch?'굴뚝 있음':'굴뚝 없음'};
   const svg=h=>{const bh=h.fl*56+18,top=186-bh;return `<svg viewBox="0 0 120 190" aria-hidden="true"><g stroke="#2A2340" stroke-width="3" stroke-linejoin="round">
-    <polygon points="4,${top+4} 60,${top-34} 116,${top+4}" fill="#B07CE0"/><rect x="12" y="${top}" width="96" height="${bh}" fill="#F3E3C8"/>
+    ${h.ch?`<rect x="78" y="${top-34}" width="14" height="26" fill="#A89482"/>`:""}<polygon points="4,${top+4} 60,${top-34} 116,${top+4}" fill="${RC[h.roof][1]}"/><rect x="12" y="${top}" width="96" height="${bh}" fill="#F3E3C8"/>
     ${[...Array(h.fl)].map((_,k)=>`<rect x="20" y="${top+12+k*56}" width="24" height="20" fill="#CDE9FF"/><rect x="76" y="${top+12+k*56}" width="24" height="20" fill="#CDE9FF"/>`).join('')}
     <rect x="46" y="140" width="28" height="46" fill="${DC[h.door][1]}"/><circle cx="68" cy="164" r="2" fill="#2A2340"/>
     ${h.mb?'<rect x="96" y="150" width="4" height="36" fill="#6B7085"/><rect x="88" y="138" width="22" height="16" rx="4" fill="#6B7085"/>':''}
@@ -2392,8 +2431,8 @@ OB.push(
   const slip=bubble('',10);slip.style.whiteSpace='normal';slip.style.width='max-content';slip.style.maxWidth=(W()-28)+'px';slip.style.textAlign='center';slip.style.fontSize='15px';const tb=add(el('div','tbar','<i></i>')),ti=tb.querySelector('i');tb.style.top='52px';
   const al=add(el('div','alley')),strip=add(el('div','strip'),al);let off=0,tLeft=lim,active=false,keys=[];
   const mv=d=>{const mx=Math.max(0,strip.scrollWidth-al.clientWidth);off=Math.max(0,Math.min(mx,off+d));strip.style.translate=(-off)+'px 0'};
-  const build=()=>{strip.innerHTML='';off=0;mv(0);keys=shuffle(Object.keys(CL)).slice(0,nc);const tg={door:F.door(),fl:F.fl(),mb:F.mb(),pot:F.pot()};const hs=[tg];let guard=0;
-    while(hs.length<nh&&guard++<500){const h={door:F.door(),fl:F.fl(),mb:F.mb(),pot:F.pot()};if(!keys.every(k=>h[k]===tg[k]))hs.push(h)}shuffle(hs);
+  const build=()=>{strip.innerHTML='';off=0;mv(0);keys=FK.slice();const tg=mkH();const hs=[tg];let guard=0;
+    while(hs.length<nh&&guard++<500){const h=mkH();if(!keys.every(k=>h[k]===tg[k]))hs.push(h)}shuffle(hs);
     slip.textContent='송장: '+keys.map(k=>CL[k](tg)).join(' · ');{const tt=slip.offsetTop+slip.offsetHeight+6;tb.style.top=tt+'px';al.style.top=(tt+20)+'px'}
     hs.forEach(h=>{const x=add(el('button','hs2',svg(h)),strip);x.setAttribute('aria-label','집');x.onclick=()=>{if(!active||won)return;
       if(h===tg){active=false;al.remove();tb.remove();ts.remove();const p=person(W()/2,H()*.46,'#6E7CF2','happy',80);talk(p,'어머 택배 왔네요! 버튼 주문했었는데.',1800);tone(880,.1,'sine',.05);tone(660,.2,'sine',.05,.12);after(1600,()=>{const b=add(realBtn('도착','pop'));pos(b,W()/2,H()-70)})}
@@ -2506,7 +2545,7 @@ tissue:S(`<rect x="-30" y="-4" width="60" height="30" rx="4" fill="#9FD3F0"/><pa
 pouch:S(`<path d="M-24 -6 q-16 36 24 36 q40 0 24 -36z" fill="#E3B53C"/><path d="M-12 -8 l-8 -16 h40 l-8 16z" fill="#E3B53C"/><path d="M-14 -8 h28" fill="none"/><text x="0" y="20" text-anchor="middle" font-size="20" font-weight="700" fill="#2A2340" stroke="none">금</text>`),
 wring:S(`<circle cx="0" cy="8" r="22" fill="none" stroke="#2A2340" stroke-width="10"/><circle cx="0" cy="8" r="22" fill="none" stroke="#E3B53C" stroke-width="5"/><path d="M-10 -18 l10 -12 l10 12 l-10 9z" fill="#CDE9FF"/>`)
 });
-Object.assign(HINTS,{'알 품기':'온도계가 끝까지 차야 해요. 손을 멈추지 말고 쓱쓱.','대리 버튼':'결재는 아랫사람부터 윗사람 순서.','퇴사 선언':'버튼이 흘리는 한숨에 답이 있어요.','UFO 납치':'초록 빔이 보이면 잘하고 있는 거예요.','중세의 기사':'가위바위보는 운이에요. 기도하세요.','노래방 버튼':'간격이 들쭉날쭉해요. 음표만 보세요.','초점 나간 버튼':'선명해졌을 때가 누를 때.','명상하는 버튼':'원이 초록이면 잘하고 있는 거예요.','붕어빵 틀':'노릇노릇할 때 꺼내고, 가운데를 쓱.','볼링':'핀 뒤에 누가 숨어 있어요.','몽타주':'목격자 말을 하나씩 지워가며.','감기 걸린 버튼':'열엔 물수건, 기침엔 차, 콧물엔 휴지.','코인 폭락':'점선 위에서 팔아요. 욕심은 금물.','용의 보물':'빼고, 바로 채우고.','결혼식':'사회자 질문은 끝까지 듣고 대답.','할머니 용돈':'할머니 말씀은 끝까지 들어야 해요.','썸 타는 버튼':'썸은 관심과 리액션이에요.','택배 기사':'송장 특징을 전부 가진 집은 하나뿐.','오리 가족':'널빤지 끝이 물 위에 살짝 걸치게.','주차하기':'핸들을 꺾어 두고 전진. 꺾은 핸들은 그대로 유지돼요.','버스 하차벨':'내릴 곳이 "다음 정류장"에 뜨면 그때 벨.','고민 상담':'말이 끊길 때 끄덕, 다 들으면 꼭.','떼창':'버튼이 "다 같이!" 할 때만.','도서관':'시끄러운 소리에 딸깍을 숨겨요.','영화관':'쿠키 영상까지 다 끝나야 불을 켜요.','아기가 자요':'ZZZ 쿨쿨일 때가 깊은 잠.','단톡방':'좋은 소식에만 전송.','마지막 한 조각':'먼저 물어보고, 흔들리는 눈빛엔 양보.','판다':'팔이 풀리면 아주 천천히.','삐진 버튼':'등 돌렸을 땐 가만히, 힐끔 볼 때 쓰담쓰담.','놀아줘 강아지':'강아지는 다 보고 있어요. 지칠 때까지 놀아줘요.','단체 사진':'"셋!" 할 때 찰칵.','거울 나라':'아래 안내를 보면 어느 쪽 거울인지 알 수 있어요.','사진 좀…':'관광객이 다 찍고 떠나면 누르기.','비둘기 점거':'빵을 휙! 버튼에서 멀리.','고백 현장':'"좋아해!"가 나오는 순간 꾹.','무궁화 꽃이':'노래할 땐 꾹, 돌아보면 손 떼기.'});
+Object.assign(HINTS,{'알 품기':'온도계가 끝까지 차야 해요. 손을 멈추지 말고 쓱쓱.','대리 버튼':'결재는 아랫사람부터 윗사람 순서.','퇴사 선언':'버튼이 흘리는 한숨에 답이 있어요.','UFO 납치':'초록 빔이 보이면 잘하고 있는 거예요.','중세의 기사':'가위바위보는 운이에요. 기도하세요.','노래방 버튼':'간격이 들쭉날쭉해요. 음표만 보세요.','초점 나간 버튼':'선명해졌을 때가 누를 때.','명상하는 버튼':'원이 초록이면 잘하고 있는 거예요.','붕어빵 틀':'노릇노릇할 때 꺼내고, 가운데를 쓱.','볼링':'핀 뒤에 누가 숨어 있어요.','몽타주':'목격자 말을 하나씩 지워가며.','감기 걸린 버튼':'열엔 물수건, 기침엔 차, 콧물엔 휴지.','코인 폭락':'점선 위에서 팔아요. 욕심은 금물.','용의 보물':'빼고, 바로 채우고.','결혼식':'사회자 질문은 끝까지 듣고 대답.','할머니 용돈':'할머니 말씀은 끝까지 들어야 해요.','썸 타는 버튼':'썸은 관심과 리액션이에요.','택배 기사':'송장 특징을 전부 가진 집은 하나뿐.','오리 가족':'널빤지 끝이 물 위에 살짝 걸치게.','주차하기':'핸들을 꺾어 두고 전진. 꺾은 핸들은 그대로 유지돼요.','버스 하차벨':'내릴 곳이 "다음 정류장"에 뜨면 그때 벨.','고민 상담':'말이 끊길 때 끄덕, 다 들으면 꼭.','떼창':'버튼이 "다 같이!" 할 때만.','도서관':'시끄러운 소리에 딸깍을 숨겨요.','영화관':'쿠키 영상까지 다 끝나야 불을 켜요.','아기가 자요':'ZZZ 쿨쿨일 때가 깊은 잠.','단톡방':'좋은 소식에만 전송.','마지막 한 조각':'먼저 물어보고, 흔들리는 눈빛엔 양보.','판다':'팔이 풀리면 아주 천천히.','삐진 버튼':'등 돌렸을 땐 가만히, 힐끔 볼 때 쓰담쓰담.','놀아줘 강아지':'강아지는 다 보고 있어요. 지칠 때까지 놀아줘요.','단체 사진':'"셋!" 할 때 찰칵.','거울 나라':'아래 안내를 보면 어느 쪽 거울인지 알 수 있어요.','사진 좀…':'관광객이 다 찍고 떠나면 누르기.','비둘기 점거':'빵을 휙! 버튼에서 멀리.','고백 현장':'"좋아해!"가 나오는 순간 꾹.','무궁화 꽃이':'노래할 땐 꾹, 돌아보면 손 떼기.','개미 이사':'개미들이 모여 있는 곳을 확대해 봐요.','굴러간 버튼':'화살표가 가리키는 쪽으로 밀어요.','미로 속 버튼':'건전지를 벽에 안 닿게.'});
 var ENDS_EXTRA=Object.assign(window.ENDS_EXTRA||{},{'붕어빵 틀':'팥 아니고 버튼이야. 눌러줘.','볼링':'데구르르… 나 여기 있었어! 눌러줘.','결혼식':'딸깍! 평생 눌려줄게.','할머니 용돈':'할머니가 꽁꽁 숨겨두셨더라. 눌러줘.','썸 타는 버튼':'…나도 좋아. 같이 눌러줘!','택배 기사':'배송 완료! 이제 눌러줘.','오리 가족':'꽥! 엄마 오리가 주는 선물이야. 눌러줘.','주차하기':'데굴데굴… 나 바퀴였어! 눌러줘.','고민 상담':'고마워… 꼭 안아줘.','떼창':'다 같이! 고마워!','영화관':'상영 끝! 불 켜줘.','아기가 자요':'(속삭임) 아주 살살…','버스 하차벨':'이번에 내려요! 띵동.','단톡방':'전송!','마지막 한 조각':'…나 버튼이었어. 냠 대신 꾹!','용의 보물':'쉿, 살금살금 눌러줘.','코인 폭락':'익절했어! 다시는 안 해. 눌러줘.','감기 걸린 버튼':'콜록… 이제 좀 살 것 같아. 눌러줘.'});
 Object.assign(ART,{
 fWard:S(`<rect x="-36" y="-48" width="72" height="96" rx="3" fill="#C98A3C"/><rect x="-40" y="-50" width="80" height="8" rx="2" fill="#A86A2C"/><path d="M0 -42 V48" fill="none"/><circle cx="-6" cy="0" r="3" fill="#2A2340"/><circle cx="6" cy="0" r="3" fill="#2A2340"/><path d="M-30 40 h24 M6 40 h24" fill="none" stroke-width="2"/>`),
@@ -2617,7 +2656,7 @@ const _cat=ART.cat;ART.cat=(m='smug')=>{const raw=_cat(m);if(VAR.cat==='cat')ret
 const _pig=ART.pigeon;Object.defineProperty(ART,'pigeon',{get:()=>_pig.replace(/#A3A8BE/g,VAR.bird[2]).replace('#5FB59A',VAR.bird[3]),configurable:true});
 
 /* scene backgrounds */
-const BG={'굴러간 버튼':'park','고양이 습격':'street','과열':'room','비둘기 점거':'park','개미 이사':'park','홍수':'street','팬미팅':'concert','퇴사 선언':'office','코인 폭락':'room','UFO 납치':'space','피자가 된 버튼':'room','뜨개질 덮개':'room','중세의 기사':'castle','압류 딱지':'room','이용약관':'office','업데이트 중':'office','수학 시험':'classroom','풍선 버튼':'park','방전된 버튼':'room','택배 상자':'room','낙엽 더미':'park','줄다리기':'sea','자석에 붙은 버튼':'lab','진흙 범벅':'park','감기 걸린 버튼':'room','머리 감은 버튼':'bath','먹물 테러':'sea','노래방 버튼':'concert','철창에 갇힌 버튼':'castle','금고 속 버튼':'office','모기 습격':'room','거미줄':'castle','달팽이 휴식':'park','버튼 퀴즈쇼':'concert','버튼 맛집 줄':'street','엘리베이터':'lift','버튼 생일':'room','두더지 잡기':'park','버튼 자판기':'street','무궁화 꽃이':'park','비 오는 날':'street','버튼 키우기':'park','구겨진 버튼':'room','놀아줘 강아지':'park','탁구 한 판':'room','계단 오르기':'street','나무에 걸린 버튼':'park','떨어지는 버튼':'park','무단횡단 금지':'street','레이저 포인터':'room','세탁기':'bath','버튼 경매':'concert','명상하는 버튼':'room','회전 초밥':'shop','도서관':'library','단체 사진':'park','잠깐만요!':'lift','영화관':'cinema','클래식 공연':'concert','고백 현장':'park','월요일 회의':'office','생일 파티':'room','마지막 한 조각':'shop','어서오세요':'shop','응원석':'stadium','시험 시간':'classroom','아기가 자요':'room','건배':'shop','사진 좀…':'street','버스 하차벨':'bus','번호표':'shop','퀴즈 부저':'concert','노래방 친구':'concert','화장실':'bath','횡단보도 버튼':'street','풀 사람?':'classroom','고민 상담':'shop','떼창':'concert','점프 샷':'park','정원 초과':'lift','부장님 개그':'office','좁은 복도':'office','청소 시간':'classroom','지하철 자리':'bus','회전목마':'park','대리 버튼':'office','계약서 서명':'office','로딩 99%':'office','비밀번호 설정':'office','로봇 확인':'office','버튼의 할 일':'room','연못에 빠진 버튼':'park','알 품기':'park','얼어붙은 버튼':'snow','도미노':'room','높은 선반':'room','풍선 속 버튼':'park','버튼 증명사진':'shop','병에 낀 버튼':'room'};
+const BG={'굴러간 버튼':'park','고양이 습격':'street','과열':'room','비둘기 점거':'park','개미 이사_old':'park','홍수':'street','팬미팅':'concert','퇴사 선언':'office','코인 폭락':'room','UFO 납치':'space','피자가 된 버튼':'room','뜨개질 덮개':'room','중세의 기사':'castle','압류 딱지':'room','이용약관':'office','업데이트 중':'office','수학 시험':'classroom','풍선 버튼':'park','방전된 버튼':'room','택배 상자':'room','낙엽 더미':'park','줄다리기':'sea','자석에 붙은 버튼':'lab','진흙 범벅':'park','감기 걸린 버튼':'room','머리 감은 버튼':'bath','먹물 테러':'sea','노래방 버튼':'concert','철창에 갇힌 버튼':'castle','금고 속 버튼':'office','모기 습격':'room','거미줄':'castle','달팽이 휴식':'park','버튼 퀴즈쇼':'concert','버튼 맛집 줄':'street','엘리베이터':'lift','버튼 생일':'room','두더지 잡기':'park','버튼 자판기':'street','무궁화 꽃이':'park','비 오는 날':'street','버튼 키우기':'park','구겨진 버튼':'room','놀아줘 강아지':'park','탁구 한 판':'room','계단 오르기':'street','나무에 걸린 버튼':'park','떨어지는 버튼':'park','무단횡단 금지':'street','레이저 포인터':'room','세탁기':'bath','버튼 경매':'concert','명상하는 버튼':'room','회전 초밥':'shop','도서관':'library','단체 사진':'park','잠깐만요!':'lift','영화관':'cinema','클래식 공연':'concert','고백 현장':'park','월요일 회의':'office','생일 파티':'room','마지막 한 조각':'shop','어서오세요':'shop','응원석':'stadium','시험 시간':'classroom','아기가 자요':'room','건배':'shop','사진 좀…':'street','버스 하차벨':'bus','번호표':'shop','퀴즈 부저':'concert','노래방 친구':'concert','화장실':'bath','횡단보도 버튼':'street','풀 사람?':'classroom','고민 상담':'shop','떼창':'concert','점프 샷':'park','정원 초과':'lift','부장님 개그':'office','좁은 복도':'office','청소 시간':'classroom','지하철 자리':'bus','회전목마':'park','대리 버튼':'office','계약서 서명':'office','로딩 99%':'office','비밀번호 설정':'office','로봇 확인':'office','버튼의 할 일':'room','연못에 빠진 버튼':'park','알 품기':'park','얼어붙은 버튼':'snow','도미노':'room','높은 선반':'room','풍선 속 버튼':'park','버튼 증명사진':'shop','병에 낀 버튼':'room'};
 const OUTDOOR=['park','street','sea','stadium','snow','desert','bamboo','tour'];
 Object.assign(BG,{"고민 상담":"room","마지막 한 조각":"pub","고양이 습격": "room", "거미줄": "room", "계단 오르기": "office", "마지막 한 조각": "pub", "건배": "pub", "사진 좀…": "tour", "UFO 납치": "park", "노래방 버튼": "karaoke", "노래방 친구": "karaoke", "버튼 퀴즈쇼": "studio", "퀴즈 부저": "studio", "버튼 경매": "studio", "지하철 자리": "subway", "탁구 한 판": "arcade", "다트": "arcade", "램프의 요정": "desert", "판다": "bamboo", "자고 있는 버튼": "room", "삐진 버튼": "room", "간지럼 타는 버튼": "room", "낯가리는 버튼": "room", "여행 간 버튼": "room", "정전": "room", "오늘 휴무": "shop", "운석 충돌": "park", "감자": "kitchen", "컵 속 버튼": "street", "빨간 것 천국": "room", "시간 여행": "lab", "전선 연결": "lab", "잠긴 문": "room"});
 const SCENEFIX={'비 오는 날':{wx:'rain'},'홍수':{wx:'rain'},'낙엽 더미':{wx:'leaf'},'운석 충돌':{tod:'night',wx:''},'UFO 납치':{tod:'night',wx:''},'컬링':{wx:'snow?'},'얼어붙은 버튼':{wx:'snow?'},'오리 가족':{tod:'',wx:''},'점프 샷':{tod:'',wx:''},'단체 사진':{tod:'',wx:''}};
@@ -2660,7 +2699,7 @@ const TWISTS=[
  ['동생',()=>{const b=add(realBtn('형'));pos(b,W()/2-50,H()/2);b.locked=true;const s2=add(el('button','big mini','<span>나도</span>'));pos(s2,W()/2+70,H()/2+30);say('버튼 동생: 형아만 눌러주고! 나도 눌러줘!');
    s2.onclick=()=>{s2.style.transition='scale .3s';s2.style.scale=1.3;setTimeout(()=>s2.style.scale=1,300);say('버튼 동생: 헤헤. 이제 형아 차례!');b.locked=false};b.addEventListener('click',()=>{if(b.locked)say('동생이 서운해해요.')})}],
 ];
-function playTwist(){gen++;won=false;stage.style.rotate='';stage.classList.remove('quake','frozen');stageL.forEach(([t,f])=>stage.removeEventListener(t,f));stageL=[];stage.innerHTML='';stage.style.touchAction='';addScene(OB[cur].name);const t=pick(TWISTS);RUN.twistName=t[0];t[1]()}
+function playTwist(){gen++;won=false;{const hb=$('hintb');if(hb)hb.hidden=true}stage.style.rotate='';stage.classList.remove('quake','frozen');stageL.forEach(([t,f])=>stage.removeEventListener(t,f));stageL=[];stage.innerHTML='';stage.style.touchAction='';addScene(OB[cur].name);const t=pick(TWISTS);RUN.twistName=t[0];t[1]()}
 
 /* combos (story chains) */
 const COMBOS=[['고양이 습격','얼어붙은 버튼','고양이 침이 묻은 버튼이 꽁꽁 얼어버렸어요!'],['택배 상자','비둘기 점거','상자를 열었더니… 비둘기가 같이 배송됐어요.'],['UFO 납치','연못에 빠진 버튼','UFO에서 떨어진 버튼이 하필 연못에 퐁당!'],['부장님 개그','노래방 친구','부장님이 기분 좋다며 노래방에 가재요.'],['진흙 범벅','세탁기','닦긴 했는데 냄새가… 세탁기로!'],['풍선 버튼','나무에 걸린 버튼','풍선이 펑! 버튼이 나무에 걸렸어요.'],['과열','얼어붙은 버튼','소화기를 너무 뿌려서 꽁꽁 얼었어요.'],['감기 걸린 버튼','자고 있는 버튼','약 먹었더니 졸려서 잠들었어요.'],['놀아줘 강아지','진흙 범벅','강아지랑 놀다가 진흙탕에 굴렀어요.'],['머리 감은 버튼','구겨진 버튼','드라이기 바람에 쭈글쭈글해졌어요.'],['코인 폭락','버튼 경매','빚 때문에 버튼이 경매에 나왔어요!'],['퇴사 선언','월요일 회의','복직 첫날부터 회의래요.'],['낙엽 더미','비 오는 날','낙엽을 치웠더니 비가 와요.'],['정전','방전된 버튼','전기는 돌아왔는데 버튼이 방전됐어요.'],['비둘기 점거','먹물 테러','비둘기가 떠나면서… 아니, 문어가 먹물을!'],['건배','부장님 개그','건배하자마자 부장님이 입을 여셨어요.'],['버스 하차벨','무단횡단 금지','내렸는데 버튼이 길 건너편에 있어요.'],['떨어지는 버튼','진흙 범벅','받긴 받았는데 진흙에 떨어졌어요.']];
@@ -2687,7 +2726,7 @@ function runStep(){const s=RUN.steps[stepI];gen++;won=false;MISS=0;stage.style.r
   $('num').textContent=RUN.mode==='unseen'?'안 해본 방해':RUN.mode==='day'?`버튼의 하루 · ${stepI+1}/${RUN.steps.length}`:RUN.mode==='today'?'오늘의 특별 방해':RUN.combo?'합체 방해':'랜덤';
   const l=$('lvl');l.textContent=LV[curLv];l.className='lvl l'+curLv;$('nm').textContent=subVar(o.name);
   addScene(o.name);if(stepI===0)startT=performance.now();
-  o.run(curLv);say(o.story+' '+(HINTS[o.name]||''));
+  o.run(curLv);say(o.story);{const hb=$('hintb');hb.hidden=curLv===2||!HINTS[o.name];hb.dataset.h=HINTS[o.name]||'';hb.classList.remove('used')}
   const dodge=()=>{const t=stage.querySelector(':scope > .tools');if(!t||!t.children.length)return;const sr=stage.getBoundingClientRect();let top=1e9,l=1e9,r=-1e9;[...t.children].forEach(c=>{const q=c.getBoundingClientRect();top=Math.min(top,q.top);l=Math.min(l,q.left);r=Math.max(r,q.right)});if(top<sr.top+sr.height/2)return;
     stage.querySelectorAll(':scope > .big').forEach(b=>{if(b.classList.contains('mover'))return;const q=b.getBoundingClientRect();if(q.bottom>top-6&&q.right>l&&q.left<r){const h=q.height;b.style.top=(top-sr.top-stage.clientTop-h/2-10)+'px'}})};
   after(60,dodge);every(500,dodge);if(stepI===0&&Math.random()<.5)after(2600,()=>{if(!won)say('버튼: '+pick(TONES.basic.greet))})}
@@ -2699,7 +2738,7 @@ const NOTHING=["축하합니다. 아무 일도 일어나지 않았습니다.","�
 const TITLES=[['first','첫 딸깍','처음으로 버튼을 눌렀다',d=>d.total>=1],['ten','단골손님','버튼을 10번 눌렀다',d=>d.total>=10],['fifty','버튼 중독자','버튼을 50번 눌렀다',d=>d.total>=50],['hundred','버튼 누르기의 달인','버튼을 100번 눌렀다',d=>d.total>=100],
  ['churu','야옹이','고양이 습격을 3번 해결했다',d=>(d.clears['고양이 습격']||[0,0,0]).reduce((a,b)=>a+b,0)>=3],['potato','감자 튀김','감자를 10번 찾았다',d=>(d.clears['감자']||[0,0,0]).reduce((a,b)=>a+b,0)>=10],
  ['nunchi','눈치 9단','눈치 방해를 10개 해결했다',d=>NUNCHI.filter(n=>d.clears[n]).length>=10],['nunchi3','눈치 초보','눈치 방해를 3개 해결했다',d=>NUNCHI.filter(n=>d.clears[n]).length>=3],
- ['hard','고통을 즐기는 자','어려움을 20번 깼다',d=>d.hard>=20],['fast','번개손','5초 안에 깼다',d=>d.fast>=1],['fast3','눈 깜짝할 새에','3초 안에 깼다',d=>(d.fast3||0)>=1],['split','버튼 감별사','분열 반전에서 진짜 버튼을 한 번에 골랐다',d=>(d.split1||0)>=1],['slow','끈기 대장','2분 넘게 버텨서 깼다',d=>d.slow>=1],['gold','황금손','0.01% 확률로 나오는 황금 버튼을 눌렀다',d=>d.gold>=1],
+ ['hard','고통을 즐기는 자','어려움을 20번 깼다',d=>d.hard>=20],['fast','번개손','5초 안에 깼다',d=>d.fast>=1],['fast3','눈 깜짝할 새에','3초 안에 깼다',d=>(d.fast3||0)>=1],['catsnipe','냥심 저격수','어려움 레이저 포인터를 화분 하나도 안 깨고 깼다',d=>(d.perf&&d.perf['레이저 포인터']||0)>=3],['antman','앤트맨','어려움 개미 이사를 10번 깼다',d=>((d.clears['개미 이사']||[0,0,0])[2]||0)>=10],['split','버튼 감별사','분열 반전에서 진짜 버튼을 한 번에 골랐다',d=>(d.split1||0)>=1],['slow','끈기 대장','5분 넘게 버텨서 깼다',d=>d.slow>=1],['gold','황금손','0.01% 확률로 나오는 황금 버튼을 눌렀다',d=>d.gold>=1],
  ['combo','연쇄 해결사','합체 방해를 깼다',d=>d.combos>=1],['twist','속아도 꿈결','반전 결말을 3번 겪었다',d=>d.twists>=3],
  ['dex30','수집가','방해 30종을 만났다',d=>d.seenOb.length>=30],['dex100','버튼 박사','방해 100종을 만났다',d=>d.seenOb.length>=100],
  ['t200','버튼 장인','버튼을 200번 눌렀다',d=>d.total>=200],['t500','버튼과 한 몸','버튼을 500번 눌렀다',d=>d.total>=500],['t1000','전설의 손가락','버튼을 1000번 눌렀다',d=>d.total>=1000],
@@ -2712,7 +2751,7 @@ const TITLES=[['first','첫 딸깍','처음으로 버튼을 눌렀다',d=>d.tota
  ['coin','존버의 신','코인 폭락을 해결했다',d=>!!d.clears['코인 폭락']],['auction','경매왕','버튼 경매에서 낙찰받았다',d=>!!d.clears['버튼 경매']],['dragon','드래곤 라이더','용의 보물을 되찾았다',d=>!!d.clears['용의 보물']],
  ['panda','판다 집사','판다에게서 버튼을 빼냈다',d=>!!d.clears['판다']],['ramen','계란 후라이','계란 후라이를 맛있게 부쳤다',d=>!!d.clears['계란 후라이']],['bowling','스트라이커','볼링에서 스트라이크',d=>!!d.clears['볼링']],
  ['adblock','광고 차단기','팝업 광고를 다 닫았다',d=>!!d.clears['팝업 광고']],['unsub','절약정신','구독 해지에 성공했다',d=>!!d.clears['구독 해지']],['social','사회생활 만렙','부장님 개그에 맞춰 웃었다',d=>!!d.clears['부장님 개그']],
- ['grand','효손','할머니가 숨겨둔 버튼을 찾았다',d=>!!d.clears['할머니 용돈']],['wedding','결혼했어요','결혼식을 한 번도 안 틀리고 깼다',d=>!!(d.perf||{})['결혼식']],
+ ['grand','효손','어려움 할머니 용돈을 한 번도 안 틀리고 깼다',d=>(d.perf&&d.perf['할머니 용돈']||0)>=3],['wedding','결혼했어요','결혼식을 한 번도 안 틀리고 깼다',d=>!!(d.perf||{})['결혼식']],
  ['duck','오리 지킴이','오리 가족을 구했다',d=>!!d.clears['오리 가족']],['maze','길잡이','미로를 빠져나왔다',d=>!!d.clears['미로 속 버튼']],['safe','금고털이','금고를 열었다',d=>!!d.clears['금고 속 버튼']],['blink','잠깐의 실수','증명사진에서 버튼이 눈을 감았다 (아주 드묾)',d=>(d.blink||0)>=1],['lucky','행운 요정의 가호','어려움 가짜 버튼들을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['가짜 버튼들']||0)>=3],['cups','눈 안 떼는 자','어려움 컵 속 버튼을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['컵 속 버튼']||0)>=3],['shadow','그림자 탐정','어려움 그림자 놀이를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['그림자 놀이']||0)>=3],['detective','명탐정','어려움 몽타주를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['몽타주']||0)>=3],['delivery','배달의 신','어려움 택배 기사를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['택배 기사']||0)>=3],['calc','계산왕','어려움 버튼 자판기를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['버튼 자판기']||0)>=3],['mugung','무궁화','어려움 무궁화 꽃이를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['무궁화 꽃이']||0)>=3],['fan','찐팬','어려움 응원석을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['응원석']||0)>=3],['quiz','척척박사','어려움 퀴즈 부저를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['퀴즈 부저']||0)>=3],['busdriver','버스기사','어려움 버스 하차벨을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['버스 하차벨']||0)>=3]];
 let NUNCHI=[];
 function toast(t){const x=$('toast');x.textContent=t;x.hidden=false;x.classList.remove('on');void x.offsetWidth;x.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>x.hidden=true,2600)}
@@ -2722,7 +2761,7 @@ function win(msg){if(won)return;won=true;
   if(stepI<RUN.steps.length-1){const o=OB[cur];D.clears[o.name]=D.clears[o.name]||[0,0,0];D.clears[o.name][curLv]++;saveD();SFX.ding();stepI++;after(500,startStep);return}
   if(RUN.twist&&!RUN.twisted){RUN.twisted=true;SFX.click();after(350,playTwist);return}
   SFX[RUN.gold?'gold':'win']();const o=OB[cur],sec=(performance.now()-startT)/1000;
-  D.total++;D.clears[o.name]=D.clears[o.name]||[0,0,0];D.clears[o.name][curLv]++;if(curLv===2)D.hard++;if(curLv===0)D.easyc=(D.easyc||0)+1;{const h=new Date().getHours();if(h<5)D.night=(D.night||0)+1;else if(h<8)D.morning=(D.morning||0)+1;D.days2=D.days2||[];if(!D.days2.includes(dayKey()))D.days2.push(dayKey())}if(sec<5)D.fast++;if(sec<3)D.fast3=(D.fast3||0)+1;if(sec>120)D.slow++;if(RUN.gold)D.gold++;if(RUN.combo)D.combos++;if(RUN.twisted)D.twists++;if(RUN.mode==='day')D.days++;if(RUN.mode==='today')D.special[dayKey()]=1;
+  D.total++;D.clears[o.name]=D.clears[o.name]||[0,0,0];D.clears[o.name][curLv]++;if(curLv===2)D.hard++;if(curLv===0)D.easyc=(D.easyc||0)+1;{const h=new Date().getHours();if(h<5)D.night=(D.night||0)+1;else if(h<8)D.morning=(D.morning||0)+1;D.days2=D.days2||[];if(!D.days2.includes(dayKey()))D.days2.push(dayKey())}if(sec<5)D.fast++;if(sec<3)D.fast3=(D.fast3||0)+1;if(sec>300)D.slow++;if(RUN.gold)D.gold++;if(RUN.combo)D.combos++;if(RUN.twisted)D.twists++;if(RUN.mode==='day')D.days++;if(RUN.mode==='today')D.special[dayKey()]=1;
   const hist=RUN.steps.map(s=>OB[s.i].name);checkTitles();saveD();updHome();
   const line=RUN.gold?'황금 버튼을 눌렀습니다.<br>그래도 아무 일도 일어나지 않았습니다.':(msg||pick(NOTHING).replace(/\. /,'.<br>'));
   const ov=add(el('div','win',`<div><p class="k">${RUN.gold?'반짝, 딸깍.':'딸깍.'}</p><h2>${line}</h2><dl><dt>${RUN.mode==='day'?'하루':'방해'}</dt><dd>${hist.map(subVar).join(' → ')}</dd>${RUN.twisted?`<dt>반전</dt><dd>${RUN.twistName}</dd>`:''}<dt>난이도</dt><dd>${LV[curLv]}</dd><dt>걸린 시간</dt><dd>${sec.toFixed(1)}초</dd><dt>누른 횟수</dt><dd>${D.total}번</dd></dl><div class="row"><button class="tool" id="cardBtn" type="button">결과 카드</button><button class="tool primary" id="nextBtn" type="button">한 번 더</button></div><button class="linkb" id="homeBtn2" type="button">처음으로</button></div>`));
@@ -2781,8 +2820,8 @@ function renderSettings(){const g=$('themelist');g.innerHTML='';THEMES.forEach((
 applyTheme();
 
 /* update notice */
-const APP_VER='2026.11.11g';
-const CHANGELOG=[{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['설정에 게임 설명 다시 보기, 홈 화면에 추가 버튼이 생겼어요.','빨간 것 천국: 버튼도 다른 물건처럼 끌어서 옮길 수 있고, 톡 눌러야 성공해요.','화면 점검: 퇴사 선언 보기 버튼, 택배 기사 송장, 반대 나라 설명, 결혼식 신부 그림이 잘리거나 겹치던 걸 고쳤어요.','무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
+const APP_VER='2026.11.13';
+const CHANGELOG=[{v:'2026.11.13',title:'힌트 버튼이 생겼어요',items:['방해 이름 옆 ? 버튼을 누르면 힌트가 나와요. 어려움에서는 힌트가 없어요.','개미 이사: 개미만 해진 버튼을 두 손가락으로 확대해서 찾아요. 새 칭호 앤트맨!','레이저 포인터: 보통·어려움에 화분이 생겼어요. 어려움은 레이저를 너무 빨리 움직이면 고양이가 흥미를 잃어요. 새 칭호 냥심 저격수!','계단 오르기 어려움: 10초 안에 올라가야 해요.','굴러간 버튼: 위아래 양옆 어디든 굴러가고, 어려울수록 더 멀리 가요.','택배 기사: 어려울수록 집 생김새가 복잡해져요.','미로 속 버튼: 버튼에 새 건전지를 배달해요.','머리 감은 버튼: 드라이기 방향이 바뀌어요. 풍선 속 버튼: 바닥에 떨어진 다음 눌러요.','칭호 변경: 효손(어려움을 한 번도 안 틀리고), 끈기 대장(5분).','도미노는 빠졌어요.']},{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['설정에 게임 설명 다시 보기, 홈 화면에 추가 버튼이 생겼어요.','빨간 것 천국: 버튼도 다른 물건처럼 끌어서 옮길 수 있고, 톡 눌러야 성공해요.','화면 점검: 퇴사 선언 보기 버튼, 택배 기사 송장, 반대 나라 설명, 결혼식 신부 그림이 잘리거나 겹치던 걸 고쳤어요.','무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
  '빨간 것 천국: 물건이 수북이 쌓였어요. 끌어서 치우며 버튼을 찾아요.',
  '할머니 용돈: 가구 그림이 매번 섞이고 쉬움 4개, 보통 6개, 어려움 9개예요. 할머니가 "장롱 왼쪽"처럼 위치로 알려줘요.',
  '몽타주: 목격자 진술이 위에 크게 보이고, 모자와 안경을 새로 그렸어요.',
@@ -2832,7 +2871,7 @@ function showTutorial(){let k=0;const o=el('div','updpop',`<div class="updbox tu
 function firstRun(){const fresh=!D.total&&!D.seenVer&&!D.tutDone;if(!D.tutDone&&!fresh){D.tutDone=true;saveD()}
   let wantInst=false;try{wantInst=new URLSearchParams(location.search).has('install')}catch(e){}
   if(fresh){showTutorial();D.seenVer=APP_VER;saveD()}else showUpdate();if(wantInst&&!isStandalone())setTimeout(showInstallGuide,fresh?0:300)}
-setTimeout(firstRun,500);document.getElementById('tutagain').onclick=()=>{try{SFX.click()}catch(e){}showTutorial()};document.getElementById('instset').onclick=doInstall;updInst();
+setTimeout(firstRun,500);document.getElementById('hintb').onclick=()=>{const hb=document.getElementById('hintb');if(!hb.dataset.h)return;try{SFX.click()}catch(e){}hb.classList.add('used');say('힌트: '+hb.dataset.h)};document.getElementById('tutagain').onclick=()=>{try{SFX.click()}catch(e){}showTutorial()};document.getElementById('instset').onclick=doInstall;updInst();
 
 </script>
 
