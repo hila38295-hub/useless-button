@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1001,7 +1001,7 @@ const OB=[
     else if(pan){tx=pan.tx+(p.x-pan.x);ty=pan.ty+(p.y-pan.y);apply()}});
   const up=e=>{if(!P.has(e.pointerId))return;const p=S(e);P.delete(e.pointerId);if(P.size<2)pinch=null;if(P.size===1){const q=[...P.values()][0];pan={x:q.x,y:q.y,tx,ty}}
     if(P.size===0){pan=null;if(moved<8){const now=performance.now();const lx=(p.x-tx)/s,ly=(p.y-ty)/s;
-      if(dist(lx,ly,x,y)<Math.max(bs*.7,10/s)){if(bs*s>=need){b.locked=false;SFX.click();win()}else say(`찾았는데 너무 작아서 못 누르겠어요. 더 확대해요! (지금 ${Math.round(bs*s)}px)`)}
+      if(dist(lx,ly,x,y)<Math.max(bs*.7,10/s)){if(bs*s>=need){if(lv===2){D.ant2=(D.ant2||0)+1;saveD()}b.locked=false;SFX.click();win()}else say(`찾았는데 너무 작아서 못 누르겠어요. 더 확대해요! (지금 ${Math.round(bs*s)}px)`)}
       else if(now-lastTap<320){zoomAt(p.x,p.y,s*2);lastTap=0}else lastTap=now}}};
   onStage('pointerup',up);onStage('pointercancel',up);
   onStage('wheel',e=>{if(won)return;e.preventDefault();const p=S(e);zoomAt(p.x,p.y,s*(e.deltaY<0?1.15:1/1.15))});
@@ -1766,7 +1766,7 @@ OB.push(
     if(on){const x=gx(c),y=gy(c),tx=gx(dot),ty=gy(dot),d=dist(x,y,tx,ty);if(d<rng&&d>8){const k=Math.min(1,v*dt/d);pos(c,x+(tx-x)*k,y+(ty-y)*k);c.style.scale=tx>x?'-1 1':'1 1'}}
     for(const p of pots){if(p.e.isConnected&&dist(gx(c),gy(c),p.x,p.y)<34){p.e.remove();const f=add(el('div','sign','와장창!'));pos(f,p.x,p.y);f.style.color='#D2343A';after(900,()=>f.remove());awk('고양이가 화분을 깼어요! 화분을 피해서 유인해요.');
       after(1200,()=>{if(!fin){const s=sprite('x',46,p.x,p.y,ART.fPlant);s.style.pointerEvents='none';p.e=s}});goHome('고양이가 놀라서 버튼으로 도망갔어요.');return}}
-    if(dist(gx(c),gy(c),gx(box),gy(box))<45){fin=true;pos(c,gx(box),gy(box)-24);c.innerHTML=ART.cat('happy');unlock(b,'누르기','고양이가 상자에 쏙 들어갔어요. 고양이는 상자를 못 참죠.')}});
+    if(dist(gx(c),gy(c),gx(box),gy(box))<45){fin=true;if(lv===2&&MISS===0){D.catsnipe=(D.catsnipe||0)+1;saveD()}pos(c,gx(box),gy(box)-24);c.innerHTML=ART.cat('happy');unlock(b,'누르기','고양이가 상자에 쏙 들어갔어요. 고양이는 상자를 못 참죠.')}});
   b.addEventListener('click',()=>{if(b.locked)say('고양이가 깔고 앉아 있어요.')});say('화면을 누른 채 움직여 레이저로 고양이를 상자까지 유인하세요.');
 }},
 {name:'버튼의 할 일',story:'버튼이 할 일을 다 끝내야 일한대요.',run(lv){const B=mkB(lv);const n0=B(3,4,5),more=B(0,3,6),pr=B(0,.5,.7);
@@ -2567,6 +2567,7 @@ const DKEY='uselessData3';
 let D={total:0,first:0,last:0,lastDay:'',todayCount:0,clears:{},seenOb:[],titles:[],equip:'',gold:0,combos:0,twists:0,days:0,special:{},sound:true,levels:[0,1,2],mode:'random',hard:0,fast:0,slow:0,dev:false};
 try{const o=JSON.parse(localStorage.getItem(DKEY)||'null');if(o)D=Object.assign(D,o)}catch(e){}
 {const names=new Set(OB.map(o=>o.name));D.seenOb=(D.seenOb||[]).filter(n=>names.has(n))}
+{const rm={catsnipe:!(D.catsnipe>=1),antman:!((D.ant2||0)>=10),grand:!(D.grand2>=1)};if(Array.isArray(D.titles))D.titles=D.titles.filter(t=>!rm[t]);if(rm[D.equip])D.equip=''}
 const saveD=()=>{try{localStorage.setItem(DKEY,JSON.stringify(D))}catch(e){}};
 const dayKey=(d=new Date())=>`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
 const lvOf=o=>o.levels||[0,1,2];
@@ -2738,7 +2739,7 @@ const NOTHING=["축하합니다. 아무 일도 일어나지 않았습니다.","�
 const TITLES=[['first','첫 딸깍','처음으로 버튼을 눌렀다',d=>d.total>=1],['ten','단골손님','버튼을 10번 눌렀다',d=>d.total>=10],['fifty','버튼 중독자','버튼을 50번 눌렀다',d=>d.total>=50],['hundred','버튼 누르기의 달인','버튼을 100번 눌렀다',d=>d.total>=100],
  ['churu','야옹이','고양이 습격을 3번 해결했다',d=>(d.clears['고양이 습격']||[0,0,0]).reduce((a,b)=>a+b,0)>=3],['potato','감자 튀김','감자를 10번 찾았다',d=>(d.clears['감자']||[0,0,0]).reduce((a,b)=>a+b,0)>=10],
  ['nunchi','눈치 9단','눈치 방해를 10개 해결했다',d=>NUNCHI.filter(n=>d.clears[n]).length>=10],['nunchi3','눈치 초보','눈치 방해를 3개 해결했다',d=>NUNCHI.filter(n=>d.clears[n]).length>=3],
- ['hard','고통을 즐기는 자','어려움을 20번 깼다',d=>d.hard>=20],['fast','번개손','5초 안에 깼다',d=>d.fast>=1],['fast3','눈 깜짝할 새에','3초 안에 깼다',d=>(d.fast3||0)>=1],['catsnipe','냥심 저격수','어려움 레이저 포인터를 화분 하나도 안 깨고 깼다',d=>(d.perf&&d.perf['레이저 포인터']||0)>=3],['antman','앤트맨','어려움 개미 이사를 10번 깼다',d=>((d.clears['개미 이사']||[0,0,0])[2]||0)>=10],['split','버튼 감별사','분열 반전에서 진짜 버튼을 한 번에 골랐다',d=>(d.split1||0)>=1],['slow','끈기 대장','5분 넘게 버텨서 깼다',d=>d.slow>=1],['gold','황금손','0.01% 확률로 나오는 황금 버튼을 눌렀다',d=>d.gold>=1],
+ ['hard','고통을 즐기는 자','어려움을 20번 깼다',d=>d.hard>=20],['fast','번개손','5초 안에 깼다',d=>d.fast>=1],['fast3','눈 깜짝할 새에','3초 안에 깼다',d=>(d.fast3||0)>=1],['catsnipe','냥심 저격수','어려움 레이저 포인터를 화분 하나도 안 깨고 깼다',d=>(d.catsnipe||0)>=1],['antman','앤트맨','어려움 개미 이사를 10번 깼다',d=>(d.ant2||0)>=10],['split','버튼 감별사','분열 반전에서 진짜 버튼을 한 번에 골랐다',d=>(d.split1||0)>=1],['slow','끈기 대장','5분 넘게 버텨서 깼다',d=>d.slow>=1],['gold','황금손','0.01% 확률로 나오는 황금 버튼을 눌렀다',d=>d.gold>=1],
  ['combo','연쇄 해결사','합체 방해를 깼다',d=>d.combos>=1],['twist','속아도 꿈결','반전 결말을 3번 겪었다',d=>d.twists>=3],
  ['dex30','수집가','방해 30종을 만났다',d=>d.seenOb.length>=30],['dex100','버튼 박사','방해 100종을 만났다',d=>d.seenOb.length>=100],
  ['t200','버튼 장인','버튼을 200번 눌렀다',d=>d.total>=200],['t500','버튼과 한 몸','버튼을 500번 눌렀다',d=>d.total>=500],['t1000','전설의 손가락','버튼을 1000번 눌렀다',d=>d.total>=1000],
@@ -2751,13 +2752,13 @@ const TITLES=[['first','첫 딸깍','처음으로 버튼을 눌렀다',d=>d.tota
  ['coin','존버의 신','코인 폭락을 해결했다',d=>!!d.clears['코인 폭락']],['auction','경매왕','버튼 경매에서 낙찰받았다',d=>!!d.clears['버튼 경매']],['dragon','드래곤 라이더','용의 보물을 되찾았다',d=>!!d.clears['용의 보물']],
  ['panda','판다 집사','판다에게서 버튼을 빼냈다',d=>!!d.clears['판다']],['ramen','계란 후라이','계란 후라이를 맛있게 부쳤다',d=>!!d.clears['계란 후라이']],['bowling','스트라이커','볼링에서 스트라이크',d=>!!d.clears['볼링']],
  ['adblock','광고 차단기','팝업 광고를 다 닫았다',d=>!!d.clears['팝업 광고']],['unsub','절약정신','구독 해지에 성공했다',d=>!!d.clears['구독 해지']],['social','사회생활 만렙','부장님 개그에 맞춰 웃었다',d=>!!d.clears['부장님 개그']],
- ['grand','효손','어려움 할머니 용돈을 한 번도 안 틀리고 깼다',d=>(d.perf&&d.perf['할머니 용돈']||0)>=3],['wedding','결혼했어요','결혼식을 한 번도 안 틀리고 깼다',d=>!!(d.perf||{})['결혼식']],
+ ['grand','효손','어려움 할머니 용돈을 한 번도 안 틀리고 깼다',d=>(d.grand2||0)>=1],['wedding','결혼했어요','결혼식을 한 번도 안 틀리고 깼다',d=>!!(d.perf||{})['결혼식']],
  ['duck','오리 지킴이','오리 가족을 구했다',d=>!!d.clears['오리 가족']],['maze','길잡이','미로를 빠져나왔다',d=>!!d.clears['미로 속 버튼']],['safe','금고털이','금고를 열었다',d=>!!d.clears['금고 속 버튼']],['blink','잠깐의 실수','증명사진에서 버튼이 눈을 감았다 (아주 드묾)',d=>(d.blink||0)>=1],['lucky','행운 요정의 가호','어려움 가짜 버튼들을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['가짜 버튼들']||0)>=3],['cups','눈 안 떼는 자','어려움 컵 속 버튼을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['컵 속 버튼']||0)>=3],['shadow','그림자 탐정','어려움 그림자 놀이를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['그림자 놀이']||0)>=3],['detective','명탐정','어려움 몽타주를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['몽타주']||0)>=3],['delivery','배달의 신','어려움 택배 기사를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['택배 기사']||0)>=3],['calc','계산왕','어려움 버튼 자판기를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['버튼 자판기']||0)>=3],['mugung','무궁화','어려움 무궁화 꽃이를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['무궁화 꽃이']||0)>=3],['fan','찐팬','어려움 응원석을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['응원석']||0)>=3],['quiz','척척박사','어려움 퀴즈 부저를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['퀴즈 부저']||0)>=3],['busdriver','버스기사','어려움 버스 하차벨을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['버스 하차벨']||0)>=3]];
 let NUNCHI=[];
 function toast(t){const x=$('toast');x.textContent=t;x.hidden=false;x.classList.remove('on');void x.offsetWidth;x.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>x.hidden=true,2600)}
 function checkTitles(){TITLES.forEach(([id,nm,,fn])=>{if(!D.titles.includes(id)&&fn(D)){D.titles.push(id);if(!D.equip)D.equip=id;setTimeout(()=>toast('칭호 획득: '+nm),400)}})}
 function win(msg){if(won)return;won=true;
-  if(!RUN.twisted||stepI<RUN.steps.length-1){const nm0=OB[cur].name;D.perf=D.perf||{};if(MISS===0){D.perf[nm0]=Math.max(D.perf[nm0]||0,curLv+1)}}
+  if(!RUN.twisted||stepI<RUN.steps.length-1){const nm0=OB[cur].name;D.perf=D.perf||{};if(MISS===0){D.perf[nm0]=Math.max(D.perf[nm0]||0,curLv+1);if(nm0==='할머니 용돈'&&curLv===2)D.grand2=1}}
   if(stepI<RUN.steps.length-1){const o=OB[cur];D.clears[o.name]=D.clears[o.name]||[0,0,0];D.clears[o.name][curLv]++;saveD();SFX.ding();stepI++;after(500,startStep);return}
   if(RUN.twist&&!RUN.twisted){RUN.twisted=true;SFX.click();after(350,playTwist);return}
   SFX[RUN.gold?'gold':'win']();const o=OB[cur],sec=(performance.now()-startT)/1000;
@@ -2820,8 +2821,8 @@ function renderSettings(){const g=$('themelist');g.innerHTML='';THEMES.forEach((
 applyTheme();
 
 /* update notice */
-const APP_VER='2026.11.13';
-const CHANGELOG=[{v:'2026.11.13',title:'힌트 버튼이 생겼어요',items:['방해 이름 옆 ? 버튼을 누르면 힌트가 나와요. 어려움에서는 힌트가 없어요.','개미 이사: 개미만 해진 버튼을 두 손가락으로 확대해서 찾아요. 새 칭호 앤트맨!','레이저 포인터: 보통·어려움에 화분이 생겼어요. 어려움은 레이저를 너무 빨리 움직이면 고양이가 흥미를 잃어요. 새 칭호 냥심 저격수!','계단 오르기 어려움: 10초 안에 올라가야 해요.','굴러간 버튼: 위아래 양옆 어디든 굴러가고, 어려울수록 더 멀리 가요.','택배 기사: 어려울수록 집 생김새가 복잡해져요.','미로 속 버튼: 버튼에 새 건전지를 배달해요.','머리 감은 버튼: 드라이기 방향이 바뀌어요. 풍선 속 버튼: 바닥에 떨어진 다음 눌러요.','칭호 변경: 효손(어려움을 한 번도 안 틀리고), 끈기 대장(5분).','도미노는 빠졌어요.']},{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['설정에 게임 설명 다시 보기, 홈 화면에 추가 버튼이 생겼어요.','빨간 것 천국: 버튼도 다른 물건처럼 끌어서 옮길 수 있고, 톡 눌러야 성공해요.','화면 점검: 퇴사 선언 보기 버튼, 택배 기사 송장, 반대 나라 설명, 결혼식 신부 그림이 잘리거나 겹치던 걸 고쳤어요.','무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
+const APP_VER='2026.11.13b';
+const CHANGELOG=[{v:'2026.11.13b',title:'칭호 조건을 바로잡았어요',items:['냥심 저격수, 앤트맨, 효손이 예전 버전 기록으로 바로 받아지던 문제를 고쳤어요.','이제 바뀐 방해에서 조건을 채워야 받을 수 있어요. 이미 받은 세 칭호는 다시 따야 해요.']},{v:'2026.11.13',title:'힌트 버튼이 생겼어요',items:['방해 이름 옆 ? 버튼을 누르면 힌트가 나와요. 어려움에서는 힌트가 없어요.','개미 이사: 개미만 해진 버튼을 두 손가락으로 확대해서 찾아요. 새 칭호 앤트맨!','레이저 포인터: 보통·어려움에 화분이 생겼어요. 어려움은 레이저를 너무 빨리 움직이면 고양이가 흥미를 잃어요. 새 칭호 냥심 저격수!','계단 오르기 어려움: 10초 안에 올라가야 해요.','굴러간 버튼: 위아래 양옆 어디든 굴러가고, 어려울수록 더 멀리 가요.','택배 기사: 어려울수록 집 생김새가 복잡해져요.','미로 속 버튼: 버튼에 새 건전지를 배달해요.','머리 감은 버튼: 드라이기 방향이 바뀌어요. 풍선 속 버튼: 바닥에 떨어진 다음 눌러요.','칭호 변경: 효손(어려움을 한 번도 안 틀리고), 끈기 대장(5분).','도미노는 빠졌어요.']},{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['설정에 게임 설명 다시 보기, 홈 화면에 추가 버튼이 생겼어요.','빨간 것 천국: 버튼도 다른 물건처럼 끌어서 옮길 수 있고, 톡 눌러야 성공해요.','화면 점검: 퇴사 선언 보기 버튼, 택배 기사 송장, 반대 나라 설명, 결혼식 신부 그림이 잘리거나 겹치던 걸 고쳤어요.','무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
  '빨간 것 천국: 물건이 수북이 쌓였어요. 끌어서 치우며 버튼을 찾아요.',
  '할머니 용돈: 가구 그림이 매번 섞이고 쉬움 4개, 보통 6개, 어려움 9개예요. 할머니가 "장롱 왼쪽"처럼 위치로 알려줘요.',
  '몽타주: 목격자 진술이 위에 크게 보이고, 모자와 안경을 새로 그렸어요.',
