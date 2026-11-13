@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1045,8 +1045,10 @@ const OB=[
   drag(bk,{move:(x,y)=>{if(!full&&y>H()*(1-lvl/100)+12){full=true;bk.innerHTML=ART.bucketFull;say('물을 펐어요. 배수구로 가져가세요.')}},
     end:(x,y)=>{if(full&&dist(x,y,gx(drain),gy(drain))<62){full=false;bk.innerHTML=ART.bucket;lvl-=scoop;say(pick(['촤악!','영차!','팔 아파요','조금 줄었어요']));
       if(lvl<=8){dry=true;w.remove();bk.remove();drain.remove();b.style.transition='left .5s,top .5s';center(b);b.locked=false;setLabel(b,'누르기');say('물이 빠졌어요. 버튼이 젖었지만 괜찮대요.')}}}});
-  loop(dt=>{if(dry)return false;t+=dt;lvl=Math.min(86,lvl+dt*rise);w.style.height=lvl+'%';const sy=H()*(1-lvl/100);pos(b,W()/2+Math.sin(t*.0011)*(W()/2-90),Math.max(120,sy-14+Math.sin(t*.004)*8))});
-  b.addEventListener('click',()=>{if(b.locked)say('떠다니는 중이라 안 눌려요.')});
+  loop(dt=>{if(dry||won)return false;t+=dt;lvl=Math.min(100,lvl+dt*rise);w.style.height=lvl+'%';const sy=H()*(1-lvl/100);
+    if(lvl>=100){dry=true;bk.remove();b.style.transition='top 1.2s,opacity 1.2s';pos(b,gx(b),H()-30);b.style.opacity=.5;setLabel(b,'고장');b.classList.add('nope');say('뽀글뽀글… 버튼이 물에 잠겨서 고장났어요. 다른 방해로 넘어가요.');SFX.bad&&SFX.bad();D.diver=(D.diver||0)+1;saveD();checkTitles();after(2600,()=>{if(!won&&$('game')&&!$('game').hidden)$('skip').click()});return false}
+    pos(b,W()/2+Math.sin(t*.0011)*(W()/2-90),Math.max(120,sy-14+Math.sin(t*.004)*8))});
+  b.addEventListener('click',()=>{if(b.locked&&!(dry&&lvl>=100))say('떠다니는 중이라 안 눌려요.')});
   say('양동이로 물을 퍼서 배수구에 버리세요.');
 }},
 {name:'여행 간 버튼',story:'버튼이 여행을 가서 엽서만 남겼습니다.',run(lv){const B=mkB(lv);const n=B(1,2,4);const real=Math.floor(Math.random()*n);
@@ -1380,8 +1382,10 @@ OB.push(
   c.globalCompositeOperation='destination-out';c.lineWidth=br*2;c.lineCap='round';const st=pressed();let lp=null;
   onStage('pointerdown',e=>{lp=sp(e)});
   onStage('pointermove',e=>{if(!st.down||!b.locked)return;const p=sp(e);c.beginPath();c.moveTo((lp||p).x,(lp||p).y);c.lineTo(p.x,p.y);c.stroke();lp=p});
-  every(300,()=>{if(!b.locked)return;let ok=0,tot=0;for(let a=0;a<6.28;a+=.4)for(let r=0;r<=24;r+=6){tot++;const px=bx+Math.cos(a)*r,py=by+Math.sin(a)*r;if(px<0||py<0||px>=W()||py>=H()||alpha(c,px,py)<60)ok++}
-    if(ok/tot>=need){cv.remove();unlock(b,'누르기','먹물을 다 닦았어요. 손이 까매졌습니다.')}});
+  const br0=Math.max(10,b.offsetWidth/2-3);let dp=null;
+  onStage('pointerdown',e=>{dp=sp(e)});onStage('pointerup',e=>{const p=sp(e);if(b.locked&&dp&&dist(p.x,p.y,dp.x,dp.y)<8&&dist(p.x,p.y,bx,by)<br0+8)say('아직 버튼에 먹물이 묻어 있어요. 버튼 위를 깨끗이 닦아요.');dp=null});
+  every(250,()=>{if(!b.locked)return;let dirty=0;for(let a=0;a<6.28;a+=.3)for(let r=0;r<=br0;r+=3){const px=bx+Math.cos(a)*r,py=by+Math.sin(a)*r;if(px>=0&&py>=0&&px<W()&&py<H()&&alpha(c,px,py)>=60)dirty++}
+    if(!dirty){b.style.zIndex=6;unlock(b,'누르기','버튼이 반짝반짝해졌어요. 손이 까매졌습니다.')}});
   say(lv?'화면을 문질러서 먹물을 닦고 버튼을 찾으세요. 버튼이 작아요!':'화면을 문질러서 먹물을 닦으세요.');
 }},
 {name:'노래방 버튼',story:'버튼이 노래방에 갔어요. 박자를 맞춰주세요.',run(lv){const B=mkB(lv);const need=B(4,8,12),tol=B(32,22,14),gap=B(1000,750,550),spd=B(.14,.19,.26);
@@ -1410,7 +1414,7 @@ OB.push(
     if(r===cr&&c===cc){pos(ball,Math.max(ox+cc*cw+8,Math.min(ox+(cc+1)*cw-8,x)),Math.max(oy+cr*ch+8,Math.min(oy+(cr+1)*ch-8,y)));return}
     const w=wall[cr][cc];const ok=(r===cr-1&&c===cc&&!w.n)||(r===cr+1&&c===cc&&!w.s)||(c===cc+1&&r===cr&&!w.e)||(c===cc-1&&r===cr&&!w.w);
     if(ok){cr=r;cc=c;pos(ball,x,y);if(r===R-1&&c===C-1){done=true;ball.remove();b.classList.remove('nope');unlock(b,'','건전지 넣기 완료! 버튼에 불이 들어왔어요.')}}
-    else if(lv===2&&(cr||cc)){cr=0;cc=0;pos(ball,sx,sy);say('벽에 부딪혔어요! 처음부터.')}}});
+    else if(lv>=1&&(cr||cc)){cr=0;cc=0;pos(ball,sx,sy);say('벽에 부딪혔어요! 처음부터.')}}});
   b.addEventListener('click',()=>{if(b.locked)say('건전지가 없어서 안 눌려요.')});say('건전지를 끌어서 미로 끝의 버튼까지 가져가세요.');
 }},
 {name:'빨간 것 천국',bg:'room',story:'빨간 물건들이 수북이 쌓였어요. 버튼도 그 속에 섞여 있대요. 물건을 치우면서 찾아서 눌러주세요.',run(lv){const n=[14,22,30][lv],sz=[62,56,50][lv],pr=[62,78,90][lv];
@@ -1514,7 +1518,9 @@ OB.push(
   ask();b.addEventListener('click',()=>{if(b.locked)say('퀴즈부터 맞혀요.')});
 }},
 {name:'비밀번호 설정',story:'버튼을 누르려면 비밀번호를 만들어야 해요.',run(lv){const B=mkB(lv);const day=['일','월','화','수','목','금','토'][new Date().getDay()]+'요일';
-  const RU=[['8글자 이상',v=>v.length>=8],['숫자를 하나 이상 포함',v=>/\d/.test(v)],['"버튼"이라는 단어 포함',v=>v.includes('버튼')],['"감자" 포함',v=>v.includes('감자')],['숫자를 모두 더하면 10',v=>(v.match(/\d/g)||[]).reduce((s,d)=>s+ +d,0)===10],[`오늘 요일 포함 (${day})`,v=>v.includes(day)]].slice(0,B(3,5,6));
+  const mo=new Date().getMonth()+1,food=pick(['감자','김치','떡볶이']),ani=pick(['고양이','강아지','오리']),L=Math.round(rnd(6,12)),sum=Math.round(rnd(7,15));
+  const POOL=[[`${L}글자 이상`,v=>v.length>=L],Math.random()<.5?['숫자를 하나 이상 포함',v=>/\d/.test(v)]:[`숫자를 모두 더하면 ${sum}`,v=>(v.match(/\d/g)||[]).reduce((s,d)=>s+ +d,0)===sum],[`이번 달 숫자 포함 (${mo})`,v=>v.includes(String(mo))],['"버튼"이라는 단어 포함',v=>v.includes('버튼')],[`음식 "${food}" 포함`,v=>v.includes(food)],[`동물 "${ani}" 포함`,v=>v.includes(ani)],[`오늘 요일 포함 (${day})`,v=>v.includes(day)],['특수문자 포함 (! ? @ # 등)',v=>/[^0-9A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ\s]/.test(v)],['영어 대문자 포함',v=>/[A-Z]/.test(v)],['같은 글자 두 번 연속 금지',v=>!/(.)\1/.test(v)]];
+  let RU;do{RU=shuffle(POOL.slice()).slice(0,[3,4,6][lv])}while(mo===11&&RU.some(r=>r[0].startsWith('이번 달'))&&RU.some(r=>r[0].startsWith('같은 글자')));
   const f=add(el('input','field pw'));f.id='pw';f.placeholder='비밀번호';f.maxLength=60;f.autocomplete='off';const rl=add(el('ul','rules'));
   const b=add(realBtn('잠김'));pos(b,W()/2,H()-80);b.style.scale=.6;b.locked=true;let was=false;
   const chk=()=>{const v=f.value;rl.innerHTML=RU.map(([t,fn])=>`<li class="${fn(v)?'ok':''}">${fn(v)?'✓':'✗'} ${t}</li>`).join('');const all=RU.every(([,fn])=>fn(v));b.locked=!all;setLabel(b,all?'열림':'잠김');if(all&&!was)say('완벽한 비밀번호예요. 아무도 못 외울 거예요.');was=all};
@@ -2497,8 +2503,10 @@ OB.push(
 {name:'앵무새',bg:'room',story:'엄마 말을 잘 들어야 버튼을 누를 수 있어요. 근데 앵무새가…',run(lv){const B=mkB(lv);const need=B(2,3,4);
   const mom=person(W()-60,H()*.36,'#E8A0B4','n',80,'#8C5F30');const pr=sprite('parrot',70,60,H()*.3);pr.style.pointerEvents='none';const b=add(realBtn('','mid'));pos(b,W()/2,H()-60);
   const CMD=['불 꺼','창문 닫아','양말 치워','손 씻어'];let cmd=null,who=null,ok=0;
-  const issue=()=>{if(won||ok>=need)return;const c=pick(CMD);const fake=Math.random()<B(.35,.45,.55);cmd=c;who=fake?'parrot':'mom';talk(fake?pr:mom,c+'!',1600);if(fake)talk(mom,null);after(1900,()=>{if(cmd===c){if(who==='mom'){awk('엄마 말을 못 들은 척했어요…');ok=Math.max(0,ok-1)}cmd=null;after(500,issue)}})};after(700,issue);
-  tools(...CMD.map(c=>[c,()=>{if(!cmd){say('아무도 시키지 않았어요.');return}if(c!==cmd){awk('엉뚱한 걸 했어요.');return}if(who==='parrot'){awk('그건 앵무새가 한 말이었어요! 엄마: "뭐 하니?"');cmd=null;after(600,issue);return}ok++;cmd=null;face(mom,'happy');talk(mom,ok>=need?'착하네~ 이제 놀아도 돼.':'그래, 잘했어.',1300);after(1300,()=>{face(mom,'n');issue()})}]));
+  const lim=[4000,3000,2000][lv];const tb=add(el('div','tbar','<i></i>')),ti=tb.querySelector('i');tb.style.visibility='hidden';let tl=0,cid=0;
+  loop(dt=>{if(won)return false;if(!cmd){tb.style.visibility='hidden';return}tb.style.visibility='visible';tl-=dt;ti.style.width=Math.max(0,tl/lim*100)+'%'});
+  const issue=()=>{if(won||ok>=need)return;const c=pick(CMD);const fake=Math.random()<B(.35,.45,.55);cmd=c;who=fake?'parrot':'mom';tl=lim;const my=++cid;talk(fake?pr:mom,c+'!',Math.min(1600,lim));if(fake)talk(mom,null);after(lim,()=>{if(my===cid&&cmd===c){cmd=null;if(who==='mom'){ok=Math.max(0,ok-1);face(mom,'angry');talk(mom,'엄마 말 안 들을 거야?!',1500);awk('엄마한테 혼났어요…');after(1600,()=>{face(mom,'n');issue()})}else after(500,issue)}})};after(700,issue);
+  tools(...CMD.map(c=>[c,()=>{if(!cmd){say('아무도 시키지 않았어요.');return}if(c!==cmd){awk('엉뚱한 걸 했어요.');return}if(who==='parrot'){awk('그건 앵무새가 한 말이었어요! 엄마: "뭐 하니?"');cmd=null;cid++;after(600,issue);return}ok++;cmd=null;cid++;face(mom,'happy');talk(mom,ok>=need?'착하네~ 이제 놀아도 돼.':'그래, 잘했어.',1300);after(1300,()=>{face(mom,'n');issue()})}]));
   gate(b,()=>ok>=need,()=>awk('엄마: 할 일부터 해!'));
 }},
 {name:'햄스터 쳇바퀴',bg:'room',story:'햄스터가 버튼을 쳇바퀴에 넣고 신나게 달려요.',run(lv){const B=mkB(lv);const sp4=B(.004,.006,.009),tol=B(.35,.25,.16);
@@ -2752,7 +2760,7 @@ const TITLES=[['first','첫 딸깍','처음으로 버튼을 눌렀다',d=>d.tota
  ['coin','존버의 신','코인 폭락을 해결했다',d=>!!d.clears['코인 폭락']],['auction','경매왕','버튼 경매에서 낙찰받았다',d=>!!d.clears['버튼 경매']],['dragon','드래곤 라이더','용의 보물을 되찾았다',d=>!!d.clears['용의 보물']],
  ['panda','판다 집사','판다에게서 버튼을 빼냈다',d=>!!d.clears['판다']],['ramen','계란 후라이','계란 후라이를 맛있게 부쳤다',d=>!!d.clears['계란 후라이']],['bowling','스트라이커','볼링에서 스트라이크',d=>!!d.clears['볼링']],
  ['adblock','광고 차단기','팝업 광고를 다 닫았다',d=>!!d.clears['팝업 광고']],['unsub','절약정신','구독 해지에 성공했다',d=>!!d.clears['구독 해지']],['social','사회생활 만렙','부장님 개그에 맞춰 웃었다',d=>!!d.clears['부장님 개그']],
- ['grand','효손','어려움 할머니 용돈을 한 번도 안 틀리고 깼다',d=>(d.grand2||0)>=1],['wedding','결혼했어요','결혼식을 한 번도 안 틀리고 깼다',d=>!!(d.perf||{})['결혼식']],
+ ['diver','잠수부','홍수에서 버튼을 물에 잠기게 했다',d=>(d.diver||0)>=1],['grand','효손','어려움 할머니 용돈을 한 번도 안 틀리고 깼다',d=>(d.grand2||0)>=1],['wedding','결혼했어요','결혼식을 한 번도 안 틀리고 깼다',d=>!!(d.perf||{})['결혼식']],
  ['duck','오리 지킴이','오리 가족을 구했다',d=>!!d.clears['오리 가족']],['maze','길잡이','미로를 빠져나왔다',d=>!!d.clears['미로 속 버튼']],['safe','금고털이','금고를 열었다',d=>!!d.clears['금고 속 버튼']],['blink','잠깐의 실수','증명사진에서 버튼이 눈을 감았다 (아주 드묾)',d=>(d.blink||0)>=1],['lucky','행운 요정의 가호','어려움 가짜 버튼들을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['가짜 버튼들']||0)>=3],['cups','눈 안 떼는 자','어려움 컵 속 버튼을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['컵 속 버튼']||0)>=3],['shadow','그림자 탐정','어려움 그림자 놀이를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['그림자 놀이']||0)>=3],['detective','명탐정','어려움 몽타주를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['몽타주']||0)>=3],['delivery','배달의 신','어려움 택배 기사를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['택배 기사']||0)>=3],['calc','계산왕','어려움 버튼 자판기를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['버튼 자판기']||0)>=3],['mugung','무궁화','어려움 무궁화 꽃이를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['무궁화 꽃이']||0)>=3],['fan','찐팬','어려움 응원석을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['응원석']||0)>=3],['quiz','척척박사','어려움 퀴즈 부저를 한 번도 안 틀리고 깼다',d=>((d.perf||{})['퀴즈 부저']||0)>=3],['busdriver','버스기사','어려움 버스 하차벨을 한 번도 안 틀리고 깼다',d=>((d.perf||{})['버스 하차벨']||0)>=3]];
 let NUNCHI=[];
 function toast(t){const x=$('toast');x.textContent=t;x.hidden=false;x.classList.remove('on');void x.offsetWidth;x.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>x.hidden=true,2600)}
@@ -2821,8 +2829,8 @@ function renderSettings(){const g=$('themelist');g.innerHTML='';THEMES.forEach((
 applyTheme();
 
 /* update notice */
-const APP_VER='2026.11.13b';
-const CHANGELOG=[{v:'2026.11.13b',title:'칭호 조건을 바로잡았어요',items:['냥심 저격수, 앤트맨, 효손이 예전 버전 기록으로 바로 받아지던 문제를 고쳤어요.','이제 바뀐 방해에서 조건을 채워야 받을 수 있어요. 이미 받은 세 칭호는 다시 따야 해요.']},{v:'2026.11.13',title:'힌트 버튼이 생겼어요',items:['방해 이름 옆 ? 버튼을 누르면 힌트가 나와요. 어려움에서는 힌트가 없어요.','개미 이사: 개미만 해진 버튼을 두 손가락으로 확대해서 찾아요. 새 칭호 앤트맨!','레이저 포인터: 보통·어려움에 화분이 생겼어요. 어려움은 레이저를 너무 빨리 움직이면 고양이가 흥미를 잃어요. 새 칭호 냥심 저격수!','계단 오르기 어려움: 10초 안에 올라가야 해요.','굴러간 버튼: 위아래 양옆 어디든 굴러가고, 어려울수록 더 멀리 가요.','택배 기사: 어려울수록 집 생김새가 복잡해져요.','미로 속 버튼: 버튼에 새 건전지를 배달해요.','머리 감은 버튼: 드라이기 방향이 바뀌어요. 풍선 속 버튼: 바닥에 떨어진 다음 눌러요.','칭호 변경: 효손(어려움을 한 번도 안 틀리고), 끈기 대장(5분).','도미노는 빠졌어요.']},{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['설정에 게임 설명 다시 보기, 홈 화면에 추가 버튼이 생겼어요.','빨간 것 천국: 버튼도 다른 물건처럼 끌어서 옮길 수 있고, 톡 눌러야 성공해요.','화면 점검: 퇴사 선언 보기 버튼, 택배 기사 송장, 반대 나라 설명, 결혼식 신부 그림이 잘리거나 겹치던 걸 고쳤어요.','무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
+const APP_VER='2026.11.13c';
+const CHANGELOG=[{v:'2026.11.13c',title:'방해 5개를 손봤어요',items:['미로 속 버튼: 보통에서도 벽에 닿으면 처음으로 돌아가요.','먹물 테러: 버튼 위 먹물을 깨끗이 다 닦아야 눌려요. 나머지 먹물은 남아요.','비밀번호 설정: 조건이 매번 바뀌어요. 보통은 조건 4개예요.','앵무새: 엄마가 시키면 시간 막대가 줄어요. 시간이 지나면 혼나요.','홍수: 물이 꽉 차면 버튼이 고장나서 다른 방해로 넘어가요. 새 칭호 잠수부!']},{v:'2026.11.13b',title:'칭호 조건을 바로잡았어요',items:['냥심 저격수, 앤트맨, 효손이 예전 버전 기록으로 바로 받아지던 문제를 고쳤어요.','이제 바뀐 방해에서 조건을 채워야 받을 수 있어요. 이미 받은 세 칭호는 다시 따야 해요.']},{v:'2026.11.13',title:'힌트 버튼이 생겼어요',items:['방해 이름 옆 ? 버튼을 누르면 힌트가 나와요. 어려움에서는 힌트가 없어요.','개미 이사: 개미만 해진 버튼을 두 손가락으로 확대해서 찾아요. 새 칭호 앤트맨!','레이저 포인터: 보통·어려움에 화분이 생겼어요. 어려움은 레이저를 너무 빨리 움직이면 고양이가 흥미를 잃어요. 새 칭호 냥심 저격수!','계단 오르기 어려움: 10초 안에 올라가야 해요.','굴러간 버튼: 위아래 양옆 어디든 굴러가고, 어려울수록 더 멀리 가요.','택배 기사: 어려울수록 집 생김새가 복잡해져요.','미로 속 버튼: 버튼에 새 건전지를 배달해요.','머리 감은 버튼: 드라이기 방향이 바뀌어요. 풍선 속 버튼: 바닥에 떨어진 다음 눌러요.','칭호 변경: 효손(어려움을 한 번도 안 틀리고), 끈기 대장(5분).','도미노는 빠졌어요.']},{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['설정에 게임 설명 다시 보기, 홈 화면에 추가 버튼이 생겼어요.','빨간 것 천국: 버튼도 다른 물건처럼 끌어서 옮길 수 있고, 톡 눌러야 성공해요.','화면 점검: 퇴사 선언 보기 버튼, 택배 기사 송장, 반대 나라 설명, 결혼식 신부 그림이 잘리거나 겹치던 걸 고쳤어요.','무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
  '빨간 것 천국: 물건이 수북이 쌓였어요. 끌어서 치우며 버튼을 찾아요.',
  '할머니 용돈: 가구 그림이 매번 섞이고 쉬움 4개, 보통 6개, 어려움 9개예요. 할머니가 "장롱 왼쪽"처럼 위치로 알려줘요.',
  '몽타주: 목격자 진술이 위에 크게 보이고, 모자와 안경을 새로 그렸어요.',
