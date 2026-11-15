@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}img{max-width:100%}[hidden]{display:none!important}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}html{overscroll-behavior:none}</style>
 <title>손 많이 가는 버튼</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -573,6 +573,10 @@ html,body{overscroll-behavior:none}
 .halfR{clip-path:inset(0 0 0 50%)}
 .tbar{position:absolute;left:20px;right:20px;top:6px;height:12px;border:2.5px solid var(--ink);border-radius:99px;background:var(--chip);overflow:hidden;z-index:6}
 .tbar i{position:absolute;inset:0 auto 0 0;background:#F2B544;width:100%}
+.kgtag{position:absolute;transform:translate(-50%,-50%);background:#FFF6D6;border:2px solid var(--ink);border-radius:8px;padding:1px 6px;font-family:var(--display);font-size:14px;z-index:8;pointer-events:none;color:#4a3b10}
+.mudpud{position:absolute;transform:translate(-50%,-50%);width:150px;height:34px;border-radius:50%;background:#7A5230;border:3px solid var(--ink);z-index:1;pointer-events:none}
+.dexq{width:100%;box-sizing:border-box;margin:10px 0 4px;padding:10px 14px;border:2.5px solid var(--ink);border-radius:12px;background:var(--chip);color:var(--fg);font-size:16px;font-family:inherit}
+.dexnone{color:var(--muted);text-align:center;padding:20px 0}
 .gpile{position:absolute;width:160px;height:56px;margin:-28px 0 0 -80px;border-radius:50%;background:radial-gradient(#FFE08A,#E3B53C);border:3px solid var(--ink);z-index:1}
 .aisle{position:absolute;left:calc(50% - 46px);width:70px;margin-left:-35px;top:34%;bottom:0;background:repeating-linear-gradient(0deg,#F7C9D6 0 18px,#FBDDE6 18px 36px);border-left:3px solid var(--ink);border-right:3px solid var(--ink);z-index:0}
 .bride{position:absolute;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:#FFE3EC;border:3.5px solid var(--ink);box-shadow:0 6px 0 var(--ink);z-index:3}
@@ -726,7 +730,7 @@ html,body{overscroll-behavior:none}
     <div class="stage" id="stage"></div>
     <div class="cap" id="cap" aria-live="polite"></div>
   </section>
-  <section id="dex" hidden><div class="sechead"><h2>도감 <small id="dexcount" style="font-size:14px;color:var(--muted)"></small></h2><button class="backhome" type="button">← 처음</button></div><p class="hint" style="margin:0;color:var(--muted);font-size:13px">만난 방해는 난이도를 눌러서 다시 할 수 있어요.</p><div class="dexlist" id="dexlist"></div><button class="linkb" id="devtog" type="button"></button></section>
+  <section id="dex" hidden><div class="sechead"><h2>도감 <small id="dexcount" style="font-size:14px;color:var(--muted)"></small></h2><button class="backhome" type="button">← 처음</button></div><p class="hint" style="margin:0;color:var(--muted);font-size:13px">만난 방해는 난이도를 눌러서 다시 할 수 있어요.</p><input class="dexq" id="dexq" type="search" placeholder="번호나 이름으로 찾기" autocomplete="off" aria-label="도감 검색"><div class="dexlist" id="dexlist"></div><button class="linkb" id="devtog" type="button"></button></section>
   <section id="settings" hidden><div class="sechead"><h2>설정</h2><button class="backhome" type="button">← 처음</button></div>
     <div class="hcard"><h3>테마 색</h3><div class="themes" id="themelist"></div></div>
     <div class="hcard"><h3>게임 설명</h3><div class="tgl two"><button type="button" id="tutagain">설명 다시 보기</button><button type="button" class="instbtn" id="instset">홈 화면에 추가</button></div></div>
@@ -935,10 +939,22 @@ const OB=[
     r.style.setProperty('--p',Math.min(1,ms/need))});
   
 }},
-{name:'오늘 휴무',story:'버튼이 휴무라고 써 붙였어요.',run(lv){const B=mkB(lv);
+{name:'오늘 휴무',story:'버튼이 휴무라고 써 붙였어요.',run(lv){
   const b=add(realBtn());center(b);b.locked=true;const s=add(el('div','closed','금일 휴무<small>사정상 하루 쉽니다 · 버튼 올림</small>'));
-  const L=['똑.','똑똑.','……','누구세요?','오늘 쉰다니까요.','…진짜 급하세요?','택배는 문 앞에 두세요.','택배 아니라고요?','그럼 누구세요?','버튼 누르러 왔다고요?','잠깐만요. 셔터 올릴게요.'].slice(-B(4,7,11));let n=0;
-  s.onclick=()=>{if(n>=L.length)return;say(L[n]);n++;shake(s);if(n===L.length)after(700,()=>{s.style.top='130%';s.style.rotate='30deg';b.locked=false;say('문 열었어요. 빨리 누르고 가세요.')})};
+  const L=['똑.','똑똑.','……','누구세요?','오늘 쉰다니까요.','…진짜 급하세요?','택배는 문 앞에 두세요.','택배 아니라고요?','그럼 누구세요?','버튼 누르러 왔다고요?','잠깐만요. 셔터 올릴게요.'];
+  let n=0,phase=lv?'talk':'easy';
+  const open=()=>{s.style.top='130%';s.style.rotate='30deg';b.locked=false;say('문 열었어요. 빨리 누르고 가세요.')};
+  // rhythm
+  const RH=[[1,1,0],[1,0,1,1],[1,1,0,1],[0,1,1]];let code=null,taps=[],tt=null;
+  const codeStr=c=>c.map(x=>x?'똑똑':'똑').join(' · ');
+  const startCode=()=>{code=pick(RH).slice(0,lv===2?4:3);if(code.length<(lv===2?4:3))code.push(1);phase='code';say(`버튼: 암호를 맞춰야 열어줘요. "${codeStr(code)}" (똑 = 한 번, 똑똑 = 빠르게 두 번)`)};
+  const groupDone=()=>{const g=taps.length>=2?1:0;taps=[];grp.push(g);const k=grp.length-1;if(grp[k]!==code[k]){awk(`틀렸어요! 버튼: "암호는 ${codeStr(code)}예요."`);grp=[];return}shake(s);if(grp.length===code.length){grp=[];if(lv===2){phase='shutter';say('버튼: 셔터 반만 올려 줄게요. 나머지는 끌어 올려요! 놓으면 내려가요.');s.style.transition='top .3s';s.style.top=H()*.38+'px';shutter()}else open()}else say(`좋아요… (${grp.length}/${code.length})`)};
+  let grp=[];
+  const LS=phase==='easy'?L.slice(-5):['똑.','누구세요?','오늘 쉰다니까요.','…진짜 급하세요? 그럼 암호 대세요.'];
+  s.onclick=()=>{if(phase==='easy'||phase==='talk'){say(LS[Math.min(n,LS.length-1)]);n++;shake(s);if(n>=LS.length){if(phase==='easy')after(700,open);else{n=0;phase='wait';after(900,startCode)}}return}
+    if(phase==='code'){taps.push(Date.now());clearTimeout(tt);tt=setTimeout(()=>{if(!won)groupDone()},420);SFX.click()}};
+  const shutter=()=>{s.onclick=null;const top0=H()*.38;let y0=null,base=top0;
+    let gone=false;drag(s,{set:false,start:()=>{y0=null;s.style.transition=''},move:(x,y)=>{if(gone)return;if(y0===null){y0=y;return}const t=Math.min(top0,base+(y-y0));s.style.top=t+'px';if(t<40){gone=true;s.style.transition='top .3s';s.style.top='-60%';b.locked=false;say('셔터가 다 올라갔어요! 빨리 누르세요.')}},end:()=>{if(!b.locked||gone)return;s.style.transition='top .5s ease-in';s.style.top=top0+'px';say('스르륵… 셔터가 다시 내려왔어요. 끝까지 쭉!')}})};
   say('문을 두드려 보세요.');
 }},
 {name:'고양이 습격',story:'고양이가 버튼을 물고 도망갔습니다.',run(lv){const B=mkB(lv);const need=B(1,2,3),base=B(.1,.18,.28);
@@ -1271,21 +1287,28 @@ const OB=[
   onStage('pointerup',()=>{if(!done&&drawing&&acc!==0&&!off)say('한 번에 이어서 그려야 해요.');drawing=false});
   say('점선을 따라 한 바퀴 그려서 버튼을 되살리세요.');
 }},
-{name:'진흙 범벅',story:'버튼이 진흙탕에서 놀다 왔어요.',run(lv){const B=mkB(lv);const n=B(5,10,18),hp=B(140,240,360);const cx=W()/2,cy=H()/2-20;
+{name:'진흙 범벅',story:'버튼이 진흙탕에서 놀다 왔어요.',run(lv){const B=mkB(lv);const n=B(5,10,18),hp=B(140,240,360),cap=[0,1100,900][lv];const cx=W()/2,cy=H()/2-20;
   const b=add(realBtn('꼬질'));pos(b,cx,cy);b.locked=true;const ms=[];
-  for(let i=0;i<n;i++){const a=rnd(0,6.28),r=rnd(0,55);const s=sprite('mud',rnd(36,56),cx+Math.cos(a)*r,cy+Math.sin(a)*r);s.style.pointerEvents='none';s.style.rotate=rnd(0,360)+'deg';ms.push({e:s,h:hp})}
-  const tx=W()-60,ty=H()-60,tw=sprite('towel',76,tx,ty);tw.style.zIndex=6;let lx=0,ly=0;
+  const addMud=(x0,y0,r0)=>{const a=rnd(0,6.28),r=rnd(0,r0);const s=sprite('mud',rnd(36,56),x0+Math.cos(a)*r,y0+Math.sin(a)*r);s.style.pointerEvents='none';s.style.rotate=rnd(0,360)+'deg';ms.push({e:s,h:hp})};
+  for(let i=0;i<n;i++)addMud(cx,cy,55);
+  const tx=W()-60,ty=H()-60,tw=sprite('towel',76,tx,ty);tw.style.zIndex=6;let lx=0,ly=0,dirt=0;
+  let bk=null,bx=60,by=H()-60;if(cap){bk=sprite('bucket',66,bx,by,ART.bucketFull);const l=add(el('div','kgtag','헹구기'));pos(l,bx,by+40)}
+  let pud=null;if(lv===2){pud=add(el('div','mudpud'));pos(pud,W()/2,H()-26)}
+  const tint=()=>{tw.style.filter=dirt>0?`sepia(${Math.min(1,dirt)}) saturate(${1+dirt*2}) brightness(${1-Math.min(1,dirt)*.45})`:''};
   drag(tw,{start:()=>{lx=gx(tw);ly=gy(tw)},move:(x,y)=>{if(!b.locked)return;const d=dist(x,y,lx,ly);lx=x;ly=y;tw.style.rotate=(Math.sin(x*.05)*12)+'deg';
-    for(let i=ms.length-1;i>=0;i--){const m=ms[i];if(dist(gx(m.e),gy(m.e),x,y)<38){m.h-=d;m.e.style.opacity=Math.max(0,m.h/hp);if(m.h<=0){m.e.remove();ms.splice(i,1);if(ms.length)say(pick(['뽀득!','슥슥','깨끗해진다']))}}}
-    if(!ms.length){b.locked=false;setLabel(b,'반짝');tw.classList.add('fall');tw.style.top='140%';say('깨끗해졌어요. 버튼이 거울 같아요.')}},end:()=>{if(b.locked)springBack(tw,tx,ty)}});
-  b.addEventListener('click',()=>{if(b.locked)say('더러워서 누르기 싫죠? 먼저 닦아요.')});say('수건을 잡고 진흙 얼룩을 문질러 닦으세요.');
+    if(cap&&dirt>=1){if(Math.random()<.03)say('수건이 너무 더러워요. 양동이에 헹궈요!');return}
+    for(let i=ms.length-1;i>=0;i--){const m=ms[i];if(dist(gx(m.e),gy(m.e),x,y)<38){m.h-=d;if(cap){dirt+=d/cap;tint();if(dirt>=1)say('수건이 진흙투성이예요. 왼쪽 양동이에 담가 헹궈요.')}m.e.style.opacity=Math.max(0,m.h/hp);if(m.h<=0){m.e.remove();ms.splice(i,1);if(ms.length)say(pick(['뽀득!','슥슥','깨끗해진다']))}}}
+    if(!ms.length){b.locked=false;setLabel(b,'반짝');tw.classList.add('fall');tw.style.top='140%';if(bk)bk.remove();say('깨끗해졌어요. 버튼이 거울 같아요.')}},
+    end:(x,y)=>{if(!b.locked)return;if(bk&&dist(x,y,bx,by)<60){if(dirt>0){dirt=0;tint();say(pick(['첨벙첨벙, 헹궜어요!','수건이 다시 하얘졌어요.']))}}springBack(tw,tx,ty)}});
+  if(pud){const jump=()=>{if(won||!b.locked)return;after(rnd(6000,8500),()=>{if(won||!b.locked)return;say('버튼이 진흙탕을 쳐다봐요… 설마?');after(1300,()=>{if(won||!b.locked)return;b.style.transition='left .35s,top .35s';pos(b,gx(pud),gy(pud)-20);after(450,()=>{if(won)return;awk('첨벙! 버튼이 진흙탕에 또 뛰어들었어요.');pos(b,cx,cy);for(let i=0;i<3;i++)addMud(cx,cy,50);after(400,()=>{b.style.transition='';jump()})})})})};jump()}
+  b.addEventListener('click',()=>{if(b.locked)say('더러워서 누르기 싫죠? 먼저 닦아요.')});say(cap?'수건으로 진흙을 문질러 닦으세요. 수건이 더러워지면 양동이에 헹궈요.':'수건을 잡고 진흙 얼룩을 문질러 닦으세요.');
 }},
-{name:'연못에 빠진 버튼',story:'버튼이 연못에 빠졌어요. 낚아 올리세요.',run(lv){const B=mkB(lv);const nf=B(0,2,4);
+{name:'연못에 빠진 버튼',story:'버튼이 연못에 빠졌어요. 낚아 올리세요.',run(lv){const B=mkB(lv);const nf=[1,3,6][lv],fv=[1,1.5,2.2][lv];
   add(el('div','pond'));const ly=layer(),ln=line(ly,'fline');const hook=sprite('hook',46,W()/2,150);hook.style.zIndex=5;
   const b=add(realBtn('꼬르륵','mid'));b.locked=true;b.style.zIndex=3;let bx=rnd(70,W()-70),by=H()-66;pos(b,bx,by);
-  const fish=[];const FC=['#FF9A3D','#F28CA0','#7CD67E','#F2C94C'];for(let i=0;i<nf;i++){const f=sprite('fish',58,rnd(40,W()-40),rnd(170,H()-150),ART.fish(pick(FC)));f.style.pointerEvents='none';fish.push({e:f,v:rnd(.05,.12)*(Math.random()<.5?-1:1)})}
+  const fish=[];const FC=['#FF9A3D','#F28CA0','#7CD67E','#F2C94C'];for(let i=0;i<nf;i++){const f=sprite('fish',58,rnd(40,W()-40),rnd(170,H()-150),ART.fish(pick(FC)));f.style.pointerEvents='none';fish.push({e:f,v:rnd(.05,.12)*fv*(Math.random()<.5?-1:1)})}
   let hooked=false,landed=false;const upd=()=>setLine(ln,W()/2,0,gx(hook),gy(hook)-21);upd();drag(hook,{move:upd});
-  loop(dt=>{if(landed)return false;fish.forEach(f=>{let x=gx(f.e)+f.v*dt*(lv===2?1.6:1);if(x<30||x>W()-30){f.v*=-1;x=Math.max(30,Math.min(W()-30,x))}pos(f.e,x,gy(f.e));f.e.style.scale=f.v>0?'-1 1':'1 1'});
+  loop(dt=>{if(landed)return false;fish.forEach(f=>{let x=gx(f.e)+f.v*dt;if(x<30||x>W()-30){f.v*=-1;x=Math.max(30,Math.min(W()-30,x))}pos(f.e,x,gy(f.e));f.e.style.scale=f.v>0?'-1 1':'1 1'});
     const hx=gx(hook)-6,hy=gy(hook)+14;
     if(!hooked&&dist(hx,hy,bx,by)<45){hooked=true;say('걸렸다! 위로 끌어올리세요.')}
     if(hooked){bx=hx;by=hy+44;pos(b,bx,by);
@@ -1417,12 +1440,12 @@ OB.push(
     else if(lv>=1&&(cr||cc)){cr=0;cc=0;pos(ball,sx,sy);say('벽에 부딪혔어요! 처음부터.')}}});
   b.addEventListener('click',()=>{if(b.locked)say('건전지가 없어서 안 눌려요.')});say('건전지를 끌어서 미로 끝의 버튼까지 가져가세요.');
 }},
-{name:'빨간 것 천국',bg:'room',story:'빨간 물건들이 수북이 쌓였어요. 버튼도 그 속에 섞여 있대요. 물건을 치우면서 찾아서 눌러주세요.',run(lv){const n=[14,22,30][lv],sz=[62,56,50][lv],pr=[62,78,90][lv];
+{name:'빨간 것 천국',bg:'room',story:'빨간 물건들이 수북이 쌓였어요. 버튼도 그 속에 섞여 있대요. 물건을 치우면서 찾아서 눌러주세요.',run(lv){const n=[30,42,56][lv],sz=[62,56,50][lv],pr=[62,78,90][lv];
   const K=['apple','tomato','cherry','ladybug','rdot'];const DOT=S(`<circle r="26" fill="#E23B3B"/><circle cx="-8" cy="-6" r="3" fill="#2A2340" stroke="none"/><circle cx="8" cy="-6" r="3" fill="#2A2340" stroke="none"/><circle cx="-8" cy="8" r="3" fill="#2A2340" stroke="none"/><circle cx="8" cy="8" r="3" fill="#2A2340" stroke="none"/>`);
-  const cx=W()/2,cy=H()*.46;const ang=rnd(0,6.28),rr=rnd(0,pr*.5);const bx=cx+Math.cos(ang)*rr,by=cy+Math.sin(ang)*rr;const bs=Math.round(sz*.6);let z=10;const all=[];const up=e=>{if(z>=18){all.sort((a,c)=>(+a.style.zIndex)-(+c.style.zIndex)).forEach((q,i)=>q.style.zIndex=2+Math.floor(i*8/all.length));z=10}e.style.zIndex=++z};
-  const b=add(realBtn('','mini'));pos(b,bx,by);b.style.width=b.style.height=bs+'px';b.style.zIndex=2;b.locked=true;b._fin=1;let sx=0,sy=0;all.push(b);
+  const mx=34,my=40;const bx=rnd(W()*.2,W()*.8),by=rnd(H()*.22,H()*.78);const bs=Math.round(sz*.6);let z=10;const all=[];const up=e=>{if(z>=18){all.sort((a,c)=>(+a.style.zIndex)-(+c.style.zIndex)).forEach((q,i)=>q.style.zIndex=2+Math.floor(i*8/all.length));z=10}e.style.zIndex=++z};
+  const b=add(realBtn('','mini'));pos(b,bx,by);b.style.width=b.style.height=bs+'px';b.style.zIndex=6;b.locked=true;b._fin=1;let sx=0,sy=0;all.push(b);
   drag(b,{start:()=>{up(b);sx=gx(b);sy=gy(b)},end:(x,y)=>{if(won)return;if(dist(x,y,sx,sy)<8){b.locked=false;SFX.click();win()}}});
-  for(let i=0;i<n;i++){const k=pick(K);const a=rnd(0,6.28),r=i<6?rnd(0,bs*.5):rnd(0,pr);const x=(i<6?bx:cx)+Math.cos(a)*r,y=(i<6?by:cy)+Math.sin(a)*r;const s=sprite(k,sz,x,y,k==='rdot'?DOT:null);s.style.rotate=rnd(-40,40)+'deg';s.style.zIndex=3+Math.floor(rnd(0,8));all.push(s);
+  for(let i=0;i<n;i++){const k=pick(K);const near=i<3+lv;const a=rnd(0,6.28),r=rnd(0,bs*.45);const x=near?bx+Math.cos(a)*r:rnd(mx,W()-mx),y=near?by+Math.sin(a)*r:rnd(my,H()-my);const s=sprite(k,sz,x,y,k==='rdot'?DOT:null);s.style.rotate=rnd(-40,40)+'deg';s.style.zIndex=near?7+Math.floor(rnd(0,4)):2+Math.floor(rnd(0,9));all.push(s);
     let px=0,py=0;drag(s,{start:()=>{up(s);px=gx(s);py=gy(s)},end:(x,y)=>{if(dist(x,y,px,py)<8){shake(s);say(pick(['그건 사과예요.','그건 버튼이 아니에요.','빨갛긴 한데… 아니에요.']))}}})}
   say('빨간 물건들을 끌어서 치우고, 진짜 버튼을 찾으면 톡 누르세요.');
 }},
@@ -1494,12 +1517,16 @@ OB.push(
     if(dist(gx(sn),gy(sn),cx,cy)>150){fin=true;unlock(b,'누르기','달팽이가 상추 먹으러 갔어요. 끈적한 자국은 덤.')}});
   b.addEventListener('click',()=>{if(b.locked)say('달팽이가 쉬는 중이에요. 상추로 꾀어내세요.')});say('상추를 끌어서 달팽이를 버튼 밖으로 꾀어내세요. 천천히!');
 }},
-{name:'거울 나라',story:'여기는 거울 나라예요. 보이는 버튼은 거울에 비친 모습이에요.',run(lv){const B=mkB(lv);const r=B(60,48,34);
-  const b=add(realBtn('여기?',lv===2?'mid':''));let x,y;do{x=rnd(70,W()-70);y=rnd(80,H()-80)}while((lv!==1&&Math.abs(x-W()/2)<80)||(lv!==0&&Math.abs(y-H()/2)<70));pos(b,x,y);b.locked=true;b.style.opacity=.55;
-  const tx=lv===1?x:W()-x,ty=lv===0?y:H()-y;
-  if(lv!==1){const m=add(el('div','mirv'));m.style.left=W()/2+'px'}if(lv!==0){const m=add(el('div','mirh'));m.style.top=H()/2+'px'}
-  const lb=add(el('div','mirlbl',lv===0?'세로 거울: 왼쪽 ↔ 오른쪽이 바뀌어요':lv===1?'가로 거울: 위 ↕ 아래가 바뀌어요':'거울 두 개: 위아래도, 좌우도 바뀌어요'));
-  let found=false;onStage('pointerdown',e=>{if(won||found)return;const p=sp(e);if(dist(p.x,p.y,tx,ty)<r){found=true;b.style.transition='opacity .4s';b.style.opacity=0;b.style.pointerEvents='none';const rb=add(realBtn('진짜','pop'+(lv===2?' mid':'')));pos(rb,tx,ty);say('거울 속 버튼이 걸어 나왔어요.')}else if(dist(p.x,p.y,x,y)<70)say('그건 거울에 비친 버튼이에요.');else say(pick(['허공을 눌렀어요.','거울 나라에선 반대로!','아깝다…?']))});
+{name:'거울 나라',story:'여기는 거울 나라예요. 보이는 버튼은 거울에 비친 모습이에요.',run(lv){const r=[46,34,24][lv],cls=['','mid','mini'][lv],spd=[0,.05,.09][lv];
+  let found=false;const mx=lv===0?W()/2:rnd(W()*.38,W()*.62);const m=add(el('div','mirv'));m.style.left=mx+'px';
+  const span=Math.min(mx,W()-mx)-36;
+  const b=add(realBtn('여기?',cls));b.locked=true;b.style.opacity=.55;b.style.pointerEvents='none';
+  let side=Math.random()<.5?-1:1,off=rnd(50,span),y=rnd(90,H()-80),vx=rnd(-1,1),vy=rnd(-1,1);{const l=Math.hypot(vx,vy)||1;vx/=l;vy/=l}
+  const place=()=>pos(b,mx+side*off,y);place();const tx=()=>mx-side*off;
+  const lb=add(el('div','mirlbl','세로 거울: 왼쪽 ↔ 오른쪽이 바뀌어요'));
+  if(spd)loop(dt=>{if(found||won)return false;off+=vx*spd*dt;y+=vy*spd*dt;if(off<34||off>span){vx*=-1;off=Math.max(34,Math.min(span,off))}if(y<80||y>H()-60){vy*=-1;y=Math.max(80,Math.min(H()-60,y))}if(Math.random()<dt*.0006){const a=rnd(0,6.28);vx=Math.cos(a);vy=Math.sin(a)}place()});
+  onStage('pointerdown',e=>{if(won||found)return;const p=sp(e);if(dist(p.x,p.y,tx(),y)<r){found=true;b.style.transition='opacity .4s';b.style.opacity=0;const rb=add(realBtn('진짜','pop '+cls));pos(rb,tx(),y);say('거울 속 버튼이 걸어 나왔어요.')}else if(dist(p.x,p.y,gx(b),gy(b))<r+10){if(lv)awk('그건 거울에 비친 버튼이에요.');else say('그건 거울에 비친 버튼이에요.')}else if(lv===2)awk(pick(['허공을 눌렀어요.','거울 나라에선 반대로!','아깝다…?']));else say(pick(['허공을 눌렀어요.','거울 나라에선 반대로!','아깝다…?']))});
+  say(lv?'거울 반대편, 버튼이 비친 자리를 누르세요. 버튼이 돌아다녀요!':'거울 반대편, 버튼이 비친 자리를 누르세요.');
 }},
 {name:'투명 버튼',story:'버튼이 투명 망토를 입었어요. 입자마자 살금살금 자리를 옮긴대요.',run(lv){const B=mkB(lv);const r=B(48,36,26);
   const b=add(realBtn('짠','mid'));center(b);b.locked=true;b.style.transition='opacity .9s';let found=false,taps=0,ready=false;
@@ -1692,10 +1719,10 @@ OB.push(
   c.beginPath();c.moveTo(20,y0);for(let i=0;i<n;i++){c.lineTo(20+i*sw,y0-(i+1)*sh);c.lineTo(20+(i+1)*sw,y0-(i+1)*sh)}c.lineTo(20+n*sw,y0);c.closePath();c.fill();c.stroke();
   const b=add(realBtn('','mini'));pos(b,20+n*sw+30,y0-n*sh-28);b.locked=true;const me=sprite('fan',44,0,0,ART.fan('#2A2340'));me.style.pointerEvents='none';me.style.transition='left .15s,top .15s';me.style.zIndex=4;
   let s=0,lastF=null;const place=()=>pos(me,20+(Math.max(0,s-1)+.5)*sw,y0-s*sh-24);place();
-  let stairGo=null;if(lv===2){const lim=10000;let tl=lim,started=false;const tb=add(el('div','tbar','<i></i>')),ti=tb.querySelector('i');loop(dt=>{if(!b.locked||won)return false;if(!started)return;tl-=dt;ti.style.width=Math.max(0,tl/lim*100)+'%';if(tl<=0){s=0;lastF=null;place();started=false;tl=lim;ti.style.width='100%';awk('시간 초과! 숨이 차서 맨 아래로 미끄러졌어요. 10초 안에 올라가요.')}});stairGo=()=>{started=true}}
+  let stairGo=null;if(lv===2){const lim=8000;let tl=lim,started=false;const tb=add(el('div','tbar','<i></i>')),ti=tb.querySelector('i');loop(dt=>{if(!b.locked||won)return false;if(!started)return;tl-=dt;ti.style.width=Math.max(0,tl/lim*100)+'%';if(tl<=0){s=0;lastF=null;place();started=false;tl=lim;ti.style.width='100%';awk('시간 초과! 숨이 차서 맨 아래로 미끄러졌어요. 8초 안에 올라가요.')}});stairGo=()=>{started=true}}
   const step=f=>{if(!b.locked)return;if(stairGo)stairGo();if(f===lastF){s=Math.max(0,s-back);place();say(back?`같은 발 두 번! 미끄러졌어요. (${s}/${n})`:'같은 발 두 번이에요. 번갈아 디뎌요.');shake(me);lastF=null;return}lastF=f;s++;place();say(`${s} / ${n} 계단`);if(s>=n)unlock(b,'','꼭대기 도착! 헉헉. 버튼을 누르세요.')};
   tools(['왼발',()=>step('L')],['오른발',()=>step('R')]);
-  b.addEventListener('click',()=>{if(b.locked)say('계단을 다 올라가야 닿아요.')});say(lv===2?'왼발, 오른발을 번갈아! 첫 발을 디디면 10초 안에 올라가야 해요.':'왼발, 오른발을 번갈아 누르며 올라가세요.');
+  b.addEventListener('click',()=>{if(b.locked)say('계단을 다 올라가야 닿아요.')});say(lv===2?'왼발, 오른발을 번갈아! 첫 발을 디디면 8초 안에 올라가야 해요.':'왼발, 오른발을 번갈아 누르며 올라가세요.');
 }},
 {name:'나무에 걸린 버튼',story:'버튼이 나무에 걸렸어요. 새총으로 떨어뜨리세요.',run(lv){const B=mkB(lv);const hr=B(42,32,24),wind=lv===2?rnd(.00006,.00012)*(Math.random()<.5?-1:1):0;
   const tr=add(el('div','tree'));pos(tr,W()-90,H()*.36);const bx=W()-90+rnd(-30,30),by=H()*.24+rnd(-15,15);const b=add(realBtn('','mini'));pos(b,bx,by);b.locked=true;b.style.zIndex=3;
@@ -1738,13 +1765,13 @@ OB.push(
     else say(pick(['반만 나왔어요.','흔들렸어요.','버튼이 프레임 밖이에요.']))},'primary']);
   b.addEventListener('click',()=>{if(b.locked)say('사진부터 찍어달래요.')});say('버튼이 점선 네모 안에 딱 들어왔을 때 찰칵!');
 }},
-{name:'무단횡단 금지',story:'버튼이 길 건너편에 있어요. 차 조심!',run(lv){const B=mkB(lv);const nl=B(2,3,5),sp5=B(.1,.15,.22);
+{name:'무단횡단 금지',story:'버튼이 길 건너편에 있어요. 차 조심!',run(lv){const B=mkB(lv);const nl=[3,4,5][lv],sp5=[.13,.18,.24][lv];
   const top=60,bot=H()-70,lh=(bot-top)/nl;const road=add(el('div','road'));road.style.top=top+'px';road.style.height=(bot-top)+'px';
   const cars=[];const C=['#6E7CF2','#F2B544','#5FB59A','#E8A0B4','#B07CE0'];
-  for(let l=0;l<nl;l++){const dir=l%2?-1:1,y=top+(l+.5)*lh,k=lv===0?1:2,v=sp5*rnd(.8,1.3);for(let j=0;j<k;j++){const c=sprite('x',84,(j/k)*W()+rnd(0,60),y,ART.car(pick(C)));c.style.pointerEvents='none';c.style.scale=dir<0?'-1 1':'1 1';cars.push({e:c,dir,v})}}
+  for(let l=0;l<nl;l++){const dir=l%2?-1:1,y=top+(l+.5)*lh,k=lv+1,v=sp5*rnd(.8,1.3);for(let j=0;j<k;j++){const tr=lv===2&&j===0&&l%2===0;const c=sprite('x',84,(j/k)*W()+rnd(0,40),y,ART.car(pick(C)));c.style.pointerEvents='none';const sx2=tr?1.8:1;c.style.scale=(dir<0?-sx2:sx2)+' '+(tr?1.15:1);cars.push({e:c,dir,v,hw:tr?80:46})}}
   bubble('건너편',8);const b=add(realBtn('건너자','mini'));const sx=W()/2,sy=H()-36;pos(b,sx,sy);b.locked=true;b.style.width=b.style.height='56px';let fin=false,hl=false;
   drag(b,{set:false,move:(x,y)=>{if(!hl&&!fin)pos(b,x,y)},end:()=>{hl=false;if(fin)return;if(gy(b)<top-5){fin=true;cars.forEach(c=>{c.e.style.transition='opacity .4s';c.e.style.opacity=0;setTimeout(()=>c.e.remove(),400)});after(250,()=>{b.classList.remove('mini');b.style.width=b.style.height='';setLabel(b,'누르기');b.style.transition='left .4s,top .4s';pos(b,W()/2,H()/2);unlock(b,null,'건넜어요! 손 들고 건너는 거 잊지 마세요.')})}}});
-  loop(dt=>{if(fin)return false;cars.forEach(c=>{let x=gx(c.e)+c.dir*c.v*dt;if(x>W()+60)x=-60;if(x<-60)x=W()+60;pos(c.e,x,gy(c.e));if(!hl&&Math.abs(x-gx(b))<46&&Math.abs(gy(c.e)-gy(b))<28){hl=true;pos(b,sx,sy);say('빵빵! 처음으로 돌아가요.')}})});
+  loop(dt=>{if(fin)return false;cars.forEach(c=>{let x=gx(c.e)+c.dir*c.v*dt;if(x>W()+90)x=-90;if(x<-90)x=W()+90;pos(c.e,x,gy(c.e));if(!hl&&Math.abs(x-gx(b))<c.hw&&Math.abs(gy(c.e)-gy(b))<28){hl=true;pos(b,sx,sy);say('빵빵! 처음으로 돌아가요.')}})});
   say('버튼을 끌어서 차를 피해 위쪽 건너편까지 가세요.');
 }},
 {name:'낯가리는 버튼',story:'버튼이 낯을 가려요. 가만히 기다려주세요.',run(lv){const B=mkB(lv);const need=B(5000,10000,20000);
@@ -1877,12 +1904,13 @@ OB.push(
       cur2=mk();x=60;dir=1;dropping=false})}]);
   b.addEventListener('click',()=>{if(b.locked)say('너무 높아서 안 닿아요.')});say('블록이 아래 블록과 겹칠 때 떨어뜨리기를 누르세요.');
 }},
-{name:'회전 초밥',story:'버튼이 회전 초밥 접시에 올라탔어요.',run(lv){const B=mkB(lv);const n=B(5,7,9),v=B(.06,.1,.15);
+{name:'회전 초밥',story:'버튼이 회전 초밥 접시에 올라탔어요.',run(lv){const B=mkB(lv);const n=B(5,7,9),v=[.06,.11,.18][lv];
   const by=H()*.36;const belt=add(el('div','belt'));belt.style.top=(by-44)+'px';const seat=add(el('div','seat','내 자리'));pos(seat,W()/2,H()-80);
   const K=['potato','egg','cherry','sweet','pizza','bread','sock'];const real=Math.floor(Math.random()*n);const g=(W()+140)/n;let fin=false;
-  const ps=[];for(let i=0;i<n;i++){const p=add(el('div','plate'));p.innerHTML=i===real?'<span class="cbtn"></span>':ART[pick(K)];pos(p,-70+i*g,by);const it={e:p,on:true};ps.push(it);
+  const SN={potato:['감자 초밥이에요. 담백하긴 한데…','감자는 초밥이 아니에요.'],egg:['계란 초밥이에요. 맛있지만 버튼은 아니에요.','그건 계란 초밥이에요.'],cherry:['체리 초밥? 디저트는 나중에.','체리가 올라갔네요. 버튼 아니에요.'],sweet:['고구마 초밥은 처음 봐요.','그건 고구마예요.'],pizza:['피자 초밥은 반칙이에요.','피자가 왜 여기 있죠?'],bread:['빵 초밥은 좀… 목이 메요.','그건 빵이에요.'],sock:['양말 초밥은 좀…','누가 양말을 올렸어요?!']};
+  const ps=[];for(let i=0;i<n;i++){const p=add(el('div','plate'));const kk=pick(K);p.innerHTML=i===real?'<span class="cbtn"></span>':ART[kk];pos(p,-70+i*g,by);const it={e:p,on:true};ps.push(it);
     drag(p,{start:()=>{it.on=false},end:(x,y)=>{if(fin)return;if(dist(x,y,gx(seat),gy(seat))<75){if(i===real){fin=true;p.remove();seat.remove();const b=add(realBtn('잘 먹겠습니다','pop'));pos(b,W()/2,H()-80);b.style.scale=.8;say('버튼 접시를 집었어요! 계산은 안 해도 돼요.')}
-      else{say(pick(['그건 감자 초밥이에요.','양말 초밥은 좀…','그거 말고요.']));it.on=true;pos(p,gx(p),by)}}else{it.on=true;pos(p,gx(p),by)}}})}
+      else{say(pick(SN[kk]));it.on=true;pos(p,gx(p),by)}}else{it.on=true;pos(p,gx(p),by)}}})}
   loop(dt=>{if(fin)return false;ps.forEach(it=>{if(!it.on||!it.e.isConnected)return;let x=gx(it.e)+v*dt;if(x>W()+70)x-=n*g;pos(it.e,x,by)})});
   say('버튼이 탄 접시를 끌어서 내 자리에 내려놓으세요.');
 }},
@@ -2082,7 +2110,7 @@ OB.push(
 {name:'다트',bg:'shop',story:'다트판 한가운데에 버튼이 박혀 있어요. 맞히면 빠져요.',run(lv){const B=mkB(lv);const need=B(1,1,2),sp2=B(.0018,.0028,.0036);
   const board=add(el('div','dboard'));const R=Math.min(W()*.35,110);board.style.width=board.style.height=R*2+'px';pos(board,W()/2,H()*.42);
   const ch=add(el('div','cross'));let t=0,hits=0,x=0,y=0,cool=false;
-  let hot=false;loop((dt,T)=>{if(won)return false;const off0=dist(x,y,gx(board),gy(board));t+=dt*(.4+.6*Math.min(1,off0/(R*.55)));x=W()/2+Math.sin(t*sp2)*R*.9;y=H()*.42+Math.sin(t*sp2*2)*R*.6;if(lv===2)pos(board,W()/2+Math.sin(T*.0007)*15,H()*.42);pos(ch,x,y);hot=dist(x,y,gx(board),gy(board))<R*.26;ch.classList.toggle('hot',hot)});
+  let hot=false;loop((dt,T)=>{if(won)return false;const off0=dist(x,y,gx(board),gy(board));t+=dt*(.4+.6*Math.min(1,off0/(R*.55)));x=W()/2+Math.sin(t*sp2)*R*.9;y=H()*.42+Math.sin(t*sp2*2)*R*.6;if(lv)pos(board,W()/2+Math.sin(T*[0,.0012,.0022][lv])*[0,25,45][lv],H()*.42);pos(ch,x,y);hot=dist(x,y,gx(board),gy(board))<R*.26;ch.classList.toggle('hot',hot)});
   tools(['던지기',()=>{if(cool||won)return;cool=true;after(500,()=>cool=false);const d=add(el('div','dart'));pos(d,x,y);const off=dist(x,y,gx(board),gy(board));
     if(off<R*.26){hits++;say(hits<need?'불스아이! 한 번 더.':'불스아이!');if(hits>=need){after(400,()=>{board.remove();ch.remove();stage.querySelectorAll('.dart').forEach(e=>e.remove());const b=add(realBtn('뽁','pop'));pos(b,W()/2,H()*.42);say('버튼이 다트판에서 빠졌어요.')})}}
     else say(off<R?pick(['아깝다!','조금만 더 가운데!','점수는 높은데 버튼이 아니에요.']):'다트판도 못 맞혔어요.')},'primary']);
@@ -2146,22 +2174,25 @@ OB.push(
   const done=()=>{pp.remove();b.style.scale=1;b.locked=false;say('평가 감사합니다. 버튼이 뿌듯해해요.')};stars();
   b.addEventListener('click',()=>{if(b.locked)say('평가부터 해달래요.')});
 }},
-{name:'용의 보물',bg:'castle',story:'잠든 용이 버튼을 보물처럼 지키고 있어요. 금화 주머니로 바꿔치기하세요.',run(lv){const B=mkB(lv);const lim=B(1600,1100,750);
-  const dr=sprite('dragon',170,W()/2,H()*.3);dr.style.pointerEvents='none';const zz=add(el('div','zzz','쿨쿨 Zzz'));pos(zz,W()/2+70,H()*.13);
-  const sx=W()/2,sy=H()*.58;const pile=add(el('div','gpile'));pos(pile,sx,sy+8);
-  const b=add(realBtn('보물'));b.locked=true;pos(b,sx,sy);b.style.scale=.6;b.style.zIndex=4;
-  const px0=70,py0=H()-70;const pu=sprite('pouch',70,px0,py0);let out=false,swapped=false,empty=0,stir=false,moving=false;
-  const reset=()=>{out=false;empty=0;b.style.transition='left .3s,top .3s';pos(b,sx,sy);springBack(pu,px0,py0);setTimeout(()=>b.style.transition='',320)};
-  const wake=m=>{const f=sprite('fire',70,W()/2+40,H()*.36);f.style.pointerEvents='none';after(700,()=>f.remove());zz.textContent='눈 번쩍!';awk(m);reset();after(1200,()=>{if(!won)zz.textContent='쿨쿨 Zzz'})};
-  drag(b,{start:()=>{moving=true},end:(x,y)=>{moving=false;if(swapped)return;if(dist(x,y,sx,sy)>60){if(!out){out=true;empty=0}}else{pos(b,sx,sy);out=false}}});
-  drag(pu,{start:()=>{moving=true},end:(x,y)=>{moving=false;if(swapped)return;if(dist(x,y,sx,sy)<55){if(!out||dist(gx(b),gy(b),sx,sy)<60){springBack(pu,px0,py0);say('자리에 버튼이 있어요. 버튼부터 빼내요.');return}
-    swapped=true;pos(pu,sx,sy);pu.style.pointerEvents='none';b.style.transition='scale .3s';b.style.scale=1;b.style.zIndex=7;say('바꿔치기 성공! 용은 아무것도 몰라요.');after(320,()=>{b.style.transition='';b.locked=false})}else springBack(pu,px0,py0)}});
+{name:'용의 보물',bg:'castle',story:'잠든 용이 버튼을 보물처럼 지키고 있어요. 무게가 똑같은 금화 주머니로 바꿔치기하세요.',run(lv){const lim=[1600,1000,700][lv];
+  const dr=sprite('dragon',170,W()/2,H()*.27);dr.style.pointerEvents='none';const zz=add(el('div','zzz','쿨쿨 Zzz'));pos(zz,W()/2+70,H()*.1);
+  const sx=W()/2,sy=H()*.55;const pile=add(el('div','gpile'));pos(pile,sx,sy+8);
+  const kgs=lv===0?[2]:shuffle([1,2,3,4,5]).slice(0,lv+1);const wkg=pick(kgs);
+  const b=add(realBtn('보물'));b.locked=true;pos(b,sx,sy);b.style.scale=.6;b.style.zIndex=4;const tag=add(el('div','kgtag',wkg+'kg'));const tagUp=()=>pos(tag,gx(b)+34,gy(b)-30);tagUp();
+  const ps=kgs.map((kg,i)=>{const px=W()/2+(i-(kgs.length-1)/2)*84,py=H()-62;const pu=sprite('pouch',[70,62,56][lv],px,py);const t=add(el('div','kgtag',kg+'kg'));pos(t,px,py+30);return{pu,t,kg,px,py}});
+  let out=false,swapped=false,empty=0,stir=false,moving=false;
+  const reset=()=>{out=false;empty=0;b.style.transition='left .3s,top .3s';pos(b,sx,sy);setTimeout(()=>{b.style.transition='';tagUp()},320);ps.forEach(q=>{springBack(q.pu,q.px,q.py)})};
+  const wake=m=>{if(won||swapped)return;const f=sprite('fire',70,W()/2+40,H()*.33);f.style.pointerEvents='none';after(700,()=>f.remove());zz.textContent='눈 번쩍!';shake(dr);awk(m);reset();after(1200,()=>{if(!won)zz.textContent='쿨쿨 Zzz'})};
+  drag(b,{start:()=>{moving=true},move:()=>tagUp(),end:(x,y)=>{moving=false;tagUp();if(swapped)return;if(dist(x,y,sx,sy)>60){if(!out){out=true;empty=0}}else{pos(b,sx,sy);tagUp();out=false}}});
+  ps.forEach(q=>drag(q.pu,{start:()=>{moving=true},end:(x,y)=>{moving=false;if(swapped)return;if(dist(x,y,sx,sy)<55){if(!out||dist(gx(b),gy(b),sx,sy)<60){springBack(q.pu,q.px,q.py);say('자리에 버튼이 있어요. 버튼부터 빼내요.');return}
+    if(q.kg!==wkg){wake(q.kg<wkg?`가벼워요! (${q.kg}kg) 보물 더미가 들썩해서 용이 깼어요.`:`무거워요! (${q.kg}kg) 보물 더미가 쿵 해서 용이 깼어요.`);return}
+    swapped=true;pos(q.pu,sx,sy);q.pu.style.pointerEvents='none';tag.remove();ps.forEach(o=>{o.t.remove();if(o!==q)o.pu.remove()});b.style.transition='scale .3s';b.style.scale=1;b.style.zIndex=7;say('바꿔치기 성공! 용은 아무것도 몰라요.');after(320,()=>{b.style.transition='';b.locked=false})}else springBack(q.pu,q.px,q.py)}}));
   b.addEventListener('pointermove',()=>{if(b.locked&&!swapped&&!out&&dist(gx(b),gy(b),sx,sy)>60){out=true;empty=0}});
-  loop(dt=>{if(won||swapped)return false;if(out&&!swapped){empty+=dt;if(empty>lim)wake('빈자리가 너무 오래 비었어요! 용이 깼어요.')}
-    if(lv===2&&stir&&moving)wake('용이 뒤척일 땐 멈춰야 해요!')});
-  if(lv===2){const st=()=>{if(won||swapped)return;after(rnd(2200,3600),()=>{if(won||swapped)return;stir=true;zz.textContent='뒤척…';after(1100,()=>{stir=false;if(!won)zz.textContent='쿨쿨 Zzz';st()})})};st()}
+  loop(dt=>{if(won||swapped)return false;if(out){empty+=dt;if(empty>lim)wake('빈자리가 너무 오래 비었어요! 용이 깼어요.')}
+    if(lv&&stir&&moving)wake('용이 뒤척일 땐 멈춰야 해요!')});
+  if(lv){const st=()=>{if(won||swapped)return;after(lv===2?rnd(1600,2800):rnd(3000,4500),()=>{if(won||swapped)return;stir=true;zz.textContent='뒤척…';shake(dr);after(lv===2?1300:1000,()=>{stir=false;if(!won)zz.textContent='쿨쿨 Zzz';st()})})};st()}
   b.addEventListener('click',()=>{if(b.locked&&!out)say('보물 더미에서 버튼을 끌어 빼고, 금화 주머니를 그 자리에 놓아요.')});
-  say('버튼을 끌어 빼고, 재빨리 금화 주머니를 그 자리에 놓으세요.'+(lv===2?' 용이 뒤척일 땐 멈춰요!':''));
+  say(lv===0?'버튼을 끌어 빼고, 재빨리 금화 주머니를 그 자리에 놓으세요.':`버튼 무게(${wkg}kg)와 같은 주머니로 바꿔치기해요. 용이 뒤척일 땐 멈춰요!`);
 }},
 {name:'마법진',bg:'castle',story:'마법진을 그려야 봉인된 버튼이 풀려요.',run(lv){const B=mkB(lv);const k=lv===0?4:lv===1?5:pick([6,7]);const cx=W()/2,cy=H()/2-10,R=Math.min(W(),H())/2-50;
   const order=k===5?[0,2,4,1,3]:k===6?[0,2,4,1,5,3]:k===7?pick([[0,2,4,6,1,3,5],[0,3,6,2,5,1,4]]):[...Array(k).keys()];const pts=[...Array(k)].map((_,i)=>{const a=i/k*Math.PI*2-Math.PI/2;return[cx+Math.cos(a)*R,cy+Math.sin(a)*R]});
@@ -2245,14 +2276,17 @@ OB.push(
   nodes.forEach(d=>drag(d,{move:()=>draw(),end:()=>{if(fin)return;if(!draw()){fin=true;say('다 풀렸어요!');after(400,()=>{ly.remove();nodes.forEach(x=>x.remove());unlock(b,'휴','줄이 다 풀렸어요. 버튼이 숨을 돌려요.')})}}}));
   b.addEventListener('pointerdown',()=>{if(b.locked&&!won)say('줄에 칭칭 감겨서 안 눌려요.')});say('매듭을 끌어서 빨간 줄(엉킨 곳)이 하나도 없게 하세요.');
 }},
-{name:'빨래 개기',bg:'room',story:'빨래 더미 맨 밑에 버튼이 있어요. 개면서 찾아요.',run(lv){const B=mkB(lv);const n=B(2,3,5);let k=0;const C=['#6E7CF2','#F2B544','#5FB59A','#E8A0B4','#B07CE0'];
+{name:'빨래 개기',bg:'room',story:'빨래 더미 맨 밑에 버튼이 있어요. 개면서 찾아요.',run(lv){const n=[2,3,5][lv],per=[6000,3500,2200][lv],lim=n*per;let k=0;const C=['#6E7CF2','#F2B544','#5FB59A','#E8A0B4','#B07CE0'];
   const b=add(realBtn());pos(b,W()/2,H()*.45);b.locked=true;b.style.zIndex=1;const pile=add(el('div','pile'));pos(pile,W()/2,H()-40);
-  const next=()=>{if(k>=n){b.locked=false;say('빨래 다 갰어요! 밑에서 버튼이 나왔어요.');return}const sh=sprite('x',190,W()/2,H()*.45,ART.shirt(pick(C)));sh.style.zIndex=3;sh.style.pointerEvents='none';
-    const steps=lv===2?shuffle(['←','→','↑']):['←','→','↑'];let s=0;const ar=bubble(steps[0]+' 방향으로 쓱',14);
-    let a=null;const dn=e=>{a=sp(e)},up=e=>{if(!a)return;const p=sp(e),dx=p.x-a.x,dy=p.y-a.y;a=null;if(Math.hypot(dx,dy)<50)return;const dir=Math.abs(dx)>Math.abs(dy)?(dx<0?'←':'→'):(dy<0?'↑':'↓');
-      if(dir===steps[s]){s++;sh.style.transition='scale .25s';sh.style.scale=s===3?'.45 .35':s===2?'.6 1':'.8 1';if(s>=3){ar.remove();stage.removeEventListener('pointerdown',dn);stage.removeEventListener('pointerup',up);sh.style.transition='top .4s,scale .4s';pos(sh,W()/2,H()-40-k*8);k++;after(450,next)}else ar.textContent=steps[s]+' 방향으로 쓱'}
-      else{s=0;sh.style.scale='1';ar.textContent=steps[0]+' 방향으로 쓱';say('구겨졌어요. 다시 펴서 접어요.')}};onStage('pointerdown',dn);onStage('pointerup',up)};
-  next();b.addEventListener('click',()=>{if(b.locked)say('빨래에 깔려 있어요.')});say('화살표 방향으로 쓱 밀어서 옷을 접으세요.');
+  const tb=add(el('div','tbar','<i></i>')),ti=tb.querySelector('i');tb.style.top='60px';let tl=lim,go=false,folded=[],cur=null,gen2=0;
+  const ar=bubble('',14);ar.hidden=true;
+  let a=null;onStage('pointerdown',e=>{a=sp(e)});onStage('pointerup',e=>{if(!a||!cur)return;const p=sp(e),dx=p.x-a.x,dy=p.y-a.y;a=null;if(Math.hypot(dx,dy)<50)return;go=true;const dir=Math.abs(dx)>Math.abs(dy)?(dx<0?'←':'→'):(dy<0?'↑':'↓');cur.swipe(dir)});
+  const next=()=>{if(k>=n){go=false;tb.remove();ar.remove();cur=null;b.locked=false;say('빨래 다 갰어요! 밑에서 버튼이 나왔어요.');return}const sh=sprite('x',190,W()/2,H()*.45,ART.shirt(pick(C)));sh.style.zIndex=3;sh.style.pointerEvents='none';
+    const steps=lv===2?shuffle(['←','→','↑']):['←','→','↑'];let s=0;ar.hidden=false;ar.textContent=steps[0]+' 방향으로 쓱';const my=gen2;
+    cur={sh,swipe:dir=>{if(dir===steps[s]){s++;sh.style.transition='scale .25s';sh.style.scale=s===3?'.45 .35':s===2?'.6 1':'.8 1';if(s>=3){cur=null;ar.hidden=true;sh.style.transition='top .4s,scale .4s';pos(sh,W()/2,H()-40-k*8);folded.push(sh);k++;after(450,()=>{if(my===gen2)next()})}else ar.textContent=steps[s]+' 방향으로 쓱'}
+      else{s=0;sh.style.scale='1';ar.textContent=steps[0]+' 방향으로 쓱';say('구겨졌어요. 다시 펴서 접어요.')}}}};
+  loop(dt=>{if(won||!b.locked)return false;if(!go)return;tl-=dt;ti.style.width=Math.max(0,tl/lim*100)+'%';if(tl<=0){go=false;gen2++;tl=lim;ti.style.width='100%';folded.forEach(x=>x.remove());folded=[];if(cur)cur.sh.remove();cur=null;k=0;awk('시간 초과! 빨래를 잘못 갰어요. 처음부터 다시 개요.');after(600,next)}});
+  next();b.addEventListener('click',()=>{if(b.locked)say('빨래에 깔려 있어요.')});say(`화살표 방향으로 쓱 밀어서 옷을 접으세요. 첫 동작부터 ${Math.round(lim/1000)}초 안에 다 개야 해요.`);
 }},
 {name:'신발끈',bg:'stadium',story:'버튼이 달리기 시합에 나가요. 근데 운동화 끈이 풀렸대요! 묶어주면 결승선까지 달려와서 눌려준대요.',run(lv){const B=mkB(lv);const steps=B(3,4,6);
   const cx=W()/2,cy=H()*.6,K=2.6;const shoe=sprite('sneaker',260,cx,cy);shoe.style.pointerEvents='none';shoe.style.zIndex=2;const P=(x,y)=>[cx+x*K,cy+y*K];
@@ -2430,11 +2464,21 @@ OB.push(
   fake.onclick=()=>{if(found)return;found=true;fake.innerHTML='';const b=add(realBtn('들켰네','pop mid'));pos(b,gx(fake),gy(fake));fake.remove();say('버튼: 어떻게 알았어?')};
   say('다들 가만히 있는데… 혼자 꿈틀하는 게 있어요.');
 }},
-{name:'송편 빚기',bg:'kitchen',story:'추석이에요. 버튼 모양 송편을 빚어야 해요.',run(lv){const B=mkB(lv);const pinch=B(3,5,7);const cx=W()/2,cy=H()*.44;
+{name:'송편 빚기',bg:'kitchen',story:'추석이에요. 버튼 모양 송편을 빚어야 해요.',run(lv){const pinch=[3,5,7][lv];const cx=W()/2,cy=H()*.44;
   const dough=add(el('div','dough'));pos(dough,cx,cy);let st=0;say('반죽을 문질러서 동그랗게 펴세요.');
-  rub(dough,B(400,600,800),p=>{if(st)return;dough.style.scale=1+p*.6;if(p>=1){st=1;say('소를 반죽 위에 올리세요.');const so=sprite('x',40,W()-60,H()-60,S('<circle r="18" fill="#8C5F30"/>'));drag(so,{end:(x,y)=>{if(dist(x,y,cx,cy)<40){so.remove();st=2;say('위로 쓱 밀어서 반으로 접으세요.');fold()}else springBack(so,W()-60,H()-60)}})}});
-  const fold=()=>{let a=null;const dn=e=>a=sp(e),up=e=>{if(!a||st!==2)return;const p=sp(e);if(a.y-p.y>60){st=3;dough.classList.add('half');say('가장자리를 콕콕 눌러 여미세요.');edges()}else say('위로 쓱!');a=null};onStage('pointerdown',dn);onStage('pointerup',up)};
-  const edges=()=>{let k=0;for(let i=0;i<pinch;i++){const a=Math.PI+i/(pinch-1)*Math.PI;const e=add(el('button','pinchp'));e.setAttribute('aria-label','여미기');pos(e,cx+Math.cos(a)*-70,cy+10+Math.sin(a)*-18+(i%2?6:0));e.onclick=()=>{e.remove();k++;if(k>=pinch){st=4;say('찜기에 쪘더니…');after(900,()=>{dough.remove();const b=add(realBtn('송편?','pop'));pos(b,cx,cy);say('송편이 아니라 버튼이 됐어요!')})}}}};
+  const F=[['깨','#E9D9A6','<circle r="18" fill="#E9D9A6"/><circle cx="-6" cy="-4" r="2" fill="#2A2340" stroke="none"/><circle cx="5" cy="3" r="2" fill="#2A2340" stroke="none"/><circle cx="-1" cy="7" r="2" fill="#2A2340" stroke="none"/>'],['콩','#8FBF5A','<circle r="18" fill="#8FBF5A"/><ellipse cx="-5" cy="-3" rx="5" ry="4" fill="#B7DB86"/><ellipse cx="6" cy="5" rx="5" ry="4" fill="#B7DB86"/>'],['밤','#C98A4B','<circle r="18" fill="#C98A4B"/><path d="M-8 -4 Q0 -14 8 -4" fill="none" stroke-width="2.5"/>']];
+  const order=lv?pick(F):null;const opts=lv?shuffle(F.slice()).slice(0,lv===1?2:3):[['소','#8C5F30','<circle r="18" fill="#8C5F30"/>']];if(lv&&!opts.includes(order))opts[0]=order;
+  rub(dough,[400,600,800][lv],p=>{if(st)return;dough.style.scale=1+p*.6;if(p>=1){st=1;
+    if(lv){const g=person(60,H()*.16,'#B07CE0','n',62,'#DDD');talk(g,`할머니: ${order[0]} 송편 먹고 싶구나~`);}
+    say(lv?'할머니가 말한 소를 반죽 위에 올리세요.':'소를 반죽 위에 올리세요.');
+    opts.forEach((f,i)=>{const hx=W()/2+(i-(opts.length-1)/2)*80,hy=H()-56;const so=sprite('x',44,hx,hy,S(f[2]));const tg=lv?add(el('div','kgtag',f[0])):null;if(tg)pos(tg,hx,hy+32);
+      drag(so,{end:(x,y)=>{if(st!==1){springBack(so,hx,hy);return}if(dist(x,y,cx,cy)<40){if(lv&&f!==order){awk(`할머니: 아이고, 그건 ${f[0]}잖니. ${order[0]}이 먹고 싶다니까.`);springBack(so,hx,hy);return}
+        stage.querySelectorAll('.kgtag').forEach(e=>e.remove());so.remove();opts.forEach(()=>{});stage.querySelectorAll('.sfill').forEach(e=>e.remove());st=2;say('위로 쓱 밀어서 반으로 접으세요.');fold()}else springBack(so,hx,hy)}});so.classList.add('sfill')})}});
+  const fold=()=>{let a=null;const dn=e=>a=sp(e),up=e=>{if(!a||st!==2)return;const p=sp(e);if(a.y-p.y>60){st=3;dough.classList.add('half');say(lv===2?'번호 순서대로 콕콕 눌러 여미세요.':'가장자리를 콕콕 눌러 여미세요.');edges()}else say('위로 쓱!');a=null};onStage('pointerdown',dn);onStage('pointerup',up)};
+  const edges=()=>{let k=0;const ord=lv===2?shuffle([...Array(pinch).keys()]):null;const es=[];
+    for(let i=0;i<pinch;i++){const a=Math.PI+i/(pinch-1)*Math.PI;const e=add(el('button','pinchp'));e.setAttribute('aria-label','여미기');pos(e,cx+Math.cos(a)*-70,cy+10+Math.sin(a)*-18+(i%2?6:0));
+      const num=ord?ord.indexOf(i)+1:0;if(num){e.textContent=num;e.style.fontSize='13px';e.style.fontWeight='700';e.style.color='#3F4FD8'}es.push(e);
+      e.onclick=()=>{if(ord&&num!==k+1){awk('순서가 틀렸어요! 반죽이 터졌어요. 1번부터 다시.');k=0;es.forEach(x=>x.hidden=false);return}e.hidden=true;k++;if(k>=pinch){es.forEach(x=>x.remove());st=4;say('찜기에 쪘더니…');after(900,()=>{dough.remove();const b=add(realBtn('송편?','pop'));pos(b,cx,cy);say('송편이 아니라 버튼이 됐어요!')})}}}};
 }},
 {name:'청진기',bg:'hospital',story:'버튼이 아프대요. 심장 소리를 찾아서 진찰해 주세요.',run(lv){const B=mkB(lv);const r0=B(34,24,16),hold=B(1000,1500,2000);
   const pt=add(realBtn('아야'));center(pt);pt.style.width=pt.style.height='180px';pt.locked=true;const hx=W()/2+rnd(-55,55),hy=H()/2+rnd(-55,55);
@@ -2813,9 +2857,9 @@ function updHome(){$('greet').textContent=greet();{const un=OB.filter(o=>!D.seen
   const eq=TITLES.find(x=>x[0]===D.equip);$('h-title').innerHTML=eq?`<small>칭호</small><b>${eq[1]}</b><i>바꾸기</i>`:'<small>칭호</small><b>아직 없음</b><i>보기</i>';
   document.querySelectorAll('#lvsel button').forEach(b=>b.setAttribute('aria-pressed',D.levels.includes(+b.dataset.l)));
   const k=D.levels.length;$('lvhint').textContent=k===1?LV[D.levels[0]]+'만 나와요':D.levels.map(l=>LV[l]).join('·')+' 중 랜덤';}
-function renderDex(){const g=$('dexlist');g.innerHTML='';let n=0;OB.forEach((o,i)=>{const s=D.seenOb.includes(o.name)||D.dev;if(D.seenOb.includes(o.name))n++;const cl=D.clears[o.name]||[0,0,0];
+function renderDex(){const g=$('dexlist');g.innerHTML='';let n=0,shown=0;const q=($('dexq').value||'').trim().replace(/\s+/g,'');const qn=/^\d+$/.test(q)?+q:0;OB.forEach((o,i)=>{const s=D.seenOb.includes(o.name)||D.dev;if(D.seenOb.includes(o.name))n++;if(q){if(qn?i+1!==qn:!(s&&o.name.replace(/\s+/g,'').includes(q)))return}shown++;const cl=D.clears[o.name]||[0,0,0];
   const it=el('div','dexi'+(s?'':' lock'),s?`<b>${String(i+1).padStart(3,'0')} ${o.name}</b><small>${o.story}</small><span class="dots">${lvOf(o).map(l=>`<button type="button" class="dl l${l}${cl[l]?' ok':''}" data-l="${l}">${LV[l]}${cl[l]?' ✓':''}</button>`).join('')}</span>`:`<b>${String(i+1).padStart(3,'0')} ???</b><small>아직 만나지 못한 방해</small>`);
-  if(s)it.querySelectorAll('.dl').forEach(b=>b.onclick=()=>newRun('random',{i,lv:+b.dataset.l}));g.appendChild(it)});$('dexcount').textContent=`${n} / ${OB.length}종`;$('devtog').textContent=D.dev?'테스트용 전체 공개 끄기':'테스트용으로 전부 열어보기'}
+  if(s)it.querySelectorAll('.dl').forEach(b=>b.onclick=()=>newRun('random',{i,lv:+b.dataset.l}));g.appendChild(it)});if(q&&!shown)g.appendChild(el('p','dexnone',qn?`${qn}번 방해는 없어요.`:'찾는 이름의 만난 방해가 없어요.'));$('dexcount').textContent=`${n} / ${OB.length}종`;$('devtog').textContent=D.dev?'테스트용 전체 공개 끄기':'테스트용으로 전부 열어보기'}
 function renderTitles(){const g=$('titlelist');g.innerHTML='';TITLES.forEach(([id,nm,desc])=>{const has=D.titles.includes(id);const it=el('button','titi'+(has?'':' lock')+(D.equip===id?' eq':''),`<b>${has?nm:'???'}</b><small>${desc}</small>`);it.type='button';if(has)it.onclick=()=>{D.equip=id;saveD();renderTitles()};g.appendChild(it)})}
 function bindUI(){$('startbtn').onclick=()=>{SFX.click();const d=dayKey();if(D.lastDay!==d){D.todayCount=0}D.todayCount++;D.lastDay=d;if(!D.first)D.first=Date.now();saveD();newRun('random')};
   document.querySelectorAll('#lvsel button').forEach(b=>b.onclick=()=>{const l=+b.dataset.l;if(D.levels.includes(l)){if(D.levels.length===1){toast('하나는 골라야 해요.');return}D.levels=D.levels.filter(x=>x!==l)}else D.levels=[...D.levels,l].sort();bag=[];saveD();updHome()});
@@ -2828,7 +2872,7 @@ function bindUI(){$('startbtn').onclick=()=>{SFX.click();const d=dayKey();if(D.l
   $('h-title').onclick=openTP;$('tpclose').onclick=()=>$('tpick').hidden=true;$('tpick').addEventListener('click',e=>{if(e.target.id==='tpick')$('tpick').hidden=true});document.querySelectorAll('#bgmsel button').forEach(b=>b.onclick=()=>{D.bgm=b.dataset.s==='1';saveD();BGM.sync();renderSettings()});document.querySelectorAll('#bgmtrack button').forEach(b=>b.onclick=()=>{D.bgm=true;D.bgmTrack=+b.dataset.t;saveD();BGM.sync();renderSettings()});document.querySelectorAll('#sndsel button').forEach(b=>b.onclick=()=>{D.sound=b.dataset.s==='1';saveD();renderSettings();if(D.sound)SFX.ding()});$('dexbtn').onclick=()=>show('dex');$('titlebtn').onclick=()=>show('titles');
   document.querySelectorAll('.backhome:not(.tpx)').forEach(b=>b.onclick=()=>show('home'));$('skip').onclick=()=>newRun(RUN&&RUN.mode==='unseen'?'unseen':'random');
   $('newbtn').onclick=()=>{const d=dayKey();if(D.lastDay!==d){D.todayCount=0}D.todayCount++;D.lastDay=d;saveD();newRun('unseen')};
-  $('devtog').onclick=()=>{D.dev=!D.dev;saveD();renderDex()}}
+  $('devtog').onclick=()=>{D.dev=!D.dev;saveD();renderDex()};$('dexq').oninput=()=>renderDex()}
 NUNCHI=OB.slice(OB.findIndex(o=>o.name==='도서관')).filter(o=>o.nunchi!==false).map(o=>o.name).filter(n=>['도서관','단체 사진','잠깐만요!','영화관','클래식 공연','고백 현장','월요일 회의','생일 파티','마지막 한 조각','어서오세요','응원석','시험 시간','아기가 자요','건배','사진 좀…','버스 하차벨','번호표','퀴즈 부저','노래방 친구','화장실','횡단보도 버튼','풀 사람?','고민 상담','떼창','점프 샷','정원 초과','부장님 개그','좁은 복도','청소 시간','지하철 자리'].includes(n)||OB[obIdx(n)].nunchi);
 
 const THEMES=[['auto','자동','시스템 따라',null],
@@ -2849,8 +2893,8 @@ function renderSettings(){const g=$('themelist');g.innerHTML='';THEMES.forEach((
 applyTheme();
 
 /* update notice */
-const APP_VER='2026.11.14b';
-const CHANGELOG=[{v:'2026.11.14b',title:'램프의 요정이 새로워졌어요',items:['램프의 요정: 단어 조각으로 소원을 만들어요. 빈틈이 있으면 요정이 꼬투리를 잡아요.','전선 연결: 시간 제한이 생겼어요. 쉬움 9초, 보통 6초, 어려움 3초.','앵무새: 시간이 1초씩 줄었어요. 쉬움 3초, 보통 2초, 어려움 1초.','풍선 속 버튼: 어려움에서 풍선이 더 빨리 올라가요.']},{v:'2026.11.14',title:'빨간 것 천국을 고쳤어요',items:['버튼이 다른 물건들과 비슷한 크기가 됐어요.','물건을 많이 옮기면 끝난 화면 위로 물건이 보이던 문제를 고쳤어요.']},{v:'2026.11.13c',title:'방해 5개를 손봤어요',items:['미로 속 버튼: 보통에서도 벽에 닿으면 처음으로 돌아가요.','먹물 테러: 버튼 위 먹물을 깨끗이 다 닦아야 눌려요. 나머지 먹물은 남아요.','비밀번호 설정: 조건이 매번 바뀌어요. 보통은 조건 4개예요.','앵무새: 엄마가 시키면 시간 막대가 줄어요. 시간이 지나면 혼나요.','홍수: 물이 꽉 차면 버튼이 고장나서 다른 방해로 넘어가요. 새 칭호 잠수부!']},{v:'2026.11.13b',title:'칭호 조건을 바로잡았어요',items:['냥심 저격수, 앤트맨, 효손이 예전 버전 기록으로 바로 받아지던 문제를 고쳤어요.','이제 바뀐 방해에서 조건을 채워야 받을 수 있어요. 이미 받은 세 칭호는 다시 따야 해요.']},{v:'2026.11.13',title:'힌트 버튼이 생겼어요',items:['방해 이름 옆 ? 버튼을 누르면 힌트가 나와요. 어려움에서는 힌트가 없어요.','개미 이사: 개미만 해진 버튼을 두 손가락으로 확대해서 찾아요. 새 칭호 앤트맨!','레이저 포인터: 보통·어려움에 화분이 생겼어요. 어려움은 레이저를 너무 빨리 움직이면 고양이가 흥미를 잃어요. 새 칭호 냥심 저격수!','계단 오르기 어려움: 10초 안에 올라가야 해요.','굴러간 버튼: 위아래 양옆 어디든 굴러가고, 어려울수록 더 멀리 가요.','택배 기사: 어려울수록 집 생김새가 복잡해져요.','미로 속 버튼: 버튼에 새 건전지를 배달해요.','머리 감은 버튼: 드라이기 방향이 바뀌어요. 풍선 속 버튼: 바닥에 떨어진 다음 눌러요.','칭호 변경: 효손(어려움을 한 번도 안 틀리고), 끈기 대장(5분).','도미노는 빠졌어요.']},{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['설정에 게임 설명 다시 보기, 홈 화면에 추가 버튼이 생겼어요.','빨간 것 천국: 버튼도 다른 물건처럼 끌어서 옮길 수 있고, 톡 눌러야 성공해요.','화면 점검: 퇴사 선언 보기 버튼, 택배 기사 송장, 반대 나라 설명, 결혼식 신부 그림이 잘리거나 겹치던 걸 고쳤어요.','무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
+const APP_VER='2026.11.15';
+const CHANGELOG=[{v:'2026.11.15',title:'방해 13개를 손봤어요',items:['도감: 번호나 이름으로 찾을 수 있어요.','빨래 개기: 시간 안에 다 개야 해요. 늦으면 처음부터!','용의 보물: 버튼과 무게가 같은 주머니로 바꿔치기해요. 보통부터 용이 뒤척여요.','거울 나라: 거울이 하나뿐이고, 보통부터 버튼이 돌아다녀요.','송편 빚기: 할머니가 주문한 소를 넣어요. 어려움은 번호 순서대로 여며요.','진흙 범벅: 수건이 더러워지면 양동이에 헹궈요. 어려움은 버튼이 진흙탕에 또 뛰어들어요.','오늘 휴무: 보통부터 암호 노크, 어려움은 셔터를 직접 끌어 올려요.','빨간 것 천국: 물건이 화면 가득, 버튼은 물건들 사이에 섞여 있어요.','무단횡단 금지: 차가 많아지고 어려움엔 트럭이 다녀요.','회전 초밥: 어려울수록 훨씬 빨라요. 접시마다 반응이 달라요.','연못: 물고기가 더 많고 빨라요. 다트: 다트판이 더 빨리 움직여요.','계단 오르기 어려움: 8초 안에 올라가요.']},{v:'2026.11.14b',title:'램프의 요정이 새로워졌어요',items:['램프의 요정: 단어 조각으로 소원을 만들어요. 빈틈이 있으면 요정이 꼬투리를 잡아요.','전선 연결: 시간 제한이 생겼어요. 쉬움 9초, 보통 6초, 어려움 3초.','앵무새: 시간이 1초씩 줄었어요. 쉬움 3초, 보통 2초, 어려움 1초.','풍선 속 버튼: 어려움에서 풍선이 더 빨리 올라가요.']},{v:'2026.11.14',title:'빨간 것 천국을 고쳤어요',items:['버튼이 다른 물건들과 비슷한 크기가 됐어요.','물건을 많이 옮기면 끝난 화면 위로 물건이 보이던 문제를 고쳤어요.']},{v:'2026.11.13c',title:'방해 5개를 손봤어요',items:['미로 속 버튼: 보통에서도 벽에 닿으면 처음으로 돌아가요.','먹물 테러: 버튼 위 먹물을 깨끗이 다 닦아야 눌려요. 나머지 먹물은 남아요.','비밀번호 설정: 조건이 매번 바뀌어요. 보통은 조건 4개예요.','앵무새: 엄마가 시키면 시간 막대가 줄어요. 시간이 지나면 혼나요.','홍수: 물이 꽉 차면 버튼이 고장나서 다른 방해로 넘어가요. 새 칭호 잠수부!']},{v:'2026.11.13b',title:'칭호 조건을 바로잡았어요',items:['냥심 저격수, 앤트맨, 효손이 예전 버전 기록으로 바로 받아지던 문제를 고쳤어요.','이제 바뀐 방해에서 조건을 채워야 받을 수 있어요. 이미 받은 세 칭호는 다시 따야 해요.']},{v:'2026.11.13',title:'힌트 버튼이 생겼어요',items:['방해 이름 옆 ? 버튼을 누르면 힌트가 나와요. 어려움에서는 힌트가 없어요.','개미 이사: 개미만 해진 버튼을 두 손가락으로 확대해서 찾아요. 새 칭호 앤트맨!','레이저 포인터: 보통·어려움에 화분이 생겼어요. 어려움은 레이저를 너무 빨리 움직이면 고양이가 흥미를 잃어요. 새 칭호 냥심 저격수!','계단 오르기 어려움: 10초 안에 올라가야 해요.','굴러간 버튼: 위아래 양옆 어디든 굴러가고, 어려울수록 더 멀리 가요.','택배 기사: 어려울수록 집 생김새가 복잡해져요.','미로 속 버튼: 버튼에 새 건전지를 배달해요.','머리 감은 버튼: 드라이기 방향이 바뀌어요. 풍선 속 버튼: 바닥에 떨어진 다음 눌러요.','칭호 변경: 효손(어려움을 한 번도 안 틀리고), 끈기 대장(5분).','도미노는 빠졌어요.']},{v:'2026.11.11c',title:'배경음악 4곡이 새로 생겼어요',items:['설정에 게임 설명 다시 보기, 홈 화면에 추가 버튼이 생겼어요.','빨간 것 천국: 버튼도 다른 물건처럼 끌어서 옮길 수 있고, 톡 눌러야 성공해요.','화면 점검: 퇴사 선언 보기 버튼, 택배 기사 송장, 반대 나라 설명, 결혼식 신부 그림이 잘리거나 겹치던 걸 고쳤어요.','무궁화 꽃이: 술래가 노래할 때 버튼을 몰래 꾹 누르고, 돌아보면 손을 떼는 방식으로 바뀌었어요.','중세의 기사: 가위바위보가 바위·가위·종이 그림으로 바뀌었어요.','설정(톱니바퀴) → 배경음악에서 고를 수 있어요.','딸깍 디스코: 신나는 댄스곡','비 오는 오후: 잔잔한 피아노','최종 보스: 비장하고 빠른 게임 음악','느릿느릿 스윙: 여유로운 재즈']},{v:'2026.11.11b',title:'방해 여러 개를 다듬었어요',items:[
  '빨간 것 천국: 물건이 수북이 쌓였어요. 끌어서 치우며 버튼을 찾아요.',
  '할머니 용돈: 가구 그림이 매번 섞이고 쉬움 4개, 보통 6개, 어려움 9개예요. 할머니가 "장롱 왼쪽"처럼 위치로 알려줘요.',
  '몽타주: 목격자 진술이 위에 크게 보이고, 모자와 안경을 새로 그렸어요.',
